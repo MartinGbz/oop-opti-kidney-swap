@@ -95,7 +95,7 @@ public class InstanceReader {
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instancesInitiales/testInstance.txt");
+            InstanceReader reader = new InstanceReader("instances/testInstance.txt");
 
             reader.readInstance();
             System.out.println("Instance lue avec success !");
