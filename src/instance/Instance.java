@@ -14,6 +14,10 @@ public class Instance {
         this.maxSizeCycle = maxSizeCycle;
         this.maxSizeChain = maxSizeChain;
     }
+
+    public String getName() {
+        return name;
+    }
 }
 
 

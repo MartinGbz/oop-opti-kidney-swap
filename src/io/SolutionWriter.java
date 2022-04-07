@@ -1,5 +1,7 @@
 package io;
 
+import instance.Instance;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -12,8 +14,8 @@ public class SolutionWriter {
     private String tab = "\t";
     private String backLine = "\n";
 
-    public SolutionWriter(String path) {
-        this.pathSolution = "testSolution/" + path + "_sol.txt";
+    public SolutionWriter(Instance instance) {
+        this.pathSolution = "testSolution/" + instance.getName() + "_sol.txt";
     }
 
     public void writeSolution() {
@@ -72,14 +74,15 @@ public class SolutionWriter {
     }
 
     public static void main(String[] args) {
-        List<String> listInstances = new ArrayList<>();
-        String path = "instanceA";
-        String path1 = "instanceB";
-        String path2 = "instanceC";
+        List<Instance> listInstances = new ArrayList<>();
 
-        listInstances.add(path);
-        listInstances.add(path1);
-        listInstances.add(path2);
+        Instance inst1 = new Instance("instance1", 3, 1, 3, 3);
+        Instance inst2 = new Instance("instance2", 2, 2, 3, 3);
+        Instance inst3 = new Instance("instance3", 4, 1, 3, 3);
+
+        listInstances.add(inst1);
+        listInstances.add(inst2);
+        listInstances.add(inst3);
 
         for(int i=0 ; i<listInstances.size() ; i++) {
             SolutionWriter sw = new SolutionWriter(listInstances.get(i));
