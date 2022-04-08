@@ -1,7 +1,7 @@
 package instance.network;
 
 public class Pair extends Base{
-
-    public Pair() {
+    public Pair(int id) {
+        super(id);
     }
 }

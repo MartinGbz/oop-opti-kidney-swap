@@ -1,7 +1,7 @@
 package instance.network;
 
 public class Altruist extends Base{
-
-    public Altruist() {
+    public Altruist(int id) {
+        super(id);
     }
 }
