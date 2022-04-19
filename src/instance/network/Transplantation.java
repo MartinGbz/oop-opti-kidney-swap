@@ -10,4 +10,15 @@ public class Transplantation {
         this.donneur = donneur;
         this.patient = patient;
     }
+
+    @Override
+    public String toString() {
+        if(patient != null) {
+            return "{gain=" + medicalGain +
+                    "/ patient= " + patient.getId() +
+                    '}';
+        }
+        return "{gain=" + medicalGain +
+                '}';
+    }
 }

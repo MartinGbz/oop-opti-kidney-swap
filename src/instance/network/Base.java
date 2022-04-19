@@ -17,4 +17,11 @@ public abstract class Base {
         this.transplantations.put(patient, t);
     }
 
+    public int getId() {
+        return id;
+    }
+    public Map<Pair, Transplantation> getTransplantations() {
+        return transplantations;
+    }
+
 }
