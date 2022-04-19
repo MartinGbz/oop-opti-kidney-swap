@@ -12,9 +12,9 @@ public abstract class Base {
         this.transplantations = new HashMap<>();
     }
 
-    public void addTransplantation(Pair pair, int gain) {
-        Transplantation t = new Transplantation(gain, this, pair);
-        this.transplantations.put(pair, t);
+    public void addTransplantation(Pair patient, int gain) {
+        Transplantation t = new Transplantation(gain, this, patient);
+        this.transplantations.put(patient, t);
     }
 
 }
