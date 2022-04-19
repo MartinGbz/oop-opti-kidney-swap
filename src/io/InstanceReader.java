@@ -52,7 +52,7 @@ public class InstanceReader {
                 a = new Altruist(i);
                 instance.addAltruist(a);
             }
-            for(int i=altruist; i<pair; i++) {
+            for(int i=altruist; i<pair+altruist; i++) {
                 p = new Pair(i);
                 instance.addPair(p);
             }

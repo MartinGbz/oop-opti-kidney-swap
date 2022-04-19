@@ -47,7 +47,9 @@ public class Instance {
         if(donneur==null) return false;
 
         for(int i=0; i<nbPairs; i++) {
-            System.out.println(i);
+            //System.out.println("\nindex patient <" + i + ">");
+            //System.out.println("\npair patient <" + pairs.get(i+nbAltruists) + ">");
+            //System.out.println("\ngain <" + gains.get(i) + ">");
             donneur.addTransplantation(pairs.get(i+nbAltruists), gains.get(i));
         }
         return true;
