@@ -52,14 +52,14 @@ public class InstanceReader {
                 a = new Altruist(i);
                 instance.addAltruist(a);
             }
-            for(int i=altruist; i<pair+altruist; i++) {
+            for(int i=altruist; i<(pair+altruist); i++) {
                 p = new Pair(i);
                 instance.addPair(p);
             }
 
             System.out.println(instance);
 
-            for(int i=0; i<altruist+pair; i++) {
+            for(int i=0; i<(altruist+pair); i++) {
                 instance.addTranspantations(instance.getBaseById(i), matrice.get(i));
             }
 

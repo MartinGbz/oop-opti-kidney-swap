@@ -38,19 +38,17 @@ public class Instance {
     public boolean addPair(Pair pair) {
         if(pair == null) return false;
         int id = pair.getId();
-        if(this.altruists.containsKey(id)) return false;
+        if(this.pairs.containsKey(id)) return false;
         this.pairs.put(id, pair);
+        System.out.println("ajout pair id <" + id + ">");
         return true;
     }
 
     public Boolean addTranspantations(Base donneur, ArrayList<Integer> gains) {
-        if(donneur==null) return false;
+        if(donneur==null) return false; //le code dit que 5 et 6 sont null
 
         for(int i=0; i<nbPairs; i++) {
-            //System.out.println("\nindex patient <" + i + ">");
-            //System.out.println("\npair patient <" + pairs.get(i+nbAltruists) + ">");
-            //System.out.println("\ngain <" + gains.get(i) + ">");
-            donneur.addTransplantation(pairs.get(i+nbAltruists), gains.get(i));
+            donneur.addTransplantation(pairs.get(i + nbAltruists), gains.get(i));
         }
         return true;
     }
@@ -59,7 +57,7 @@ public class Instance {
         if(id >= 0 && id < this.nbAltruists) {
             return this.altruists.get(id);
         }
-        else if(id >= this.nbAltruists && id < this.nbPairs) {
+        else if(id >= this.nbAltruists && id < (this.nbPairs+this.nbAltruists)) {
             return this.pairs.get(id);
         }
         return null;

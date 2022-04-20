@@ -13,8 +13,11 @@ public abstract class Base {
     }
 
     public void addTransplantation(Pair patient, int gain) {
-        Transplantation t = new Transplantation(gain, this, patient);
-        this.transplantations.put(patient, t);
+        //TODO : à dé commenter si souhait de retirer les gains -1 dans les transplantations
+        //if(gain != -1) {
+            Transplantation t = new Transplantation(gain, this, patient);
+            this.transplantations.put(patient, t);
+        //}
     }
 
     public int getId() {
