@@ -27,6 +27,11 @@ public class Instance {
         this.pairs = new LinkedHashMap<>();
     }
 
+    /**
+     * Ajout d'un altruiste dans le tableau correspondant (altruists)
+     * @param altruist
+     * @return True/False
+     */
     public boolean addAltruist(Altruist altruist) {
         if(altruist == null) return false;
         int id = altruist.getId();
@@ -35,6 +40,11 @@ public class Instance {
         return true;
     }
 
+    /**
+     * Ajout d'un altruiste dans le tableau correspondant (pairs)
+     * @param pair
+     * @return True/False
+     */
     public boolean addPair(Pair pair) {
         if(pair == null) return false;
         int id = pair.getId();
@@ -44,15 +54,26 @@ public class Instance {
         return true;
     }
 
+    /**
+     * Association d'objets Transplantation pour chaque valeur dans le tableau "gain"
+     * entre "donneur" et la paire correspondante à la valeur
+     * @param donneur
+     * @param gains
+     * @return True/false
+     */
     public Boolean addTranspantations(Base donneur, ArrayList<Integer> gains) {
         if(donneur==null) return false; //le code dit que 5 et 6 sont null
-
         for(int i=0; i<nbPairs; i++) {
             donneur.addTransplantation(pairs.get(i + nbAltruists), gains.get(i));
         }
         return true;
     }
 
+    /**
+     * Retourne l'objet Altruist ou Pair dans le tableau correspondant, en fonction de l'id
+     * @param id
+     * @return Base/null
+     */
     public Base getBaseById(Integer id) {
         if(id >= 0 && id < this.nbAltruists) {
             return this.altruists.get(id);
