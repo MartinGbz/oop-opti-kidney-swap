@@ -11,6 +11,10 @@ public class Transplantation {
         this.patient = patient;
     }
 
+    public int getMedicalGain() {
+        return medicalGain;
+    }
+
     @Override
     public String toString() {
         if(patient != null) {

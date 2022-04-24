@@ -45,7 +45,7 @@ public class Instance {
     }
 
     public Boolean addTranspantations(Base donneur, ArrayList<Integer> gains) {
-        if(donneur==null) return false; //le code dit que 5 et 6 sont null
+        if(donneur==null) return false;
 
         for(int i=0; i<nbPairs; i++) {
             donneur.addTransplantation(pairs.get(i + nbAltruists), gains.get(i));

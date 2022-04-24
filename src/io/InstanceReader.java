@@ -125,6 +125,8 @@ public class InstanceReader {
 
             System.out.println("Instance lue avec success !");
 
+
+
         } catch (ReaderException ex) {
             System.out.println(ex.getMessage());
         }

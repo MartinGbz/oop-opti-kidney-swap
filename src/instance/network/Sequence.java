@@ -13,4 +13,5 @@ public abstract class Sequence {
 
     public abstract int calculGainMed();
 
+
 }
