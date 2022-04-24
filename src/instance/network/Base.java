@@ -11,6 +11,12 @@ public abstract class Base {
         this.transplantations = new HashMap<>();
     }
 
+    /**
+     * Création d'un objet Transplantation "t" et ajout dans le HashMap "transplantations"
+     * Clé -> valeur : patient -> t
+     * @param patient
+     * @param gain
+     */
     public void addTransplantation(Pair patient, int gain) {
         //TODO : à dé commenter si souhait de retirer les gains -1 dans les transplantations
         //if(gain != -1) {
