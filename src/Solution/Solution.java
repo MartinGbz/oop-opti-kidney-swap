@@ -72,14 +72,21 @@ public class Solution {
     private void solutionInstance() {
         Cycle c = new Cycle();
         boolean status = false;
-        int i =0;
 
         for(Map.Entry mapentry : this.instance.getPairs().entrySet()) {
-            if(this.cycles.get(i).getSequence().size() <= 2) {
-                status = this.addPairExistingCycle((Pair)mapentry.getValue());
-                if(status == true) break;
+            for(Cycle cycle : this.cycles) {
+                if(cycle.getSequence().size() <= 2) {
+                    status = cycle.addPairCycle((Pair)mapentry.getValue());
+                    if(status == true) break;
+                }
+                if(status == false ) { //si ajouté dans aucune tournée
+                    this.cycles.addLast(c); //on ajoute la tournée en cours
+                    c = new Cycle(); //on la remet à 0
+                }
             }
+            c.addPairCycle((Pair)mapentry.getValue());
         }
+        this.cycles.addLast(c);
     }
 
 
