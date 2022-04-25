@@ -79,9 +79,9 @@ public class Solution {
                     status = cycle.addPairCycle((Pair)mapentry.getValue());
                     if(status == true) break;
                 }
-                if(status == false ) { //si ajouté dans aucune tournée
-                    this.cycles.addLast(c); //on ajoute la tournée en cours
-                    c = new Cycle(); //on la remet à 0
+                if(status == false ) { //si ajouté dans aucun cycle
+                    this.cycles.addLast(c); //on ajoute le cycle en cours
+                    c = new Cycle(); //on le remet à 0
                 }
             }
             c.addPairCycle((Pair)mapentry.getValue());
