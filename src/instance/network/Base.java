@@ -49,13 +49,12 @@ public abstract class Base {
     /**
      * Recherche si donneur peut donner à quelqu'un
      * A tester
-     * @param donneur
      * @return false (no compatibility) true (min one compatibility)
      */
-    public boolean asCompatibility(Base donneur) {
-        if(donneur == null) return false;
+    public boolean asCompatibility() {
+        if(this == null) return false;
         //Boucle while+iterator
-        Iterator iterator = donneur.transplantations.entrySet().iterator();
+        Iterator iterator = this.transplantations.entrySet().iterator();
         while(iterator.hasNext()) {
             Map.Entry mapentry = (Map.Entry) iterator.next();
             int gain = (int) mapentry.getValue();
