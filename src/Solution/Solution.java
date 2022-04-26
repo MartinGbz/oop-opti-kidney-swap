@@ -2,6 +2,8 @@ package Solution;
 
 import instance.Instance;
 import instance.network.Altruist;
+import instance.network.Chain;
+import instance.network.Cycle;
 import instance.network.Pair;
 import io.InstanceReader;
 import io.exception.ReaderException;
@@ -34,7 +36,7 @@ public class Solution {
     }
 
     /**
-     * Ajoute une paire dans un nouveau cycle
+     * Ajoute une pair dans un nouveau cycle
      * @param pair
      * @return
      */
@@ -50,7 +52,7 @@ public class Solution {
 
 
     /**
-     * Ajoute une paire dans un cycle existant
+     * Ajoute une pair dans un cycle existant
      * @param pair
      * @return
      */
@@ -67,22 +69,38 @@ public class Solution {
         return false;
     }
 
+    /**
+     * EN TRAVAUX
+     */
     private void solutionInstanceWithCycles() {
+        Cycle c = new Cycle();
         boolean status;
 
         for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
-            Pair p = (Pair) pairEntry.getValue();
             status = false;
-            for(Cycle cycle : this.cycles) {
-                if(cycle.getSequence().size() < 2) {
-                    status = cycle.addPairToCycle(p);
-                    if(status) break;
+            if(!isUsedInChain((Pair)pairEntry.getValue())) {
+                for(Cycle cycle : this.cycles) {
+                    if(cycle.getSequence().size() < 2) {
+                        status = cycle.addPairToCycle((Pair) pairEntry.getValue());
+                        if(status) break;
+                    }
+                }
+                if(!status) {
+                    c.addPairToCycle((Pair) pairEntry.getValue());
+                    this.cycles.addLast(c);
+                    c = new Cycle();
                 }
             }
-            if(!status) {
-                this.addPairNewCycle(p);
+        }
+    }
+
+    public boolean isUsedInChain(Pair pair) {
+        for(Chain c : this.chains) {
+            if(c.getSequence().contains(pair)) {
+                return true;
             }
         }
+        return false;
     }
 
     private void solutionInstanceWithChain() {
@@ -100,6 +118,11 @@ public class Solution {
         }
     }
 
+    private void SolutionInstance() {
+        this.solutionInstanceWithChain();
+        this.solutionInstanceWithCycles();
+    }
+
     public static void main(String[] args) {
         try {
             InstanceReader reader = new InstanceReader("instances/testInstance.txt");
@@ -107,8 +130,9 @@ public class Solution {
             System.out.println("Instance lue avec success !");
 
             Solution s = new Solution(i);
-            s.solutionInstanceWithCycles();
-            // s.solutionInstanceWithChain();
+            //s.solutionInstanceWithCycles();
+            //s.solutionInstanceWithChain();
+            s.SolutionInstance();
             System.out.println(s);
 
         }
