@@ -1,4 +1,8 @@
-package instance.network;
+package Solution;
+
+import instance.network.Altruist;
+import instance.network.Base;
+import instance.network.Pair;
 
 import java.util.LinkedList;
 
@@ -28,4 +32,16 @@ public class Chain extends Sequence {
     public int calculGainMed() {
         return 0;
     }
+
+    public boolean check() {
+        if(this.sequence.isEmpty()) return false;
+        if(!(this.sequence.getFirst() instanceof Altruist)) return false;
+
+        // if(this.sequence.size() == 1) return true;
+        /*for(Object base : this.sequence) {
+
+        }*/
+        return true;
+    }
+
 }
