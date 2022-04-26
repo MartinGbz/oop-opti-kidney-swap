@@ -14,14 +14,15 @@ public class Cycle extends Sequence {
      * sinon le cycle est vide, ajout dans un nouveau cycle)
      * @param pairToAdd
      * @return
+     * @note !WARNING! : NE MARCHE QU'AVEC DES CYCLES DE TAILLE 2
      */
     public boolean addPairToCycle(Pair pairToAdd) {
         if(pairToAdd == null) return false;
         if(!pairToAdd.asCompatibility()) return false;
 
         if(!this.sequence.isEmpty()) {
-            Pair p = (Pair)this.sequence.getLast();
-            if(!p.isCompatible(pairToAdd)) return false;
+            Pair p = (Pair) this.sequence.getLast();
+            if(!p.isCompatible(pairToAdd) || !pairToAdd.isCompatible(p)) return false;
         }
         this.sequence.addLast(pairToAdd);
         return true;

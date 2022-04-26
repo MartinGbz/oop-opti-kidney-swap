@@ -70,29 +70,25 @@ public class Solution {
     /**
      * EN TRAVAUX
      */
-    private void solutionInstance() {
+    private void solutionInstanceWithCycles() {
         Cycle c = new Cycle();
-        boolean status = false;
+        boolean status;
 
         for(Map.Entry mapentry : this.instance.getPairs().entrySet()) {
+            status = false;
             for(Cycle cycle : this.cycles) {
-                if(cycle.getSequence().size() <= 2) {
+                if(cycle.getSequence().size() < 2) {
                     status = cycle.addPairToCycle((Pair) mapentry.getValue());
                     if(status) break;
                 }
-                if(!status) { //si ajouté dans aucun cycle
-                    this.cycles.addLast(c); //on ajoute le cycle en cours
-                    c = new Cycle(); //on le remet à 0
-                }
-                status = false;
             }
-            c.addPairToCycle((Pair) mapentry.getValue());
-            // this.cycles.addLast(c);
+            if(!status) {
+                c.addPairToCycle((Pair) mapentry.getValue());
+                this.cycles.addLast(c);
+                c = new Cycle();
+            }
         }
-        this.cycles.addLast(c);
     }
-
-
 
     public static void main(String[] args) {
         try {
@@ -101,7 +97,7 @@ public class Solution {
             System.out.println("Instance lue avec success !");
 
             Solution s = new Solution(i);
-            s.solutionInstance();
+            s.solutionInstanceWithCycles();
 
             System.out.println(s);
 
