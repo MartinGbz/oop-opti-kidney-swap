@@ -1,6 +1,7 @@
 package Solution;
 
 import instance.Instance;
+import instance.network.Altruist;
 import instance.network.Chain;
 import instance.network.Cycle;
 import instance.network.Pair;
@@ -49,6 +50,7 @@ public class Solution {
         return false;
     }
 
+
     /**
      * Ajoute une pair dans un cycle existant
      * @param pair
@@ -74,18 +76,33 @@ public class Solution {
         Cycle c = new Cycle();
         boolean status;
 
-        for(Map.Entry mapentry : this.instance.getPairs().entrySet()) {
+        for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
             status = false;
             for(Cycle cycle : this.cycles) {
                 if(cycle.getSequence().size() < 2) {
-                    status = cycle.addPairToCycle((Pair) mapentry.getValue());
+                    status = cycle.addPairToCycle((Pair) pairEntry.getValue());
                     if(status) break;
                 }
             }
             if(!status) {
-                c.addPairToCycle((Pair) mapentry.getValue());
+                c.addPairToCycle((Pair) pairEntry.getValue());
                 this.cycles.addLast(c);
                 c = new Cycle();
+            }
+        }
+    }
+
+    private void solutionInstanceWithChain() {
+        boolean status = false;
+        for(Map.Entry altruistEntry : this.instance.getAltruists().entrySet()) {
+            Chain c = new Chain((Altruist) altruistEntry.getValue());
+            this.chains.addLast(c);
+        }
+        for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
+            status = false;
+            for(Chain chain : this.chains) {
+                status = chain.addPairToChain((Pair) pairEntry.getValue());
+                if(status) break;
             }
         }
     }
@@ -97,8 +114,8 @@ public class Solution {
             System.out.println("Instance lue avec success !");
 
             Solution s = new Solution(i);
-            s.solutionInstanceWithCycles();
-
+            //s.solutionInstanceWithCycles();
+            s.solutionInstanceWithChain();
             System.out.println(s);
 
         }
