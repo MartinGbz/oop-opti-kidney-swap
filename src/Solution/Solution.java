@@ -78,18 +78,29 @@ public class Solution {
 
         for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
             status = false;
-            for(Cycle cycle : this.cycles) {
-                if(cycle.getSequence().size() < 2) {
-                    status = cycle.addPairToCycle((Pair) pairEntry.getValue());
-                    if(status) break;
+            if(!isUsedInChain((Pair)pairEntry.getValue())) {
+                for(Cycle cycle : this.cycles) {
+                    if(cycle.getSequence().size() < 2) {
+                        status = cycle.addPairToCycle((Pair) pairEntry.getValue());
+                        if(status) break;
+                    }
+                }
+                if(!status) {
+                    c.addPairToCycle((Pair) pairEntry.getValue());
+                    this.cycles.addLast(c);
+                    c = new Cycle();
                 }
             }
-            if(!status) {
-                c.addPairToCycle((Pair) pairEntry.getValue());
-                this.cycles.addLast(c);
-                c = new Cycle();
+        }
+    }
+
+    public boolean isUsedInChain(Pair pair) {
+        for(Chain c : this.chains) {
+            if(c.getSequence().contains(pair)) {
+                return true;
             }
         }
+        return false;
     }
 
     private void solutionInstanceWithChain() {
@@ -107,6 +118,11 @@ public class Solution {
         }
     }
 
+    private void SolutionInstance() {
+        this.solutionInstanceWithChain();
+        this.solutionInstanceWithCycles();
+    }
+
     public static void main(String[] args) {
         try {
             InstanceReader reader = new InstanceReader("instances/testInstance.txt");
@@ -115,7 +131,8 @@ public class Solution {
 
             Solution s = new Solution(i);
             //s.solutionInstanceWithCycles();
-            s.solutionInstanceWithChain();
+            //s.solutionInstanceWithChain();
+            s.SolutionInstance();
             System.out.println(s);
 
         }
