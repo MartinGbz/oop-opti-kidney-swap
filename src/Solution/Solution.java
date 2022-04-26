@@ -4,9 +4,10 @@ import instance.Instance;
 import instance.network.Chain;
 import instance.network.Cycle;
 import instance.network.Pair;
+import io.InstanceReader;
+import io.exception.ReaderException;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class Solution {
@@ -40,7 +41,7 @@ public class Solution {
      */
     public boolean addPairNewCycle(Pair pair) {
         Cycle c = new Cycle();
-        if(c.addPairCycle(pair)) {
+        if(c.addPairToCycle(pair)) {
             this.cycles.addLast(c);
             this.gainMedTotal += c.getGainMedSequence();
             return true;
@@ -57,7 +58,7 @@ public class Solution {
         int deltaGain = 0;
         for(Cycle c : this.cycles) {
             deltaGain = c.getGainMedSequence();
-            if(c.addPairCycle(pair)) {
+            if(c.addPairToCycle(pair)) {
                 this.gainMedTotal += (c.getGainMedSequence() - deltaGain);
                 return true;
             }
@@ -76,15 +77,17 @@ public class Solution {
         for(Map.Entry mapentry : this.instance.getPairs().entrySet()) {
             for(Cycle cycle : this.cycles) {
                 if(cycle.getSequence().size() <= 2) {
-                    status = cycle.addPairCycle((Pair)mapentry.getValue());
-                    if(status == true) break;
+                    status = cycle.addPairToCycle((Pair) mapentry.getValue());
+                    if(status) break;
                 }
-                if(status == false ) { //si ajouté dans aucun cycle
+                if(!status) { //si ajouté dans aucun cycle
                     this.cycles.addLast(c); //on ajoute le cycle en cours
                     c = new Cycle(); //on le remet à 0
                 }
+                status = false;
             }
-            c.addPairCycle((Pair)mapentry.getValue());
+            c.addPairToCycle((Pair) mapentry.getValue());
+            // this.cycles.addLast(c);
         }
         this.cycles.addLast(c);
     }
@@ -92,7 +95,20 @@ public class Solution {
 
 
     public static void main(String[] args) {
+        try {
+            InstanceReader reader = new InstanceReader("instances/testInstance.txt");
+            Instance i = reader.readInstance();
+            System.out.println("Instance lue avec success !");
 
+            Solution s = new Solution(i);
+            s.solutionInstance();
+
+            System.out.println(s);
+
+        }
+        catch (ReaderException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
 }

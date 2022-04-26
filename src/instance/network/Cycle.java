@@ -15,9 +15,8 @@ public class Cycle extends Sequence {
      * @param pairToAdd
      * @return
      */
-    public boolean addPairCycle(Pair pairToAdd) {
+    public boolean addPairToCycle(Pair pairToAdd) {
         if(pairToAdd == null) return false;
-
         if(!pairToAdd.asCompatibility()) return false;
 
         if(!this.sequence.isEmpty()) {
@@ -31,5 +30,12 @@ public class Cycle extends Sequence {
     @Override
     public int calculGainMed() {
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Cycle{" +
+                "sequence=" + sequence +
+                '}';
     }
 }

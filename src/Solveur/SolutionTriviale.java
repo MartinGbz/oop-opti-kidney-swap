@@ -30,7 +30,7 @@ public class SolutionTriviale implements Solveur {
         Solution s = this.solve(instance);
         System.out.println(this);
         System.out.println(s);
-        //s.check();
+        // s.check();
     }
 
     public static void main(String[] args) {

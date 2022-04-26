@@ -52,12 +52,13 @@ public abstract class Base {
      * @return false (no compatibility) true (min one compatibility)
      */
     public boolean asCompatibility() {
-        if(this == null) return false;
+        // if(this == null) return false;
         //Boucle while+iterator
         Iterator iterator = this.transplantations.entrySet().iterator();
         while(iterator.hasNext()) {
             Map.Entry mapentry = (Map.Entry) iterator.next();
-            int gain = (int) mapentry.getValue();
+            Transplantation t = (Transplantation) mapentry.getValue();
+            int gain = t.getMedicalGain();
             if(gain != -1) return true;
         }
         return false;

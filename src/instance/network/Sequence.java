@@ -22,5 +22,11 @@ public abstract class Sequence {
 
     public abstract int calculGainMed();
 
-
+    @Override
+    public String toString() {
+        return "Sequence{" +
+                "gainMedSequence=" + gainMedSequence +
+                ", sequence=" + sequence +
+                '}';
+    }
 }
