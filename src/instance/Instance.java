@@ -101,6 +101,10 @@ public class Instance {
                 ", pairs=" + pairs +
                 '}';
     }
+
+    public String getName() {
+        return name;
+    }
 }
 
 
