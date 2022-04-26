@@ -29,7 +29,7 @@ public abstract class Base {
         return id;
     }
     public Map<Pair, Transplantation> getTransplantations() {
-        return transplantations;
+        return new HashMap<>(transplantations);
     }
 
 
