@@ -3,7 +3,7 @@ package instance.network;
 import java.util.*;
 
 public abstract class Base {
-    int id;
+    private int id;
     private Map<Pair, Transplantation> transplantations;
 
     public Base(int id) {
@@ -31,6 +31,8 @@ public abstract class Base {
     public Map<Pair, Transplantation> getTransplantations() {
         return transplantations;
     }
+
+
 
     /**
      * Y a t il une compatibilité entre this et patient ?

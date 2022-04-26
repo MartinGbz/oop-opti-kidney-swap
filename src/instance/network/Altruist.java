@@ -15,6 +15,6 @@ public class Altruist extends Base {
         }
         s+= "\n}";
         return s;*/
-        return "Altruist{id=" + id + "}";
+        return "Altruist{id=" + this.getId() + "}";
     }
 }

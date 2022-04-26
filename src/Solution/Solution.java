@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Solution {
 
-    int gainMedTotal;
+    private int gainMedTotal;
     private Instance instance;
     private LinkedList<Cycle> cycles;
     private LinkedList<Chain> chains;
@@ -22,6 +22,10 @@ public class Solution {
         this.cycles = new LinkedList<>();
         this.chains = new LinkedList<>();
     }
+
+    public int getGainMedTotal() { return gainMedTotal; }
+
+    public Instance getInstance() { return instance; }
 
     @Override
     public String toString() {

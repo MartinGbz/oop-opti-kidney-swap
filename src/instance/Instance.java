@@ -10,11 +10,11 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 public class Instance {
-    String name;
-    int nbPairs;
-    int nbAltruists;
-    int maxSizeCycle;
-    int maxSizeChain;
+    private String name;
+    private int nbPairs;
+    private int nbAltruists;
+    private int maxSizeCycle;
+    private int maxSizeChain;
 
     private final LinkedHashMap<Integer, Altruist> altruists;
     private final LinkedHashMap<Integer, Pair> pairs;
@@ -36,6 +36,14 @@ public class Instance {
     public LinkedHashMap<Integer, Altruist> getAltruists() {
         return new LinkedHashMap<>(altruists);
     }
+
+    public int getNbPairs() { return nbPairs; }
+
+    public int getNbAltruists() { return nbAltruists; }
+
+    public int getMaxSizeCycle() { return maxSizeCycle; }
+
+    public int getMaxSizeChain() { return maxSizeChain; }
 
     /**
      * Ajout d'un altruiste dans le tableau correspondant (altruists)
