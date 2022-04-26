@@ -1,9 +1,12 @@
 package instance;
 
 import instance.network.Altruist;
+import instance.network.Base;
 import instance.network.Pair;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 public class Instance {
     String name;
@@ -21,32 +24,83 @@ public class Instance {
         this.nbAltruists = nbAltruists;
         this.maxSizeCycle = maxSizeCycle;
         this.maxSizeChain = maxSizeChain;
-
         this.altruists = new LinkedHashMap<>();
         this.pairs = new LinkedHashMap<>();
     }
 
+    public LinkedHashMap<Integer, Pair> getPairs() {
+        return new LinkedHashMap<>(pairs);
+    }
+
+    /**
+     * Ajout d'un altruiste dans le tableau correspondant (altruists)
+     * @param altruist
+     * @return True/False
+     */
     public boolean addAltruist(Altruist altruist) {
-//        if (clientToAdd == null) return false;
-//        int id = clientToAdd.getId();
-//        if (this.clients.containsKey(id)) return false;
-//        ajouterNouvelleRoute(clientToAdd);
-//        this.clients.put(id, clientToAdd);
-//        return true;
-        return false;
+        if(altruist == null) return false;
+        int id = altruist.getId();
+        if(this.altruists.containsKey(id)) return false;
+        this.altruists.put(id, altruist);
+        return true;
     }
 
-    // TODO : ajouter un 2eme argument (tableau avec la correspondance patient - gain ?)
-    private void addNewTranspantation(Pair patient) {
-//        this.depot.ajouterRoute(clientToAdd);
-//        clientToAdd.ajouterRoute(this.depot);
-//
-//        for(Client c : clients.values()) {
-//            c.ajouterRoute(clientToAdd);
-//            clientToAdd.ajouterRoute(c);
-//        }
+    /**
+     * Ajout d'un altruiste dans le tableau correspondant (pairs)
+     * @param pair
+     * @return True/False
+     */
+    public boolean addPair(Pair pair) {
+        if(pair == null) return false;
+        int id = pair.getId();
+        if(this.pairs.containsKey(id)) return false;
+        this.pairs.put(id, pair);
+        System.out.println("ajout pair id <" + id + ">");
+        return true;
     }
 
+    /**
+     * Association d'objets Transplantation pour chaque valeur dans le tableau "gain"
+     * entre "donneur" et la paire correspondante à la valeur
+     * @param donneur
+     * @param gains
+     * @return True/false
+     */
+    public Boolean addTranspantations(Base donneur, ArrayList<Integer> gains) {
+        if(donneur==null) return false; //le code dit que 5 et 6 sont null
+        for(int i=0; i<nbPairs; i++) {
+            donneur.addTransplantation(pairs.get(i + nbAltruists), gains.get(i));
+        }
+        return true;
+    }
+
+    /**
+     * Retourne l'objet Altruist ou Pair dans le tableau correspondant, en fonction de l'id
+     * @param id
+     * @return Base/null
+     */
+    public Base getBaseById(Integer id) {
+        if(id >= 0 && id < this.nbAltruists) {
+            return this.altruists.get(id);
+        }
+        else if(id >= this.nbAltruists && id < (this.nbPairs+this.nbAltruists)) {
+            return this.pairs.get(id);
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Instance{" +
+                "name='" + name + '\'' +
+                ", nbPairs=" + nbPairs +
+                ", nbAltruists=" + nbAltruists +
+                ", maxSizeCycle=" + maxSizeCycle +
+                ", maxSizeChain=" + maxSizeChain +
+                ", altruists=" + altruists +
+                ", pairs=" + pairs +
+                '}';
+    }
 }
 
 
