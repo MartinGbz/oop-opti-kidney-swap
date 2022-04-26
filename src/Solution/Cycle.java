@@ -1,4 +1,6 @@
-package instance.network;
+package Solution;
+
+import instance.network.Pair;
 
 import java.util.LinkedList;
 

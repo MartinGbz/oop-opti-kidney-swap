@@ -5,6 +5,7 @@ import instance.network.Base;
 import instance.network.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
@@ -30,6 +31,10 @@ public class Instance {
 
     public LinkedHashMap<Integer, Pair> getPairs() {
         return new LinkedHashMap<>(pairs);
+    }
+
+    public LinkedHashMap<Integer, Altruist> getAltruists() {
+        return new LinkedHashMap<>(altruists);
     }
 
     /**
