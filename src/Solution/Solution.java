@@ -2,8 +2,6 @@ package Solution;
 
 import instance.Instance;
 import instance.network.Altruist;
-import instance.network.Chain;
-import instance.network.Cycle;
 import instance.network.Pair;
 import io.InstanceReader;
 import io.exception.ReaderException;
@@ -78,17 +76,16 @@ public class Solution {
 
         for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
             status = false;
-            if(!isUsedInChain((Pair)pairEntry.getValue())) {
+            Pair p = (Pair) pairEntry.getValue();
+            if(!isUsedInChain(p)) {
                 for(Cycle cycle : this.cycles) {
                     if(cycle.getSequence().size() < 2) {
-                        status = cycle.addPairToCycle((Pair) pairEntry.getValue());
+                        status = cycle.addPairToCycle(p);
                         if(status) break;
                     }
                 }
                 if(!status) {
-                    c.addPairToCycle((Pair) pairEntry.getValue());
-                    this.cycles.addLast(c);
-                    c = new Cycle();
+                    this.addPairNewCycle(p);
                 }
             }
         }
