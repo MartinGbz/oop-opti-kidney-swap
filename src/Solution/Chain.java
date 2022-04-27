@@ -21,8 +21,6 @@ public class Chain extends Sequence {
     public boolean addPairToChain(Pair pairToAdd) {
         if(pairToAdd == null) return false;
         Base b = (Base) this.sequence.getLast();
-        //a mettre dans un checker
-        //if(!(this.sequence.getFirst() instanceof Altruist)) return false;
         if(!b.isCompatible(pairToAdd)) return false;
         this.sequence.addLast(pairToAdd);
         return true;
@@ -33,14 +31,23 @@ public class Chain extends Sequence {
         return 0;
     }
 
-    public boolean check() {
+    public boolean check(int maxSize) {
         if(this.sequence.isEmpty()) return false;
         if(!(this.sequence.getFirst() instanceof Altruist)) return false;
+        int sizeSeq = this.sequence.size();
+        if(sizeSeq > maxSize || sizeSeq == 1) {
+            System.out.println("Check Chain False (chaine trop grande ou de taille 1)");
+            return false;
+        }
+        // if(sizeSeq == 1) return true; // si on considère qu'une chaine avec 1 altruiste est valide
+        // sinon ajouter une condition dans le "if" du dessus
 
-        // if(this.sequence.size() == 1) return true;
-        /*for(Object base : this.sequence) {
-
-        }*/
+        for(int i=0; i<sizeSeq-1; i++) {
+            if(!this.sequence.get(i).isCompatible(this.sequence.get(i+1))) {
+                System.out.println("Check Chain False (un des donneurs ne peut pas donner au suivant)");
+                return false;
+            }
+        }
         return true;
     }
 

@@ -32,9 +32,17 @@ public class Instance {
     public LinkedHashMap<Integer, Pair> getPairs() {
         return new LinkedHashMap<>(pairs);
     }
-
     public LinkedHashMap<Integer, Altruist> getAltruists() {
         return new LinkedHashMap<>(altruists);
+    }
+    public String getName() {
+        return name;
+    }
+    public int getMaxSizeCycle() {
+        return maxSizeCycle;
+    }
+    public int getMaxSizeChain() {
+        return maxSizeChain;
     }
 
     /**
@@ -60,7 +68,6 @@ public class Instance {
         int id = pair.getId();
         if(this.pairs.containsKey(id)) return false;
         this.pairs.put(id, pair);
-        System.out.println("ajout pair id <" + id + ">");
         return true;
     }
 
@@ -107,9 +114,6 @@ public class Instance {
                 '}';
     }
 
-    public String getName() {
-        return name;
-    }
 }
 
 
