@@ -87,4 +87,16 @@ public abstract class Base {
         return idBestCompatibility;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Base base = (Base) o;
+        return id == base.id && Objects.equals(transplantations, base.transplantations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

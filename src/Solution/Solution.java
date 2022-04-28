@@ -101,11 +101,17 @@ public class Solution {
     }
 
     /**
-     * Vérifie si tous les ALTRUISTS ne sont présents qu'une fois dans l'ensemble des cycles/chaines
+     * Vérifie si tous les ALTRUISTS ne sont présents qu'une fois dans l'ensemble des chaines
      * @return
      */
     private boolean checkPresenceUniqueAltruists() {
-
+        for(Map.Entry altruistEntry : this.instance.getAltruists().entrySet()) {
+            Altruist alt = (Altruist) altruistEntry.getValue();
+            if(!isAltruistUnique(alt)) {
+                System.out.println("Check PresenceUniqueAltruists False (altruiste : " + alt + ")");
+                return false;
+            }
+        }
         return true;
     }
 
@@ -116,8 +122,7 @@ public class Solution {
     private boolean checkPresenceUniquePairs() {
         for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
             Pair p = (Pair) pairEntry.getValue();
-            // TODO
-            if(!this.isPairUniqueInCycles(p) || !this.isPairUniqueInChains(p)) {
+            if(!isPairUnique(p)) {
                 System.out.println("Check PresenceUniquePairs False (paire : " + p + ")");
                 return false;
             }
@@ -144,18 +149,41 @@ public class Solution {
         return true;
     }
 
-    // TODO : à combiner avec isPairUniqueInChains ?
-    public boolean isPairUniqueInCycles(Pair pair) {
+    public boolean isPairUnique(Pair pair) {
         int nbTot = 0;
-        for(Cycle c : this.cycles) {
-            if(c.getSequence().contains(pair)) {
-                nbTot++;
+        for(Chain c : this.chains) {
+            for(int i=1; i<c.getSequence().size(); i++) {
+                Pair p = (Pair) c.getSequence().get(i);
+                if(p.equals(pair)) {
+                    nbTot++;
+                    if(nbTot>1) return false;
+                }
             }
+        }
+        for(Cycle c : this.cycles) {
+            for(Object objP : c.getSequence()) {
+                Pair p = (Pair) objP;
+                if(p.equals(pair)) {
+                    nbTot++;
+                    if(nbTot>1) return false;
+                }
+            }
+
         }
         return true;
     }
 
-    public boolean isPairUniqueInChains(Pair pair) {
+    public boolean isAltruistUnique(Altruist altruist) {
+        int nbTot = 0;
+        for(Chain c : this.chains) {
+            if(c.getSequence().size() >= 1) {
+                Altruist alt = (Altruist) c.getSequence().get(0);
+                if(alt.equals(altruist)) {
+                    nbTot++;
+                    if(nbTot>1) return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -216,16 +244,47 @@ public class Solution {
             System.out.println("Instance lue avec success !");
 
             Solution s = new Solution(i);
-            s.solutionInstanceWithCycles();
+            // s.solutionInstanceWithCycles();
             // s.solutionInstanceWithChain();
-            // s.SolutionInstance();
+            s.SolutionInstance();
             System.out.println(s);
             System.out.println("Etat du check : " + s.check());
+
+            /*
+            Solution sCheck = new Solution(i);
+            Chain c1 = new Chain(i.getAltruists().get(0));
+            Chain c2 = new Chain(i.getAltruists().get(0));
+            Chain c3 = new Chain(i.getAltruists().get(1));
+
+            sCheck.chains.addLast(c1);
+            sCheck.chains.addLast(c2);
+            sCheck.chains.addLast(c3);
+
+            Pair p1 = i.getPairs().get(2);
+            Pair p2 = i.getPairs().get(3);
+            Pair p3 = i.getPairs().get(3);
+
+            Cycle cycle1 = new Cycle();
+            cycle1.sequence.addLast(p1);
+            cycle1.sequence.addLast(p2);
+            cycle1.sequence.addLast(p3);
+            sCheck.cycles.addLast(cycle1);
+
+            System.out.println(sCheck);
+
+            System.out.println("-> checkChains : " + sCheck.checkChains());
+            System.out.println("-> checkCycles : " + sCheck.checkCycles());
+            System.out.println("-> checkGainMedicalTotal : " + sCheck.checkGainMedicalTotal());
+            System.out.println("-> checkPresenceUniqueAltruists : " + sCheck.checkPresenceUniqueAltruists());
+            System.out.println("-> checkPresenceUniquePairs : " + sCheck.checkPresenceUniquePairs());*/
+
         }
         catch (ReaderException ex) {
             System.out.println(ex.getMessage());
         }
     }
+
+
 
 }
 
