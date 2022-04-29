@@ -1,5 +1,7 @@
 package Solution;
 
+import instance.network.Altruist;
+import instance.network.Base;
 import instance.network.Pair;
 
 import java.util.LinkedList;
@@ -8,7 +10,7 @@ public class Cycle extends Sequence {
 
     public Cycle() {
         super();
-        this.sequence = new LinkedList<Pair>();
+        this.sequence = new LinkedList<>();
     }
 
     /**
@@ -35,10 +37,26 @@ public class Cycle extends Sequence {
         return 0;
     }
 
-    @Override
-    public String toString() {
-        return "Cycle{" +
-                "sequence=" + sequence +
-                '}';
+    public boolean check(int maxSize) {
+        if(this.sequence.isEmpty()) return false;
+        int sizeSeq = this.sequence.size();
+        if(sizeSeq > maxSize || sizeSeq == 1) {
+            System.out.println("Check Cycle False (cycle trop grande ou de taille 1)");
+            return false;
+        }
+        // if(sizeSeq == 1) return true; // si on considère qu'un cycle avec 1 paire est valide
+        // sinon ajouter une condition dans le "if" du dessus
+
+        for(int i=0; i<sizeSeq-1; i++) {
+            if(!this.sequence.get(i).isCompatible(this.sequence.get(i+1))) {
+                System.out.println("Check Cycle False (un des donneurs ne peut pas donner au suivant)");
+                return false;
+            }
+        }
+        if(!this.sequence.get(sizeSeq-1).isCompatible(this.sequence.get(0))) {
+            System.out.println("Check Cycle False (le dernier donneur ne peut pas donner au 1er patient)");
+            return false;
+        }
+        return true;
     }
 }

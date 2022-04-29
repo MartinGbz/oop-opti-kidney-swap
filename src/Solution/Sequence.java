@@ -1,12 +1,13 @@
 package Solution;
 
+import instance.network.Base;
+
 import java.util.LinkedList;
-import java.util.List;
 
 public abstract class Sequence {
 
     private int gainMedSequence;
-    protected LinkedList sequence;
+    protected LinkedList<Base> sequence;
 
     public Sequence() {
         this.gainMedSequence = 0;
@@ -15,7 +16,6 @@ public abstract class Sequence {
     public int getGainMedSequence() {
         return gainMedSequence;
     }
-
     public LinkedList getSequence() {
         return sequence;
     }
@@ -29,4 +29,5 @@ public abstract class Sequence {
                 ", sequence=" + sequence +
                 '}';
     }
+
 }
