@@ -51,18 +51,18 @@ public class InstanceReader {
             // Ajout des Altruists & des Pairs dans les tableaux de l'instance
             Altruist a;
             Pair p;
-            for(int i=0; i<altruist; i++) {
+            for(int i=1; i <= altruist; i++) { //
                 a = new Altruist(i);
                 instance.addAltruist(a);
             }
-            for(int i=altruist; i<(pair+altruist); i++) {
+            for(int i=(altruist+1) ; i <= (pair+altruist); i++) { //
                 p = new Pair(i);
                 instance.addPair(p);
             }
 
             // Création des transplantations pour chaque ligne de la matrice
-            for(int i=0; i<(altruist+pair); i++) {
-                instance.addTranspantations(instance.getBaseById(i), matrice.get(i));
+            for(int i=1; i <= (altruist+pair); i++) { //
+                instance.addTranspantations(instance.getBaseById(i), matrice.get(i-1));
             }
 
             br.close();
@@ -107,7 +107,7 @@ public class InstanceReader {
         ligne = br.readLine();
 
         ArrayList<ArrayList<Integer>> matrice = new ArrayList<>();
-        for(int i=0; i<nbAltruist+nbPair; i++) {
+        for(int i=1; i<= nbAltruist+nbPair; i++) { //
             matrice.add(getLine(ligne, nbPair));
             ligne = br.readLine();
         }

@@ -3,7 +3,7 @@ package instance.network;
 import java.util.*;
 
 public abstract class Base {
-    private int id;
+    protected int id;
     private Map<Pair, Transplantation> transplantations;
 
     public Base(int id) {

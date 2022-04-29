@@ -57,7 +57,7 @@ public class Solution {
      */
     public boolean addPairNewCycle(Pair pair) {
         Cycle c = new Cycle();
-        if(c.addPairToCycle(pair)) {
+        if(c.addPairToCycleEnd(pair)) {
             this.cycles.addLast(c);
             this.gainMedTotal += c.getGainMedSequence();
             return true;
@@ -75,7 +75,7 @@ public class Solution {
         int deltaGain;
         for(Cycle c : this.cycles) {
             deltaGain = c.getGainMedSequence();
-            if(c.addPairToCycle(pair)) {
+            if(c.addPairToCycleEnd(pair)) {
                 this.gainMedTotal += (c.getGainMedSequence() - deltaGain);
                 return true;
             }
@@ -204,51 +204,6 @@ public class Solution {
         return true;
     }
 
-    private void solutionInstanceWithCycles() {
-        Cycle c = new Cycle();
-        boolean status;
-
-        for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
-            status = false;
-            Pair p = (Pair) pairEntry.getValue();
-            if(!isUsedInChain(p)) {
-                for(Cycle cycle : this.cycles) {
-                    if(cycle.getSequence().size() < 2) {
-                        status = cycle.addPairToCycle(p);
-                        if(status) break;
-                    }
-                }
-                if(!status) {
-                    this.addPairNewCycle(p);
-                }
-            }
-        }
-    }
-
-    public boolean isUsedInChain(Pair pair) {
-        for(Chain c : this.chains) {
-            if(c.getSequence().contains(pair)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void solutionInstanceWithChain() {
-        boolean status = false;
-        for(Map.Entry altruistEntry : this.instance.getAltruists().entrySet()) {
-            Chain c = new Chain((Altruist) altruistEntry.getValue());
-            this.chains.addLast(c);
-        }
-        for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
-            status = false;
-            for(Chain chain : this.chains) {
-                status = chain.addPairToChain((Pair) pairEntry.getValue());
-                if(status) break;
-            }
-        }
-    }
-
     public void calculGainSolution() {
         for(Cycle cycle : this.cycles) {
             this.gainMedTotal += cycle.getGainMedSequence();
@@ -258,10 +213,17 @@ public class Solution {
         }
     }
 
-    private void SolutionInstance() {
-        this.solutionInstanceWithChain();
-        this.solutionInstanceWithCycles();
-        this.calculGainSolution();
+    public void deleteSequenceNotUsed() {
+        LinkedList<Cycle> copyCycle = new LinkedList<>(this.cycles);
+        LinkedList<Chain> copyChain = new LinkedList<>(this.chains);
+        for(Cycle cycle : copyCycle) {
+            if(cycle.getSequence().size() < 2)
+                this.cycles.remove(cycle);
+        }
+        for(Chain chain : copyChain) {
+            if(chain.getSequence().size() < 2)
+                this.chains.remove(chain);
+        }
     }
 
     public static void main(String[] args) {
@@ -271,9 +233,10 @@ public class Solution {
             System.out.println("Instance lue avec success !");
 
             Solution s = new Solution(i);
+            System.out.println(s.getInstance().getPairs());
             //s.solutionInstanceWithCycles();
             //s.solutionInstanceWithChain();
-            s.SolutionInstance();
+            //s.SolutionInstance();
             System.out.println(s);
             System.out.println("Etat du check : " + s.check());
 

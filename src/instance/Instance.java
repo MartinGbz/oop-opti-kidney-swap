@@ -82,8 +82,8 @@ public class Instance {
      */
     public Boolean addTranspantations(Base donneur, ArrayList<Integer> gains) {
         if(donneur==null) return false; //le code dit que 5 et 6 sont null
-        for(int i=0; i<nbPairs; i++) {
-            donneur.addTransplantation(pairs.get(i + nbAltruists), gains.get(i));
+        for(int i=0; i< nbPairs; i++) {
+            donneur.addTransplantation(pairs.get(i + nbAltruists+1), gains.get(i));
         }
         return true;
     }
@@ -94,10 +94,10 @@ public class Instance {
      * @return Base/null
      */
     public Base getBaseById(Integer id) {
-        if(id >= 0 && id < this.nbAltruists) {
+        if(id >= 1 && id <= this.nbAltruists) {
             return this.altruists.get(id);
         }
-        else if(id >= this.nbAltruists && id < (this.nbPairs+this.nbAltruists)) {
+        else if(id > this.nbAltruists && id <= (this.nbPairs+this.nbAltruists)) {
             return this.pairs.get(id);
         }
         return null;

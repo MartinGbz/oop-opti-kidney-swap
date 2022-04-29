@@ -52,7 +52,7 @@ public class SolutionTriviale implements Solveur {
             if(!isUsedInChain(p,s)) {
                 for(Cycle cycle : s.getCycles()) {
                     if(cycle.getSequence().size() < s.getInstance().getMaxSizeCycle()) {
-                        status = cycle.addPairToCycle(p);
+                        status = cycle.addPairToCycleEnd(p);
                         if(status) break;
                     }
                 }
@@ -61,10 +61,10 @@ public class SolutionTriviale implements Solveur {
                 }
             }
         }
+        s.deleteSequenceNotUsed();
         s.calculGainSolution();
         return s;
     }
-
 
     public boolean isUsedInChain(Pair pair, Solution solution) {
         for(Chain c : solution.getChains()) {
@@ -74,18 +74,6 @@ public class SolutionTriviale implements Solveur {
         }
         return false;
     }
-
-/*
-    private void calculGainSolution() {
-        for(Cycle cycle : this.cycles) {
-            this.gainMedTotal += cycle.getGainMedSequence();
-        }
-        for(Chain chain : this.chains) {
-            this.gainMedTotal += chain.getGainMedSequence();
-        }
-    }
-    */
-
 
     public void solveBySolutionTriviale(Instance instance) {
         Solution s = this.solve(instance);
@@ -98,7 +86,7 @@ public class SolutionTriviale implements Solveur {
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/testInstance.txt"); //mettre le nom du fichier
+            InstanceReader reader = new InstanceReader("instances/KEP_p50_n3_k3_l13.txt"); //mettre le nom du fichier
             Instance instance = reader.readInstance();
 
             SolutionTriviale is = new SolutionTriviale();

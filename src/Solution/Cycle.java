@@ -1,7 +1,5 @@
 package Solution;
 
-import instance.network.Altruist;
-import instance.network.Base;
 import instance.network.Pair;
 
 import java.util.LinkedList;
@@ -20,7 +18,7 @@ public class Cycle extends Sequence {
      * @return
      * @note !WARNING! : NE MARCHE QU'AVEC DES CYCLES DE TAILLE 2
      */
-    public boolean addPairToCycle(Pair pairToAdd) {
+    public boolean addPairToCycleEnd(Pair pairToAdd) {
         if(pairToAdd == null) return false;
         if(!pairToAdd.asCompatibility()) return false;
 

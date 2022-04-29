@@ -7,16 +7,16 @@ public class Pair extends Base{
 
     @Override
     public String toString() {
-        /*String s = "Pair{" +
-                "id=" + id +
+        String s = "Pair{" +
+                "id=" + super.id +
                 "/ transplantations=";
         for(Transplantation t : this.getTransplantations().values()) {
             s += "\n\t" + t.toString();
         }
         s+= "\n}";
-        return s;*/
+        return s;
 
-        return "Pair{id=" + this.getId() + "}";
+       // return "Pair{id=" + this.getId() + "}";
 
     }
 }
