@@ -27,13 +27,6 @@ public class Instance {
         this.pairs = new LinkedHashMap<>();
     }
 
-    public int getMaxSizeChain() {
-        return maxSizeChain;
-    }
-
-    public int getMaxSizeCycle() {
-        return maxSizeCycle;
-    }
 
     public LinkedHashMap<Integer, Pair> getPairs() {
         return new LinkedHashMap<>(pairs);
@@ -50,14 +43,9 @@ public class Instance {
     public int getMaxSizeChain() {
         return maxSizeChain;
     }
-
     public int getNbPairs() { return nbPairs; }
-
     public int getNbAltruists() { return nbAltruists; }
 
-    public int getMaxSizeCycle() { return maxSizeCycle; }
-
-    public int getMaxSizeChain() { return maxSizeChain; }
 
     /**
      * Ajout d'un altruiste dans le tableau correspondant (altruists)

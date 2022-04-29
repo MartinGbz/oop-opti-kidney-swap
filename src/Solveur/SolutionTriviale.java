@@ -92,6 +92,7 @@ public class SolutionTriviale implements Solveur {
         System.out.println(this);
         System.out.println(s);
         // s.check();
+        System.out.println("Etat du check : " + s.check());
         SolutionWriter sw = new SolutionWriter(s);
     }
 
