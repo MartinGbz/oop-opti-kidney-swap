@@ -4,6 +4,7 @@ import instance.Instance;
 import instance.network.Altruist;
 import instance.network.Pair;
 import io.InstanceReader;
+import io.SolutionWriter;
 import io.exception.ReaderException;
 
 import java.util.LinkedList;
@@ -23,9 +24,21 @@ public class Solution {
         this.chains = new LinkedList<>();
     }
 
-    public int getGainMedTotal() { return gainMedTotal; }
+    public Instance getInstance() {
+        return instance;
+    }
 
-    public Instance getInstance() { return instance; }
+    public int getGainMedTotal() {
+        return gainMedTotal;
+    }
+
+    public LinkedList<Cycle> getCycles() {
+        return cycles;
+    }
+
+    public LinkedList<Chain> getChains() {
+        return chains;
+    }
 
     @Override
     public String toString() {
@@ -236,9 +249,19 @@ public class Solution {
         }
     }
 
+    public void calculGainSolution() {
+        for(Cycle cycle : this.cycles) {
+            this.gainMedTotal += cycle.getGainMedSequence();
+        }
+        for(Chain chain : this.chains) {
+            this.gainMedTotal += chain.getGainMedSequence();
+        }
+    }
+
     private void SolutionInstance() {
         this.solutionInstanceWithChain();
         this.solutionInstanceWithCycles();
+        this.calculGainSolution();
     }
 
     public static void main(String[] args) {
@@ -248,8 +271,8 @@ public class Solution {
             System.out.println("Instance lue avec success !");
 
             Solution s = new Solution(i);
-            // s.solutionInstanceWithCycles();
-            // s.solutionInstanceWithChain();
+            //s.solutionInstanceWithCycles();
+            //s.solutionInstanceWithChain();
             s.SolutionInstance();
             System.out.println(s);
             System.out.println("Etat du check : " + s.check());
@@ -281,14 +304,13 @@ public class Solution {
             System.out.println("-> checkGainMedicalTotal : " + sCheck.checkGainMedicalTotal());
             System.out.println("-> checkPresenceUniqueAltruists : " + sCheck.checkPresenceUniqueAltruists());
             System.out.println("-> checkPresenceUniquePairs : " + sCheck.checkPresenceUniquePairs());*/
+            SolutionWriter sw = new SolutionWriter(s);
 
         }
         catch (ReaderException ex) {
             System.out.println(ex.getMessage());
         }
     }
-
-
 
 }
 

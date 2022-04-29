@@ -21,8 +21,15 @@ public class Chain extends Sequence {
     public boolean addPairToChain(Pair pairToAdd) {
         if(pairToAdd == null) return false;
         Base b = (Base) this.sequence.getLast();
+
         if(!b.isCompatible(pairToAdd)) return false;
+
         this.sequence.addLast(pairToAdd);
+
+        int delta = b.getTransplantations().get(pairToAdd).getMedicalGain();
+        System.out.println("gain ajouté chain <" + delta + ">");
+        this.gainMedSequence += delta;
+
         return true;
     }
 

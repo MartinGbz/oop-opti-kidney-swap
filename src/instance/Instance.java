@@ -27,6 +27,14 @@ public class Instance {
         this.pairs = new LinkedHashMap<>();
     }
 
+    public int getMaxSizeChain() {
+        return maxSizeChain;
+    }
+
+    public int getMaxSizeCycle() {
+        return maxSizeCycle;
+    }
+
     public LinkedHashMap<Integer, Pair> getPairs() {
         return new LinkedHashMap<>(pairs);
     }
