@@ -22,9 +22,21 @@ public class Cycle extends Sequence {
         if(pairToAdd == null) return false;
         if(!pairToAdd.asCompatibility()) return false;
 
+        int delta = 0, pLastToPairToAdd = 0, pairToAddToPFirst = 0, pLastToPFirst = 0;
+
         if(!this.sequence.isEmpty()) {
-            Pair p = (Pair) this.sequence.getLast();
-            if(!p.isCompatible(pairToAdd) || !pairToAdd.isCompatible(p)) return false;
+            Pair pLast = (Pair) this.sequence.getLast();
+            Pair pFirst = (Pair) this.sequence.getFirst();
+
+            if(!pLast.isCompatible(pairToAdd) || !pairToAdd.isCompatible(pFirst)) return false;
+
+            pLastToPairToAdd = pLast.getTransplantations().get(pairToAdd).getMedicalGain();
+            pairToAddToPFirst = pairToAdd.getTransplantations().get(pFirst).getMedicalGain();
+            if(!pLast.equals(pFirst))
+                pLastToPFirst = pLast.getTransplantations().get(pFirst).getMedicalGain();
+            delta = pLastToPairToAdd + pairToAddToPFirst - pLastToPFirst;
+            System.out.println("gain ajouté cycle <" + delta + ">");
+            this.gainMedSequence += delta;
         }
         this.sequence.addLast(pairToAdd);
         return true;

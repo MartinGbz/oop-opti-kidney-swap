@@ -4,6 +4,7 @@ import instance.Instance;
 import instance.network.Altruist;
 import instance.network.Pair;
 import io.InstanceReader;
+import io.SolutionWriter;
 import io.exception.ReaderException;
 
 import java.util.LinkedList;
@@ -21,6 +22,22 @@ public class Solution {
         this.instance = instance;
         this.cycles = new LinkedList<>();
         this.chains = new LinkedList<>();
+    }
+
+    public Instance getInstance() {
+        return instance;
+    }
+
+    public int getGainMedTotal() {
+        return gainMedTotal;
+    }
+
+    public LinkedList<Cycle> getCycles() {
+        return cycles;
+    }
+
+    public LinkedList<Chain> getChains() {
+        return chains;
     }
 
     @Override
@@ -67,9 +84,7 @@ public class Solution {
         return false;
     }
 
-    /**
-     * EN TRAVAUX
-     */
+
     private void solutionInstanceWithCycles() {
         Cycle c = new Cycle();
         boolean status;
@@ -115,9 +130,19 @@ public class Solution {
         }
     }
 
+    public void calculGainSolution() {
+        for(Cycle cycle : this.cycles) {
+            this.gainMedTotal += cycle.getGainMedSequence();
+        }
+        for(Chain chain : this.chains) {
+            this.gainMedTotal += chain.getGainMedSequence();
+        }
+    }
+
     private void SolutionInstance() {
         this.solutionInstanceWithChain();
         this.solutionInstanceWithCycles();
+        this.calculGainSolution();
     }
 
     public static void main(String[] args) {
@@ -131,6 +156,7 @@ public class Solution {
             //s.solutionInstanceWithChain();
             s.SolutionInstance();
             System.out.println(s);
+            SolutionWriter sw = new SolutionWriter(s);
 
         }
         catch (ReaderException ex) {

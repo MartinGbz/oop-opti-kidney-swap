@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class Sequence {
 
-    private int gainMedSequence;
+    protected int gainMedSequence;
     protected LinkedList sequence;
 
     public Sequence() {
