@@ -8,6 +8,8 @@ import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 public class SolutionTriviale implements Solveur {
@@ -72,25 +74,64 @@ public class SolutionTriviale implements Solveur {
         return false;
     }
 
-    public void solveBySolutionTriviale(Instance instance) {
+    public void solveBySolutionTriviale(Instance instance, String directorySolution) {
         Solution s = this.solve(instance);
         System.out.println(this);
         System.out.println(s);
         // s.check();
         System.out.println("Etat du check : " + s.check());
-        SolutionWriter sw = new SolutionWriter(s);
+        SolutionWriter sw = new SolutionWriter(s, directorySolution);
     }
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/KEP_p50_n3_k3_l13.txt"); //mettre le nom du fichier
-            Instance instance = reader.readInstance();
+            String filenameInstance;
+            String directorySolution;
 
-            SolutionTriviale is = new SolutionTriviale();
-            is.solveBySolutionTriviale(instance);
+            if(args.length==4){
 
-        }
-        catch (ReaderException ex) {
+                System.out.println(args[0]);
+                System.out.println(args[1]);
+                System.out.println(args[2]);
+                System.out.println(args[3]);
+
+                if(args[0].equals("-inst")){
+                    filenameInstance = args[1];
+                }
+                else if(args[2].equals("-inst")){
+                    filenameInstance = args[3];
+                }
+                else{
+                    throw new Error("Paramètre -inst manquant");
+                }
+
+                if(args[0].equals("-dSol")){
+                    directorySolution = args[1];
+                }
+                else if(args[2].equals("-dSol")){
+                    directorySolution = args[3];
+                }
+                else{
+                    throw new Error("Paramètre -dSol manquant");
+                }
+
+
+                if(Files.isRegularFile(Path.of(filenameInstance))){
+
+                    InstanceReader reader = new InstanceReader(filenameInstance); //mettre le nom du fichier
+                    Instance instance = reader.readInstance();
+
+                    SolutionTriviale is = new SolutionTriviale();
+                    is.solveBySolutionTriviale(instance, directorySolution);
+                }
+                else{
+                    throw new Error("Fichier introuvable");
+                }
+            }
+            else{
+                throw new Error("Paramètres manquants");
+            }
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }

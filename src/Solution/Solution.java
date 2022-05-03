@@ -287,7 +287,7 @@ public class Solution {
             System.out.println("-> checkGainMedicalTotal : " + sCheck.checkGainMedicalTotal());
             System.out.println("-> checkPresenceUniqueAltruists : " + sCheck.checkPresenceUniqueAltruists());
             System.out.println("-> checkPresenceUniquePairs : " + sCheck.checkPresenceUniquePairs());*/
-            SolutionWriter sw = new SolutionWriter(s);
+            SolutionWriter sw = new SolutionWriter(s, "testSolution");
 
         }
         catch (ReaderException ex) {

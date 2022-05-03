@@ -15,12 +15,14 @@ public class SolutionWriter {
 
     private final String pathSolution;
 
-    private final String tab = "\t";
-    private final String backLine = "\n";
+    private String directorySolution;
+    private String tab = "\t";
+    private String backLine = "\n";
 
-    public SolutionWriter(Solution solution) {
+    public SolutionWriter(Solution solution, String directorySolution) {
         String nomFicInst = stripExtension(solution.getInstance().getName());
-        this.pathSolution = "testSolution/" + nomFicInst + "_sol";
+        this.directorySolution = directorySolution;
+        this.pathSolution = directorySolution + "/" + nomFicInst + "_sol";
         this.writeSolution(solution);
     }
 
@@ -46,6 +48,10 @@ public class SolutionWriter {
         // Récupération du nom du fichier + "création"
         File f = new File(pathSolution + ".txt");
 
+        File d = new File(directorySolution);
+        if(!d.exists() || !d.isDirectory()){
+            d.mkdir();
+        }
         if(f.isFile()) { //si le fichier existe deja
             f.delete(); //on le supprime
         }
