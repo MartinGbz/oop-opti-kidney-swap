@@ -46,9 +46,6 @@ public class Chain extends Sequence {
             System.out.println("Check Chain False (chaine trop grande ou de taille 1)");
             return false;
         }
-        // if(sizeSeq == 1) return true; // si on considère qu'une chaine avec 1 altruiste est valide
-        // sinon ajouter une condition dans le "if" du dessus
-
         for(int i=0; i<sizeSeq-1; i++) {
             if(!this.sequence.get(i).isCompatible(this.sequence.get(i+1))) {
                 System.out.println("Check Chain False (un des donneurs ne peut pas donner au suivant)");

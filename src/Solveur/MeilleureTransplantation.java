@@ -8,7 +8,7 @@ import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class MeilleureTransplantation implements Solveur {
     public Solution solve(Instance i) {
         if(i == null) return null;
         Solution s = new Solution(i);
-        LinkedHashMap<Integer, Pair> copyPair = new LinkedHashMap<Integer, Pair>(s.getInstance().getPairs());
+        HashMap<Integer, Pair> copyPair = new HashMap<Integer, Pair>(s.getInstance().getPairs());
         InsertionPair insMeilleur;
 
         while(!copyPair.isEmpty()) {
@@ -45,7 +45,7 @@ public class MeilleureTransplantation implements Solveur {
         return s;
     }
 
-    private InsertionPair getMeilleurOperateurInsertion(Solution s, LinkedHashMap<Integer, Pair> pairs) {
+    private InsertionPair getMeilleurOperateurInsertion(Solution s, HashMap<Integer, Pair> pairs) {
         int firstPairId = getFirst(pairs);
         InsertionPair insMeilleur = s.getMeilleureInsertion(pairs.get(firstPairId));
 
@@ -59,16 +59,11 @@ public class MeilleureTransplantation implements Solveur {
         return insMeilleur;
     }
 
-    public static int getFirst(LinkedHashMap<Integer, Pair> lhm) {
-        int count = 1;
-
+    public static int getFirst(HashMap<Integer, Pair> lhm) {
         for (Map.Entry<Integer, Pair> it : lhm.entrySet()) {
-            if (count == 1) {
-                System.out.println("First Key-> "+it.getKey());
-                System.out.println("First Value-> "+it.getValue());
-                return it.getKey();
-            }
-            count++;
+            System.out.println("First Key-> "+it.getKey());
+            System.out.println("First Value-> "+it.getValue());
+            return it.getKey();
         }
         return Integer.MAX_VALUE;
     }
@@ -83,13 +78,11 @@ public class MeilleureTransplantation implements Solveur {
             Solution s = mt.solve(instance);
             System.out.println(mt);
             System.out.println(s);
-            // s.check();
             System.out.println("Etat du check : " + s.check());
             SolutionWriter sw = new SolutionWriter(s);
 
-
-
-        } catch (ReaderException ex) {
+        }
+        catch (ReaderException ex) {
             System.out.println(ex.getMessage());
         }
     }

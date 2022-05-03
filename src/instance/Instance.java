@@ -5,7 +5,7 @@ import instance.network.Base;
 import instance.network.Pair;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 public class Instance {
     private final String name;
@@ -14,8 +14,8 @@ public class Instance {
     private final int maxSizeCycle;
     private final int maxSizeChain;
 
-    private final LinkedHashMap<Integer, Altruist> altruists;
-    private final LinkedHashMap<Integer, Pair> pairs;
+    private final HashMap<Integer, Altruist> altruists;
+    private final HashMap<Integer, Pair> pairs;
 
     public Instance(String name, int nbPairs, int nbAltruists, int maxSizeCycle, int maxSizeChain) {
         this.name = name;
@@ -23,15 +23,15 @@ public class Instance {
         this.nbAltruists = nbAltruists;
         this.maxSizeCycle = maxSizeCycle;
         this.maxSizeChain = maxSizeChain;
-        this.altruists = new LinkedHashMap<>();
-        this.pairs = new LinkedHashMap<>();
+        this.altruists = new HashMap<>();
+        this.pairs = new HashMap<>();
     }
 
-    public LinkedHashMap<Integer, Pair> getPairs() {
-        return new LinkedHashMap<>(pairs);
+    public HashMap<Integer, Pair> getPairs() {
+        return new HashMap<>(pairs);
     }
-    public LinkedHashMap<Integer, Altruist> getAltruists() {
-        return new LinkedHashMap<>(altruists);
+    public HashMap<Integer, Altruist> getAltruists() {
+        return new HashMap<>(altruists);
     }
     public String getName() {
         return name;
