@@ -42,6 +42,7 @@ public class Cycle extends Sequence {
         return true;
     }
 
+
     @Override
     public int calculGainMed() {
         return 0;

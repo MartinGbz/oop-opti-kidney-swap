@@ -89,6 +89,14 @@ public abstract class Base {
         return idBestCompatibility;
     }
 
+    public int getGainVers(Pair dest) {
+        int gain = this.transplantations.get(dest).getMedicalGain();
+        if(gain != -1)
+            return gain;
+        else
+            return Integer.MIN_VALUE;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

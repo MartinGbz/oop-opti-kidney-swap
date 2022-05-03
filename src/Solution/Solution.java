@@ -1,5 +1,6 @@
 package Solution;
 
+import Operateur.InsertionPair;
 import instance.Instance;
 import instance.network.Altruist;
 import instance.network.Pair;
@@ -225,6 +226,30 @@ public class Solution {
                 this.chains.remove(chain);
         }
     }
+
+    public InsertionPair getMeilleureInsertion(Pair pairToInsert) {
+        InsertionPair insMeilleur = new InsertionPair();
+        if(pairToInsert == null) return insMeilleur;
+
+        InsertionPair insActu;
+        System.out.println("Solution - getMeilleureInsertion - for");
+        for(Sequence t : this.cycles) {
+            insActu = t.getMeilleureInsertion(pairToInsert);
+            if(insActu.isBest(insMeilleur))
+                insMeilleur = insActu;
+        }
+        return insMeilleur;
+    }
+
+    public boolean doInsertion(InsertionPair infos) {
+        if(infos == null) return false;
+        if(!this.cycles.contains(infos.getProcessedSequence())) return false;
+        if(!infos.doMouvementIfRealisable()) return false;
+
+        this.gainMedTotal += infos.getDeltaCout();
+        return true;
+    }
+
 
     public static void main(String[] args) {
         try {
