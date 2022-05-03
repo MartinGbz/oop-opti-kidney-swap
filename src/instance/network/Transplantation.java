@@ -1,9 +1,10 @@
 package instance.network;
 
 public class Transplantation {
-    private int medicalGain;
-    private Base donneur;
-    private Pair patient;
+
+    private final int medicalGain;
+    private final Base donneur;
+    private final Pair patient;
 
     public Transplantation(int medicalGain, Base donneur, Pair patient) {
         this.medicalGain = medicalGain;

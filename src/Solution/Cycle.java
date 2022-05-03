@@ -56,7 +56,7 @@ public class Cycle extends Sequence {
             return false;
         }
         // if(sizeSeq == 1) return true; // si on considère qu'un cycle avec 1 paire est valide
-        // sinon ajouter une condition dans le "if" du dessus
+        // dans ce cas supprimer la condition dans le "if" du dessus
 
         for(int i=0; i<sizeSeq-1; i++) {
             if(!this.sequence.get(i).isCompatible(this.sequence.get(i+1))) {

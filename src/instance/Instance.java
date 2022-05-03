@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Instance {
-    private String name;
-    private int nbPairs;
-    private int nbAltruists;
-    private int maxSizeCycle;
-    private int maxSizeChain;
+    private final String name;
+    private final int nbPairs;
+    private final int nbAltruists;
+    private final int maxSizeCycle;
+    private final int maxSizeChain;
 
     private final LinkedHashMap<Integer, Altruist> altruists;
     private final LinkedHashMap<Integer, Pair> pairs;
@@ -26,7 +26,6 @@ public class Instance {
         this.altruists = new LinkedHashMap<>();
         this.pairs = new LinkedHashMap<>();
     }
-
 
     public LinkedHashMap<Integer, Pair> getPairs() {
         return new LinkedHashMap<>(pairs);
@@ -76,8 +75,8 @@ public class Instance {
     /**
      * Association d'objets Transplantation pour chaque valeur dans le tableau "gain"
      * entre "donneur" et la paire correspondante à la valeur
-     * @param donneur
-     * @param gains
+     * @param donneur le donneur (une paire ou un altruiste)
+     * @param gains le tableau des gains médicaux de ce donneur
      * @return True/false
      */
     public Boolean addTranspantations(Base donneur, ArrayList<Integer> gains) {
@@ -90,7 +89,7 @@ public class Instance {
 
     /**
      * Retourne l'objet Altruist ou Pair dans le tableau correspondant, en fonction de l'id
-     * @param id
+     * @param id l'id de la paire ou de l'altruiste
      * @return Base/null
      */
     public Base getBaseById(Integer id) {
@@ -115,7 +114,6 @@ public class Instance {
                 ", pairs=" + pairs +
                 '}';
     }
-
 }
 
 

@@ -14,9 +14,9 @@ import java.util.Map;
 public class Solution {
 
     private int gainMedTotal;
-    private Instance instance;
-    private LinkedList<Cycle> cycles;
-    private LinkedList<Chain> chains;
+    private final Instance instance;
+    private final LinkedList<Cycle> cycles;
+    private final LinkedList<Chain> chains;
 
     public Solution(Instance instance) {
         this.gainMedTotal = 0;
@@ -28,15 +28,12 @@ public class Solution {
     public Instance getInstance() {
         return instance;
     }
-
     public int getGainMedTotal() {
         return gainMedTotal;
     }
-
     public LinkedList<Cycle> getCycles() {
         return cycles;
     }
-
     public LinkedList<Chain> getChains() {
         return chains;
     }
@@ -53,8 +50,8 @@ public class Solution {
 
     /**
      * Ajoute une pair dans un nouveau cycle
-     * @param pair
-     * @return
+     * @param pair la paire à ajouter
+     * @return true/false si l'ajout est réussi ou non
      */
     public boolean addPairNewCycle(Pair pair) {
         Cycle c = new Cycle();
@@ -69,8 +66,8 @@ public class Solution {
 
     /**
      * Ajoute une pair dans un cycle existant
-     * @param pair
-     * @return
+     * @param pair la paire à ajouter
+     * @return true/false si l'ajout est réussi ou non
      */
     public boolean addPairExistingCycle(Pair pair) {
         int deltaGain;
@@ -186,7 +183,6 @@ public class Solution {
                     if(nbTot>1) return false;
                 }
             }
-
         }
         return true;
     }
