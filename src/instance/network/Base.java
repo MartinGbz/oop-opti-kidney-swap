@@ -3,26 +3,13 @@ package instance.network;
 import java.util.*;
 
 public abstract class Base {
+
     protected int id;
-    private Map<Pair, Transplantation> transplantations;
+    private final Map<Pair, Transplantation> transplantations;
 
     public Base(int id) {
         this.id = id;
         this.transplantations = new HashMap<>();
-    }
-
-    /**
-     * Création d'un objet Transplantation "t" et ajout dans le HashMap "transplantations"
-     * Clé -> valeur : patient -> t
-     * @param patient
-     * @param gain
-     */
-    public void addTransplantation(Pair patient, int gain) {
-        //TODO : à dé commenter si souhait de retirer les gains -1 dans les transplantations
-        //if(gain != -1) {
-            Transplantation t = new Transplantation(gain, this, patient);
-            this.transplantations.put(patient, t);
-        //}
     }
 
     public int getId() {
@@ -32,12 +19,20 @@ public abstract class Base {
         return new HashMap<>(transplantations);
     }
 
-
+    /**
+     * Création d'un objet Transplantation "t" et ajout dans le HashMap "transplantations"
+     * Clé -> valeur : patient -> t
+     * @param patient le patient recevant le don
+     * @param gain le gain associé à l'échange
+     */
+    public void addTransplantation(Pair patient, int gain) {
+        Transplantation t = new Transplantation(gain, this, patient);
+        this.transplantations.put(patient, t);
+    }
 
     /**
-     * Y a t il une compatibilité entre this et patient ?
-     * a tester
-     * @param patient
+     * Test si l'objet actuel (Base) est compatible avec le patient (gain != -1)
+     * @param patient le patient recevant le don
      * @return false (patient and this are not compatible) else true
      */
     public boolean isCompatible(Base patient) {

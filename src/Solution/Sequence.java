@@ -1,7 +1,6 @@
 package Solution;
 
 import instance.network.Base;
-
 import java.util.LinkedList;
 
 public abstract class Sequence {
@@ -29,5 +28,4 @@ public abstract class Sequence {
                 ", sequence=" + sequence +
                 '}';
     }
-
 }
