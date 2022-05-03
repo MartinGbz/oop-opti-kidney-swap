@@ -119,10 +119,9 @@ public class Solution {
      * @return
      */
     private boolean checkPresenceUniqueAltruists() {
-        for(Map.Entry altruistEntry : this.instance.getAltruists().entrySet()) {
-            Altruist alt = (Altruist) altruistEntry.getValue();
-            if(!isAltruistUnique(alt)) {
-                System.out.println("Check PresenceUniqueAltruists False (altruiste : " + alt + ")");
+        for(Altruist altruist : this.instance.getAltruists()) {
+            if(!isAltruistUnique(altruist)) {
+                System.out.println("Check PresenceUniqueAltruists False (altruiste : " + altruist + ")");
                 return false;
             }
         }
@@ -134,10 +133,9 @@ public class Solution {
      * @return
      */
     private boolean checkPresenceUniquePairs() {
-        for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
-            Pair p = (Pair) pairEntry.getValue();
-            if(!isPairUnique(p)) {
-                System.out.println("Check PresenceUniquePairs False (paire : " + p + ")");
+        for(Pair pair: this.instance.getPairs()) {
+            if(!isPairUnique(pair)) {
+                System.out.println("Check PresenceUniquePairs False (paire : " + pair + ")");
                 return false;
             }
         }
@@ -220,6 +218,52 @@ public class Solution {
             if(chain.getSequence().size() < 2)
                 this.chains.remove(chain);
         }
+    }
+
+    public void createChainsWithAltruists(Instance i) {
+        for(Altruist altruistToAdd : i.getAltruists()) {
+            Chain ch = new Chain(altruistToAdd);
+            this.getChains().addLast(ch);
+        }
+    }
+
+    public void addPairsIntoChains(Instance i) {
+        boolean status;
+        for(Pair pairToAdd : i.getPairs()) {
+            status = false;
+            for(Chain chain : this.getChains()) {
+                if(chain.getSequence().size() < i.getMaxSizeChain())
+                    status = chain.addPairToChain(pairToAdd);
+                if(status) break;
+            }
+        }
+    }
+
+    public void addPairsIntoCycles(Instance i) {
+        boolean status;
+        for(Pair pairToAdd : i.getPairs()) {
+            status = false;
+            if(!isUsedInChain(pairToAdd)) {
+                for(Cycle cycle : this.getCycles()) {
+                    if(cycle.getSequence().size() < i.getMaxSizeCycle()) {
+                        status = cycle.addPairToCycleEnd(pairToAdd);
+                        if(status) break;
+                    }
+                }
+                if(!status) {
+                    this.addPairNewCycle(pairToAdd);
+                }
+            }
+        }
+    }
+
+    public boolean isUsedInChain(Pair pair) {
+        for(Chain c : this.getChains()) {
+            if(c.getSequence().contains(pair)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public InsertionPair getMeilleureInsertion(Pair pairToInsert) {

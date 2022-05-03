@@ -8,8 +8,7 @@ import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class MeilleureTransplantation implements Solveur {
 
@@ -24,7 +23,7 @@ public class MeilleureTransplantation implements Solveur {
     public Solution solve(Instance i) {
         if(i == null) return null;
         Solution s = new Solution(i);
-        HashMap<Integer, Pair> copyPair = new HashMap<>(s.getInstance().getPairs());
+        ArrayList<Pair> copyPair = new ArrayList<>(s.getInstance().getPairs());
         InsertionPair insMeilleur;
 
         while(!copyPair.isEmpty()) {
@@ -36,7 +35,7 @@ public class MeilleureTransplantation implements Solveur {
             }
             else {
                 System.out.println("MeilleureTransplantation - solve - else");
-                int firstPairId = getFirst(copyPair);
+                int firstPairId = getFirstId(copyPair);
                 s.addPairNewCycle(copyPair.get(firstPairId));
                 copyPair.remove(firstPairId);
             }
@@ -44,27 +43,24 @@ public class MeilleureTransplantation implements Solveur {
         return s;
     }
 
-    private InsertionPair getMeilleurOperateurInsertion(Solution s, HashMap<Integer, Pair> pairs) {
-        int firstPairId = getFirst(pairs);
+    private InsertionPair getMeilleurOperateurInsertion(Solution s, ArrayList<Pair> pairs) {
+        int firstPairId = getFirstId(pairs);
         InsertionPair insMeilleur = s.getMeilleureInsertion(pairs.get(firstPairId));
 
         InsertionPair insActu;
         System.out.println("MeilleureTransplantation - getMeilleurOperateurInsertion - for");
-        for(Map.Entry pairEntry : s.getInstance().getPairs().entrySet()) {
-            insActu = s.getMeilleureInsertion((Pair)pairEntry.getValue());
+        for(Pair pair : s.getInstance().getPairs()) {
+            insActu = s.getMeilleureInsertion(pair);
             if(insActu.getDeltaCout() > insMeilleur.getDeltaCout() && insActu.getDeltaCout() != Integer.MAX_VALUE)
                 insMeilleur = insActu;
         }
         return insMeilleur;
     }
 
-    public static int getFirst(HashMap<Integer, Pair> lhm) {
-        for (Map.Entry<Integer, Pair> it : lhm.entrySet()) {
-            System.out.println("First Key-> "+it.getKey());
-            System.out.println("First Value-> "+it.getValue());
-            return it.getKey();
-        }
-        return Integer.MAX_VALUE;
+    public static int getFirstId(ArrayList<Pair> pairs) {
+        int id = -1;
+        if(pairs.size()==0) return id;
+        return pairs.get(0).getId();
     }
 
     public static void main(String[] args) {
@@ -79,7 +75,7 @@ public class MeilleureTransplantation implements Solveur {
             System.out.println(s);
             System.out.println("Etat du check : " + s.check());
 
-            SolutionWriter sw = new SolutionWriter(s);
+            SolutionWriter sw = new SolutionWriter(s, "testSolution/");
 
         }
         catch (ReaderException ex) {

@@ -19,7 +19,6 @@ public abstract class Operator {
     public int getDeltaCout() {
         return this.deltaCoutOperation;
     }
-
     public Sequence getProcessedSequence() {
         return processedSequence;
     }
@@ -48,9 +47,7 @@ public abstract class Operator {
     }
 
     protected abstract int evalDeltaCout();
-
     protected abstract boolean doMouvement();
-
 
     @Override
     public String toString() {

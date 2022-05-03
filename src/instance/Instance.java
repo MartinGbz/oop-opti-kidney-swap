@@ -6,6 +6,7 @@ import instance.network.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Instance {
     private final String name;
@@ -27,11 +28,11 @@ public class Instance {
         this.pairs = new HashMap<>();
     }
 
-    public HashMap<Integer, Pair> getPairs() {
-        return new HashMap<>(pairs);
+    public ArrayList<Pair> getPairs() {
+        return new ArrayList<>(pairs.values());
     }
-    public HashMap<Integer, Altruist> getAltruists() {
-        return new HashMap<>(altruists);
+    public ArrayList<Altruist> getAltruists() {
+        return new ArrayList<>(altruists.values());
     }
     public String getName() {
         return name;
