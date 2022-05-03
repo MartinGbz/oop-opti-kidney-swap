@@ -14,15 +14,12 @@ public class Cycle extends Sequence {
     /**
      * Ajoute une paire dans un cycle (si le cycle en cours n'est pas vide = ajout si compatible,
      * sinon le cycle est vide, ajout dans un nouveau cycle)
-     * @param pairToAdd
-     * @return
-     * @note !WARNING! : NE MARCHE QU'AVEC DES CYCLES DE TAILLE 2
      */
     public boolean addPairToCycleEnd(Pair pairToAdd) {
         if(pairToAdd == null) return false;
         if(!pairToAdd.asCompatibility()) return false;
 
-        int delta = 0, pLastToPairToAdd = 0, pairToAddToPFirst = 0, pLastToPFirst = 0;
+        int delta, pLastToPairToAdd, pairToAddToPFirst;
 
         if(!this.sequence.isEmpty()) {
             Pair pLast = (Pair) this.sequence.getLast();
@@ -32,9 +29,11 @@ public class Cycle extends Sequence {
 
             pLastToPairToAdd = pLast.getTransplantations().get(pairToAdd).getMedicalGain();
             pairToAddToPFirst = pairToAdd.getTransplantations().get(pFirst).getMedicalGain();
-            if(!pLast.equals(pFirst))
+            int pLastToPFirst = 0;
+            if(!pLast.equals(pFirst)) {
                 pLastToPFirst = pLast.getTransplantations().get(pFirst).getMedicalGain();
-            delta = pLastToPairToAdd + pairToAddToPFirst - pLastToPFirst;
+            }
+            delta = (pLastToPairToAdd + pairToAddToPFirst) - pLastToPFirst;
             System.out.println("gain ajouté cycle <" + delta + ">");
             this.gainMedSequence += delta;
         }
@@ -55,9 +54,6 @@ public class Cycle extends Sequence {
             System.out.println("Check Cycle False (cycle trop grande ou de taille 1)");
             return false;
         }
-        // if(sizeSeq == 1) return true; // si on considère qu'un cycle avec 1 paire est valide
-        // sinon ajouter une condition dans le "if" du dessus
-
         for(int i=0; i<sizeSeq-1; i++) {
             if(!this.sequence.get(i).isCompatible(this.sequence.get(i+1))) {
                 System.out.println("Check Cycle False (un des donneurs ne peut pas donner au suivant)");
