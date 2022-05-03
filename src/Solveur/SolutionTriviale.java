@@ -43,9 +43,6 @@ public class SolutionTriviale implements Solveur {
                 if(status) break;
             }
         }
-
-        status = false;
-
         for(Map.Entry pairEntry : s.getInstance().getPairs().entrySet()) {
             status = false;
             Pair p = (Pair) pairEntry.getValue();
@@ -92,8 +89,8 @@ public class SolutionTriviale implements Solveur {
             SolutionTriviale is = new SolutionTriviale();
             is.solveBySolutionTriviale(instance);
 
-
-        } catch (ReaderException ex) {
+        }
+        catch (ReaderException ex) {
             System.out.println(ex.getMessage());
         }
     }

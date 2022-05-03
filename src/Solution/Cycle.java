@@ -8,7 +8,6 @@ public class Cycle extends Sequence {
 
     public Cycle() {
         super();
-        this.sequence = new LinkedList<>();
     }
 
     /**

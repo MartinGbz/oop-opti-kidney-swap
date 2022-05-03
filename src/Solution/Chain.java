@@ -10,7 +10,6 @@ public class Chain extends Sequence {
 
     public Chain() {
         super();
-        this.sequence = new LinkedList<>();
     }
 
     public Chain(Altruist altruist) {

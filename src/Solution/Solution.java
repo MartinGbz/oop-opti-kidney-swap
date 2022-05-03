@@ -63,7 +63,6 @@ public class Solution {
         return false;
     }
 
-
     /**
      * Ajoute une pair dans un cycle existant
      * @param pair la paire à ajouter
@@ -229,8 +228,8 @@ public class Solution {
 
         InsertionPair insActu;
         System.out.println("Solution - getMeilleureInsertion - for");
-        for(Sequence t : this.cycles) {
-            insActu = t.getMeilleureInsertion(pairToInsert);
+        for(Sequence cycle : this.cycles) {
+            insActu = cycle.getMeilleureInsertion(pairToInsert);
             if(insActu.isBest(insMeilleur))
                 insMeilleur = insActu;
         }

@@ -13,10 +13,10 @@ import java.util.List;
 
 public class SolutionWriter {
 
-    private String pathSolution;
+    private final String pathSolution;
 
-    private String tab = "\t";
-    private String backLine = "\n";
+    private final String tab = "\t";
+    private final String backLine = "\n";
 
     public SolutionWriter(Solution solution) {
         String nomFicInst = stripExtension(solution.getInstance().getName());

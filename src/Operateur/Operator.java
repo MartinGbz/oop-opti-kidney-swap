@@ -41,12 +41,9 @@ public abstract class Operator {
     }
 
     public boolean isBest(Operator op) {
-        if(op == null)
-            return true;
-
-        if(this.getDeltaCout() > op.getDeltaCout())
-            return true;
-
+        if(op == null) return true;
+        if(this.getDeltaCout() >= Integer.MAX_VALUE) return false;
+        if(this.getDeltaCout() > op.getDeltaCout() || op.getDeltaCout() >= Integer.MAX_VALUE) return true;
         return false;
     }
 

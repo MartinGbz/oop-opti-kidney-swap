@@ -9,7 +9,6 @@ import io.SolutionWriter;
 import io.exception.ReaderException;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class MeilleureTransplantation implements Solveur {
@@ -25,7 +24,7 @@ public class MeilleureTransplantation implements Solveur {
     public Solution solve(Instance i) {
         if(i == null) return null;
         Solution s = new Solution(i);
-        HashMap<Integer, Pair> copyPair = new HashMap<Integer, Pair>(s.getInstance().getPairs());
+        HashMap<Integer, Pair> copyPair = new HashMap<>(s.getInstance().getPairs());
         InsertionPair insMeilleur;
 
         while(!copyPair.isEmpty()) {
@@ -70,15 +69,16 @@ public class MeilleureTransplantation implements Solveur {
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/testInstance.txt"); //mettre le nom du fichier
+            InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
             Instance instance = reader.readInstance();
 
             MeilleureTransplantation mt = new MeilleureTransplantation();
-
             Solution s = mt.solve(instance);
+
             System.out.println(mt);
             System.out.println(s);
             System.out.println("Etat du check : " + s.check());
+
             SolutionWriter sw = new SolutionWriter(s);
 
         }
