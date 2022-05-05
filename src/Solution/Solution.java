@@ -1,5 +1,6 @@
 package Solution;
 
+import Operateur.InsertionPair;
 import instance.Instance;
 import instance.network.Altruist;
 import instance.network.Pair;
@@ -13,9 +14,9 @@ import java.util.Map;
 public class Solution {
 
     private int gainMedTotal;
-    private Instance instance;
-    private LinkedList<Cycle> cycles;
-    private LinkedList<Chain> chains;
+    private final Instance instance;
+    private final LinkedList<Cycle> cycles;
+    private final LinkedList<Chain> chains;
 
     public Solution(Instance instance) {
         this.gainMedTotal = 0;
@@ -27,15 +28,12 @@ public class Solution {
     public Instance getInstance() {
         return instance;
     }
-
     public int getGainMedTotal() {
         return gainMedTotal;
     }
-
     public LinkedList<Cycle> getCycles() {
         return cycles;
     }
-
     public LinkedList<Chain> getChains() {
         return chains;
     }
@@ -52,8 +50,8 @@ public class Solution {
 
     /**
      * Ajoute une pair dans un nouveau cycle
-     * @param pair
-     * @return
+     * @param pair la paire à ajouter
+     * @return true/false si l'ajout est réussi ou non
      */
     public boolean addPairNewCycle(Pair pair) {
         Cycle c = new Cycle();
@@ -65,11 +63,10 @@ public class Solution {
         return false;
     }
 
-
     /**
      * Ajoute une pair dans un cycle existant
-     * @param pair
-     * @return
+     * @param pair la paire à ajouter
+     * @return true/false si l'ajout est réussi ou non
      */
     public boolean addPairExistingCycle(Pair pair) {
         int deltaGain;
@@ -122,10 +119,9 @@ public class Solution {
      * @return
      */
     private boolean checkPresenceUniqueAltruists() {
-        for(Map.Entry altruistEntry : this.instance.getAltruists().entrySet()) {
-            Altruist alt = (Altruist) altruistEntry.getValue();
-            if(!isAltruistUnique(alt)) {
-                System.out.println("Check PresenceUniqueAltruists False (altruiste : " + alt + ")");
+        for(Altruist altruist : this.instance.getAltruists()) {
+            if(!isAltruistUnique(altruist)) {
+                System.out.println("Check PresenceUniqueAltruists False (altruiste : " + altruist + ")");
                 return false;
             }
         }
@@ -137,10 +133,9 @@ public class Solution {
      * @return
      */
     private boolean checkPresenceUniquePairs() {
-        for(Map.Entry pairEntry : this.instance.getPairs().entrySet()) {
-            Pair p = (Pair) pairEntry.getValue();
-            if(!isPairUnique(p)) {
-                System.out.println("Check PresenceUniquePairs False (paire : " + p + ")");
+        for(Pair pair: this.instance.getPairs()) {
+            if(!isPairUnique(pair)) {
+                System.out.println("Check PresenceUniquePairs False (paire : " + pair + ")");
                 return false;
             }
         }
@@ -185,7 +180,6 @@ public class Solution {
                     if(nbTot>1) return false;
                 }
             }
-
         }
         return true;
     }
@@ -225,6 +219,76 @@ public class Solution {
                 this.chains.remove(chain);
         }
     }
+
+    public void createChainsWithAltruists(Instance i) {
+        for(Altruist altruistToAdd : i.getAltruists()) {
+            Chain ch = new Chain(altruistToAdd);
+            this.getChains().addLast(ch);
+        }
+    }
+
+    public void addPairsIntoChains(Instance i) {
+        boolean status;
+        for(Pair pairToAdd : i.getPairs()) {
+            status = false;
+            for(Chain chain : this.getChains()) {
+                if(chain.getSequence().size() < i.getMaxSizeChain())
+                    status = chain.addPairToChain(pairToAdd);
+                if(status) break;
+            }
+        }
+    }
+
+    public void addPairsIntoCycles(Instance i) {
+        boolean status;
+        for(Pair pairToAdd : i.getPairs()) {
+            status = false;
+            if(!isUsedInChain(pairToAdd)) {
+                for(Cycle cycle : this.getCycles()) {
+                    if(cycle.getSequence().size() < i.getMaxSizeCycle()) {
+                        status = cycle.addPairToCycleEnd(pairToAdd);
+                        if(status) break;
+                    }
+                }
+                if(!status) {
+                    this.addPairNewCycle(pairToAdd);
+                }
+            }
+        }
+    }
+
+    public boolean isUsedInChain(Pair pair) {
+        for(Chain c : this.getChains()) {
+            if(c.getSequence().contains(pair)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public InsertionPair getMeilleureInsertion(Pair pairToInsert) {
+        InsertionPair insMeilleur = new InsertionPair();
+        if(pairToInsert == null) return insMeilleur;
+
+        InsertionPair insActu;
+        System.out.println("Solution - getMeilleureInsertion - for");
+        for(Sequence cycle : this.cycles) {
+            insActu = cycle.getMeilleureInsertion(pairToInsert);
+            if(insActu.isBest(insMeilleur))
+                insMeilleur = insActu;
+        }
+        return insMeilleur;
+    }
+
+    public boolean doInsertion(InsertionPair infos) {
+        if(infos == null) return false;
+        if(!this.cycles.contains(infos.getProcessedSequence())) return false;
+        if(!infos.doMouvementIfRealisable()) return false;
+
+        this.gainMedTotal += infos.getDeltaCout();
+        return true;
+    }
+
 
     public static void main(String[] args) {
         try {
@@ -267,7 +331,7 @@ public class Solution {
             System.out.println("-> checkGainMedicalTotal : " + sCheck.checkGainMedicalTotal());
             System.out.println("-> checkPresenceUniqueAltruists : " + sCheck.checkPresenceUniqueAltruists());
             System.out.println("-> checkPresenceUniquePairs : " + sCheck.checkPresenceUniquePairs());*/
-            SolutionWriter sw = new SolutionWriter(s);
+            SolutionWriter sw = new SolutionWriter(s, "testSolution");
 
         }
         catch (ReaderException ex) {

@@ -10,7 +10,6 @@ public class Chain extends Sequence {
 
     public Chain() {
         super();
-        this.sequence = new LinkedList<Base>();
     }
 
     public Chain(Altruist altruist) {
@@ -20,14 +19,14 @@ public class Chain extends Sequence {
 
     public boolean addPairToChain(Pair pairToAdd) {
         if(pairToAdd == null) return false;
-        Base b = (Base) this.sequence.getLast();
+        Base b = this.sequence.getLast();
 
         if(!b.isCompatible(pairToAdd)) return false;
 
         this.sequence.addLast(pairToAdd);
 
         int delta = b.getTransplantations().get(pairToAdd).getMedicalGain();
-        System.out.println("gain ajouté chain <" + delta + ">");
+        // System.out.println("gain ajouté chain <" + delta + ">");
         this.gainMedSequence += delta;
 
         return true;
@@ -46,9 +45,6 @@ public class Chain extends Sequence {
             System.out.println("Check Chain False (chaine trop grande ou de taille 1)");
             return false;
         }
-        // if(sizeSeq == 1) return true; // si on considère qu'une chaine avec 1 altruiste est valide
-        // sinon ajouter une condition dans le "if" du dessus
-
         for(int i=0; i<sizeSeq-1; i++) {
             if(!this.sequence.get(i).isCompatible(this.sequence.get(i+1))) {
                 System.out.println("Check Chain False (un des donneurs ne peut pas donner au suivant)");

@@ -5,17 +5,18 @@ import instance.network.Base;
 import instance.network.Pair;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.List;
 
 public class Instance {
-    private String name;
-    private int nbPairs;
-    private int nbAltruists;
-    private int maxSizeCycle;
-    private int maxSizeChain;
+    private final String name;
+    private final int nbPairs;
+    private final int nbAltruists;
+    private final int maxSizeCycle;
+    private final int maxSizeChain;
 
-    private final LinkedHashMap<Integer, Altruist> altruists;
-    private final LinkedHashMap<Integer, Pair> pairs;
+    private final HashMap<Integer, Altruist> altruists;
+    private final HashMap<Integer, Pair> pairs;
 
     public Instance(String name, int nbPairs, int nbAltruists, int maxSizeCycle, int maxSizeChain) {
         this.name = name;
@@ -23,16 +24,15 @@ public class Instance {
         this.nbAltruists = nbAltruists;
         this.maxSizeCycle = maxSizeCycle;
         this.maxSizeChain = maxSizeChain;
-        this.altruists = new LinkedHashMap<>();
-        this.pairs = new LinkedHashMap<>();
+        this.altruists = new HashMap<>();
+        this.pairs = new HashMap<>();
     }
 
-
-    public LinkedHashMap<Integer, Pair> getPairs() {
-        return new LinkedHashMap<>(pairs);
+    public ArrayList<Pair> getPairs() {
+        return new ArrayList<>(pairs.values());
     }
-    public LinkedHashMap<Integer, Altruist> getAltruists() {
-        return new LinkedHashMap<>(altruists);
+    public ArrayList<Altruist> getAltruists() {
+        return new ArrayList<>(altruists.values());
     }
     public String getName() {
         return name;
@@ -76,8 +76,8 @@ public class Instance {
     /**
      * Association d'objets Transplantation pour chaque valeur dans le tableau "gain"
      * entre "donneur" et la paire correspondante à la valeur
-     * @param donneur
-     * @param gains
+     * @param donneur le donneur (une paire ou un altruiste)
+     * @param gains le tableau des gains médicaux de ce donneur
      * @return True/false
      */
     public Boolean addTranspantations(Base donneur, ArrayList<Integer> gains) {
@@ -90,7 +90,7 @@ public class Instance {
 
     /**
      * Retourne l'objet Altruist ou Pair dans le tableau correspondant, en fonction de l'id
-     * @param id
+     * @param id l'id de la paire ou de l'altruiste
      * @return Base/null
      */
     public Base getBaseById(Integer id) {
@@ -115,7 +115,6 @@ public class Instance {
                 ", pairs=" + pairs +
                 '}';
     }
-
 }
 
 
