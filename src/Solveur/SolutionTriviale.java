@@ -37,9 +37,6 @@ public class SolutionTriviale implements Solveur {
 
     public void solveBySolutionTriviale(Instance instance, String directorySolution) {
         Solution s = this.solve(instance);
-        System.out.println(this);
-        System.out.println(s);
-        System.out.println("Etat du check interne : " + s.check());
         SolutionWriter sw = new SolutionWriter(s, directorySolution);
     }
 
@@ -49,11 +46,6 @@ public class SolutionTriviale implements Solveur {
             String directorySolution;
 
             if(args.length==4){
-
-                System.out.println(args[0]);
-                System.out.println(args[1]);
-                System.out.println(args[2]);
-                System.out.println(args[3]);
 
                 if(args[0].equals("-inst")){
                     filenameInstance = args[1];
