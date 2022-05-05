@@ -56,7 +56,7 @@ public abstract class Sequence {
             if(this.sequence.getFirst() instanceof Altruist) // dernière position d'une chaine
             {
                 bPrec = this.sequence.getLast();
-                deltaCout += bPrec.getGainVers(pairToAdd);
+                deltaCout = bPrec.getGainVers(pairToAdd);
                 return deltaCout;
             }
             else {
@@ -75,7 +75,9 @@ public abstract class Sequence {
 
         if(!bPrec.isCompatible(pairToAdd) || !pairToAdd.isCompatible(pCurrent)) return Integer.MAX_VALUE;
 
-        deltaCout -= bPrec.getGainVers(pCurrent);
+        if(this.sequence.size() == 1)
+            deltaCout -= bPrec.getGainVers(pCurrent);
+
         deltaCout += pairToAdd.getGainVers(pCurrent);
         deltaCout += bPrec.getGainVers(pairToAdd);
 
@@ -85,8 +87,6 @@ public abstract class Sequence {
     public InsertionPair getMeilleureInsertion(Pair pairToInsert) {
         InsertionPair insMeilleur = new InsertionPair();
 
-        //if(!this.isClientAddedByDemande(pairToInsert)) return insMeilleur; //défaut
-        System.out.println("Sequence - getMeilleureInsertion - for");
         InsertionPair insPair;
         for(int position=0 ; position<this.sequence.size()+1 ; position++) {
             if(position != 0 || !(this.sequence.getFirst() instanceof Altruist) ) {
@@ -98,6 +98,23 @@ public abstract class Sequence {
         return insMeilleur;
     }
 
+    public boolean doInsertion(InsertionPair infos) {
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false;
+
+        Pair pair = infos.getPairToAdd();
+
+        this.gainMedSequence += infos.getDeltaCout();
+        this.sequence.add(infos.getPosition(), pair);
+/*
+        if(!this.check()) {
+            System.out.println("Erreur : doInsertion");
+            System.out.println(infos);
+            System.exit(-1); //termine le programme en cas d'erreur
+        }
+        */
+        return true;
+    }
 
 
 }

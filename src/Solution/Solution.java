@@ -155,7 +155,7 @@ public class Solution {
             gainTotalCalc += chain.getGainMedSequence();
         }
         if(gainTotalCalc != this.gainMedTotal) {
-            System.out.println("Check GainMedical False");
+            System.out.println("Check GainMedical False <" + gainTotalCalc + ">" );
             return false;
         }
         return true;
@@ -270,19 +270,38 @@ public class Solution {
         InsertionPair insMeilleur = new InsertionPair();
         if(pairToInsert == null) return insMeilleur;
 
+        if(this.chains.size() < this.getInstance().getNbAltruists())
+            this.createChainsWithAltruists(this.getInstance());
+
+        LinkedList<Sequence> sequenceChainCycle = new LinkedList<>();
+        for(Sequence chain : this.chains) {
+            sequenceChainCycle.add(chain);
+        }
+        for(Sequence cycle : this.cycles) {
+            sequenceChainCycle.add(cycle);
+        }
+
         InsertionPair insActu;
-        System.out.println("Solution - getMeilleureInsertion - for");
+        for(Sequence seq : sequenceChainCycle) {
+            insActu = seq.getMeilleureInsertion(pairToInsert);
+            if(insActu.isBest(insMeilleur))
+                insMeilleur = insActu;
+        }
+
+/*
         for(Sequence cycle : this.cycles) {
             insActu = cycle.getMeilleureInsertion(pairToInsert);
             if(insActu.isBest(insMeilleur))
                 insMeilleur = insActu;
         }
+
+ */
         return insMeilleur;
     }
 
     public boolean doInsertion(InsertionPair infos) {
         if(infos == null) return false;
-        if(!this.cycles.contains(infos.getProcessedSequence())) return false;
+        if(!this.cycles.contains(infos.getProcessedSequence()) && !this.chains.contains(infos.getProcessedSequence())) return false;
         if(!infos.doMouvementIfRealisable()) return false;
 
         this.gainMedTotal += infos.getDeltaCout();
