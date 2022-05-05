@@ -56,12 +56,6 @@ public class MeilleureTransplantation implements Solveur {
         return insMeilleur;
     }
 
-    public static int getFirstId(ArrayList<Pair> pairs) {
-        int id = -1;
-        if(pairs.size()==0) return id;
-        return pairs.get(0).getId();
-    }
-
     public static void main(String[] args) {
         try {
             InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
