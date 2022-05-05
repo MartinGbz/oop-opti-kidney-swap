@@ -50,7 +50,7 @@ public class SolutionWriter {
 
         File d = new File(directorySolution);
         if(!d.exists() || !d.isDirectory()){
-            d.mkdir();
+            d.mkdirs();
         }
         if(f.isFile()) { //si le fichier existe deja
             f.delete(); //on le supprime
