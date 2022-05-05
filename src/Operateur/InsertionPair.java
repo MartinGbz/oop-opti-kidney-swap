@@ -42,7 +42,7 @@ public class InsertionPair extends Operator {
 
     @Override
     protected boolean doMouvement() {
-        return false;
+        return this.processedSequence.doInsertion(this);
     }
 
     @Override

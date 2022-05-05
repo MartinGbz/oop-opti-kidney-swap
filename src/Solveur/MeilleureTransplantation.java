@@ -2,6 +2,7 @@ package Solveur;
 
 import Operateur.InsertionPair;
 import Solution.Solution;
+import Solution.Sequence;
 import instance.Instance;
 import instance.network.Pair;
 import io.InstanceReader;
@@ -9,6 +10,7 @@ import io.SolutionWriter;
 import io.exception.ReaderException;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MeilleureTransplantation implements Solveur {
 
@@ -23,33 +25,30 @@ public class MeilleureTransplantation implements Solveur {
     public Solution solve(Instance i) {
         if(i == null) return null;
         Solution s = new Solution(i);
-        ArrayList<Pair> copyPair = new ArrayList<>(s.getInstance().getPairs());
+        LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs());
         InsertionPair insMeilleur;
+        LinkedList<Sequence> sequenceOfSolution = new LinkedList<>();
 
         while(!copyPair.isEmpty()) {
             insMeilleur = getMeilleurOperateurInsertion(s, copyPair);
 
             if(s.doInsertion(insMeilleur)) {
-                System.out.println("MeilleureTransplantation - solve - if");
                 copyPair.remove(insMeilleur.getPairToAdd());
             }
             else {
-                System.out.println("MeilleureTransplantation - solve - else");
-                int firstPairId = getFirstId(copyPair);
-                s.addPairNewCycle(copyPair.get(firstPairId));
-                copyPair.remove(firstPairId);
+                s.addPairNewCycle(copyPair.getFirst());
+                copyPair.removeFirst();
             }
         }
+        s.deleteSequenceNotUsed();
         return s;
     }
 
-    private InsertionPair getMeilleurOperateurInsertion(Solution s, ArrayList<Pair> pairs) {
-        int firstPairId = getFirstId(pairs);
-        InsertionPair insMeilleur = s.getMeilleureInsertion(pairs.get(firstPairId));
+    private InsertionPair getMeilleurOperateurInsertion(Solution s, LinkedList<Pair> pairs) {
+        InsertionPair insMeilleur = s.getMeilleureInsertion(pairs.getFirst());
 
         InsertionPair insActu;
-        System.out.println("MeilleureTransplantation - getMeilleurOperateurInsertion - for");
-        for(Pair pair : s.getInstance().getPairs()) {
+        for(Pair pair : pairs) {
             insActu = s.getMeilleureInsertion(pair);
             if(insActu.getDeltaCout() > insMeilleur.getDeltaCout() && insActu.getDeltaCout() != Integer.MAX_VALUE)
                 insMeilleur = insActu;
@@ -66,6 +65,7 @@ public class MeilleureTransplantation implements Solveur {
     public static void main(String[] args) {
         try {
             InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
+            //InstanceReader reader = new InstanceReader("instances/KEP_p50_n3_k3_l13.txt"); // mettre le nom du fichier
             Instance instance = reader.readInstance();
 
             MeilleureTransplantation mt = new MeilleureTransplantation();
