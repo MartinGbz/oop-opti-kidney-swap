@@ -34,7 +34,7 @@ public abstract class Operator {
     }
 
     public boolean isMouvementRealisable() {
-        if(getDeltaCout() < Integer.MAX_VALUE)
+        if(getDeltaCout() < Integer.MAX_VALUE && getDeltaCout() > Integer.MIN_VALUE)
             return true;
         return false;
     }

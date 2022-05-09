@@ -220,6 +220,19 @@ public class Solution {
         }
     }
 
+    public LinkedList<Pair> recoverCyclesOfOne() {
+        LinkedList<Cycle> copyCycle = new LinkedList<>(this.cycles);
+        LinkedList<Pair> pairsToBeReused = new LinkedList<>();
+
+        for(Sequence seq : copyCycle) {
+            if(seq.getSequence().size() < 2) {
+                pairsToBeReused.add((Pair) seq.getSequence().getFirst());
+                this.cycles.remove(seq);
+            }
+        }
+        return pairsToBeReused;
+    }
+
     public void createChainsWithAltruists(Instance i) {
         for(Altruist altruistToAdd : i.getAltruists()) {
             Chain ch = new Chain(altruistToAdd);
@@ -284,8 +297,12 @@ public class Solution {
         InsertionPair insActu;
         for(Sequence seq : sequenceChainCycle) {
             insActu = seq.getMeilleureInsertion(pairToInsert);
-            if(insActu.isBest(insMeilleur))
-                insMeilleur = insActu;
+            if(insActu.isBest(insMeilleur)) {
+                if( (seq.getSequence().size() < this.getInstance().getMaxSizeChain() && seq.getSequence().getFirst() instanceof Altruist)
+                        || (seq.getSequence().size() < this.getInstance().getMaxSizeCycle() && seq.getSequence().getFirst() instanceof Pair))
+                    insMeilleur = insActu;
+            }
+
         }
 
 /*

@@ -27,17 +27,25 @@ public class MeilleureTransplantation implements Solveur {
         Solution s = new Solution(i);
         LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs());
         InsertionPair insMeilleur;
-        LinkedList<Sequence> sequenceOfSolution = new LinkedList<>();
 
-        while(!copyPair.isEmpty()) {
-            insMeilleur = getMeilleurOperateurInsertion(s, copyPair);
+        for(int j=0 ; j<4 ; j++) {
+            if(j != 0)
+                copyPair = new LinkedList<>(s.recoverCyclesOfOne());
 
-            if(s.doInsertion(insMeilleur)) {
-                copyPair.remove(insMeilleur.getPairToAdd());
-            }
-            else {
-                s.addPairNewCycle(copyPair.getFirst());
-                copyPair.removeFirst();
+            System.out.println("\ncopyPair " + j + " taille " + copyPair.size() + " : \n");
+            System.out.println(copyPair);
+            System.out.println("\n\n");
+
+            while(!copyPair.isEmpty()) {
+                insMeilleur = getMeilleurOperateurInsertion(s, copyPair);
+
+                if(s.doInsertion(insMeilleur)) {
+                    copyPair.remove(insMeilleur.getPairToAdd());
+                }
+                else {
+                    s.addPairNewCycle(copyPair.getFirst());
+                    copyPair.removeFirst();
+                }
             }
         }
         s.deleteSequenceNotUsed();
@@ -50,7 +58,7 @@ public class MeilleureTransplantation implements Solveur {
         InsertionPair insActu;
         for(Pair pair : pairs) {
             insActu = s.getMeilleureInsertion(pair);
-            if(insActu.getDeltaCout() > insMeilleur.getDeltaCout() && insActu.getDeltaCout() != Integer.MAX_VALUE)
+            if(insActu.getDeltaCout() > insMeilleur.getDeltaCout() && (insActu.getDeltaCout() != Integer.MAX_VALUE && insActu.getDeltaCout() != Integer.MIN_VALUE))
                 insMeilleur = insActu;
         }
         return insMeilleur;
@@ -58,8 +66,10 @@ public class MeilleureTransplantation implements Solveur {
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
-            //InstanceReader reader = new InstanceReader("instances/KEP_p50_n3_k3_l13.txt"); // mettre le nom du fichier
+            //InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
+            //InstanceReader reader = new InstanceReader("instances/KEP_p9_n0_k3_l0.txt"); // mettre le nom du fichier
+            //InstanceReader reader = new InstanceReader("instances/KEP_p9_n1_k3_l3.txt"); // mettre le nom du fichier
+            InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt"); // mettre le nom du fichier
             Instance instance = reader.readInstance();
 
             MeilleureTransplantation mt = new MeilleureTransplantation();

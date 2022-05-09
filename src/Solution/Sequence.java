@@ -46,8 +46,8 @@ public abstract class Sequence {
         if(!isPositionInsertionValide(position) || pairToAdd == null)
             return Integer.MAX_VALUE;
 
-        int deltaCout = Integer.MAX_VALUE;
-        if(this.sequence.isEmpty()) return deltaCout;
+        int deltaCout = 0;
+        if(this.sequence.isEmpty()) return Integer.MAX_VALUE;
 
         Pair pCurrent;
         Base bPrec;
@@ -70,12 +70,12 @@ public abstract class Sequence {
         if(this.sequence.getFirst() instanceof Pair && position == 0) {
             bPrec = this.sequence.getLast(); // 1ere position d'un cycle
         } else {
-            bPrec = this.sequence.get(position-1); // 1ere position d'une chaine
+            bPrec = this.sequence.get(position-1);
         }
 
         if(!bPrec.isCompatible(pairToAdd) || !pairToAdd.isCompatible(pCurrent)) return Integer.MAX_VALUE;
 
-        if(this.sequence.size() == 1)
+        if(this.sequence.size() != 1)
             deltaCout -= bPrec.getGainVers(pCurrent);
 
         deltaCout += pairToAdd.getGainVers(pCurrent);
