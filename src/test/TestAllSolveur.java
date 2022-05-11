@@ -45,11 +45,7 @@ public class TestAllSolveur{
      */
     private Map<Solveur, Resultat> totalStats;
 
-    /**
-     * Constructeur par donnees.
-     *
-     * @param path
-     */
+
     public TestAllSolveur(String path, String directorySolution) {
         this.path = path;
         this.directorySolution = directorySolution;
@@ -106,6 +102,45 @@ public class TestAllSolveur{
                         + " n'a pas pu etre lue correctement");
             }
         }
+    }
+
+    /**
+     *
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public static String[] checkParams(String[] params) throws Exception {
+
+        String pathInst;
+        String dirSol;
+        if (params.length == 4) {
+
+            if (params[0].equals("-inst")) {
+                pathInst = params[1];
+            } else if (params[2].equals("-inst")) {
+                pathInst = params[3];
+            } else {
+                throw new Error("Paramètre -inst manquant");
+            }
+
+            if (params[0].equals("-dSol")) {
+                dirSol = params[1];
+            } else if (params[2].equals("-dSol")) {
+                dirSol = params[3];
+            } else {
+                throw new Error("Paramètre -dSol manquant");
+            }
+        } else {
+            throw new Error("Paramètres manquants");
+        }
+
+        String [] path = new String[2];
+        path[0] = pathInst;
+        path[1] = dirSol;
+
+        return path;
+
     }
 
     /**
@@ -344,49 +379,26 @@ public class TestAllSolveur{
 
     }
 
+
     /**
      * Test de perforances de tous les solveurs sur les instances du repertoire
      * 'instances'.
      * @param args
      */
-    public static void main (String[]args){
+    public static  void main(String[] args){
 
         try {
             String filenameInstance;
             String directorySolution;
 
-            if(args.length==4) {
+            String [] result;
+            result=checkParams(args);
+            filenameInstance=result[0];
+            directorySolution=result[1];
 
-                System.out.println(args[0]);
-                System.out.println(args[1]);
-                System.out.println(args[2]);
-                System.out.println(args[3]);
+            TestAllSolveur test = new TestAllSolveur(filenameInstance, directorySolution);
+            test.printAllResultats("results");
 
-                if (args[0].equals("-inst")) {
-                    filenameInstance = args[1];
-                } else if (args[2].equals("-inst")) {
-                    filenameInstance = args[3];
-                } else {
-                    throw new Error("Paramètre -inst manquant");
-                }
-
-                if (args[0].equals("-dSol")) {
-                    directorySolution = args[1];
-                } else if (args[2].equals("-dSol")) {
-                    directorySolution = args[3];
-                } else {
-                    throw new Error("Paramètre -dSol manquant");
-                }
-
-
-                TestAllSolveur test = new TestAllSolveur(filenameInstance, directorySolution);
-                test.printAllResultats("results");
-
-            }
-
-            else{
-                throw new Error("Paramètres manquants");
-            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
