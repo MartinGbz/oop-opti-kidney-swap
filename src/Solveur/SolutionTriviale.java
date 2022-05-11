@@ -10,11 +10,11 @@ import java.nio.file.Path;
 
 public class SolutionTriviale implements Solveur {
 
-    private final String name = "Insersion simple";
+    private final String name = "Solution Triviale";
 
     @Override
     public String toString() {
-        return "InsertionSimple{" +
+        return "Solution Triviale{" +
                 "name='" + name + '\'' +
                 '}';
     }

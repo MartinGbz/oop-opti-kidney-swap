@@ -18,7 +18,7 @@ public class MeilleureTransplantation implements Solveur {
 
     @Override
     public String getNom() {
-        return null;
+        return name;
     }
 
     @Override
