@@ -1,9 +1,9 @@
 package Solveur;
 
-import Operateur.InsertionPair;
 import Operateur.ReplacementPair;
 import Solution.Solution;
 import Solution.Sequence;
+import Solveur.meilleureTransplantation.MeilleureTransplantation;
 import instance.Instance;
 import instance.network.Base;
 import instance.network.Pair;
@@ -20,7 +20,7 @@ public class ReplaceTransplantation implements Solveur {
 
     @Override
     public String getNom() {
-        return null;
+        return name;
     }
 
     @Override
@@ -37,8 +37,10 @@ public class ReplaceTransplantation implements Solveur {
             if(insMeilleur.getDeltaCout() < Integer.MAX_VALUE) {
                 s.doReplacement((insMeilleur));
                 copyPair.remove(insMeilleur.getPairToReplace());
+            } else {
+                copyPair.remove(0);
             }
-            copyPair.remove(0);
+
 
             /*
             if(s.doReplacement(insMeilleur)) {
@@ -87,8 +89,8 @@ public class ReplaceTransplantation implements Solveur {
         try {
             //InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
             //InstanceReader reader = new InstanceReader("instances/KEP_p9_n0_k3_l0.txt"); // mettre le nom du fichier
-            InstanceReader reader = new InstanceReader("instances/KEP_p9_n1_k3_l3.txt"); // mettre le nom du fichier
-            //InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt"); // mettre le nom du fichier
+            //InstanceReader reader = new InstanceReader("instances/KEP_p9_n1_k3_l3.txt"); // mettre le nom du fichier
+            InstanceReader reader = new InstanceReader("instances/KEP_p100_n5_k3_l7.txt"); // mettre le nom du fichier
             Instance instance = reader.readInstance();
 
             //MeilleureTransplantation mt = new MeilleureTransplantation(true, true);

@@ -2,6 +2,9 @@ package test;
 
 import Solution.Solution;
 import Solveur.Solveur;
+import Solveur.meilleureTransplantation.MTwithReverseOrder;
+import Solveur.meilleureTransplantation.MTwithSortOrder;
+import Solveur.meilleureTransplantation.MTwithoutSort;
 import instance.Instance;
 import io.InstanceReader;
 import io.SolutionWriter;
@@ -15,7 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import Solveur.SolutionTriviale;
-import Solveur.MeilleureTransplantation;
+import Solveur.meilleureTransplantation.MeilleureTransplantation;
+import Solveur.ReplaceTransplantation;
 
 public class TestAllSolveur{
     /**
@@ -67,7 +71,10 @@ public class TestAllSolveur{
     private void addSolveurs() {
         // TO CHECK : constructeur par defaut de la classe InsertionSimple
         solveurs.add(new SolutionTriviale());
-        solveurs.add(new MeilleureTransplantation());
+        solveurs.add(new MTwithSortOrder()); //trié croissant
+        solveurs.add(new MTwithReverseOrder()); //trié decroissant
+        solveurs.add(new MTwithoutSort()); //pas trié
+        solveurs.add(new ReplaceTransplantation()); //utilise true,true
     }
 
 

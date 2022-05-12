@@ -1,10 +1,9 @@
-package Solveur;
+package Solveur.meilleureTransplantation;
 
 import Operateur.InsertionPair;
 import Solution.Solution;
-import Solution.Sequence;
+import Solveur.Solveur;
 import instance.Instance;
-import instance.network.Altruist;
 import instance.network.Pair;
 import io.InstanceReader;
 import io.SolutionWriter;
