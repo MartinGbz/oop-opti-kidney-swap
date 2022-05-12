@@ -84,12 +84,33 @@ public abstract class Base {
         return idBestCompatibility;
     }
 
-    public int getGainVers(Pair dest) { //pbbb
+    public int getGainVers(Pair dest) {
         int gain = this.transplantations.get(dest).getMedicalGain();
         if(gain != -1)
             return gain;
         else
             return Integer.MAX_VALUE;
+    }
+
+    public int ratioGain() {
+        int ratioTemp, ratio=0, div=0;
+        Transplantation t;
+        if(this == null) return -1;
+        if(!this.asCompatibility()) return -1;
+
+        for(Map.Entry entry : this.transplantations.entrySet()) {
+            t = (Transplantation) entry.getValue();
+            ratioTemp = t.getMedicalGain();
+            if(ratioTemp != -1) {
+                ratio += ratioTemp;
+                div++;
+            }
+        }
+        if(ratio != 0)
+            ratio = ratio / div ;
+        else
+            ratio = -1;
+        return ratio;
     }
 
     @Override

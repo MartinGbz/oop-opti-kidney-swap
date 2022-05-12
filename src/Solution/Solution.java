@@ -1,6 +1,7 @@
 package Solution;
 
 import Operateur.InsertionPair;
+import Operateur.ReplacementPair;
 import instance.Instance;
 import instance.network.Altruist;
 import instance.network.Pair;
@@ -304,15 +305,48 @@ public class Solution {
             }
 
         }
+        return insMeilleur;
+    }
 
-/*
-        for(Sequence cycle : this.cycles) {
-            insActu = cycle.getMeilleureInsertion(pairToInsert);
-            if(insActu.isBest(insMeilleur))
-                insMeilleur = insActu;
+    public ReplacementPair getMeilleureReplacement(Pair pairToReplace) {
+        ReplacementPair insMeilleur = new ReplacementPair();
+        //a FACTORISER D'ICI
+        if(pairToReplace == null) return insMeilleur;
+
+        boolean presence = false;
+        if(this.chains.size() < this.getInstance().getNbAltruists()) {
+            for(Altruist a : this.getInstance().getAltruists()) {
+                for(Chain c : this.getChains()) {
+                    if(c.sequence.contains(a))
+                        presence = true;
+                }
+                if(!presence) {
+                    Chain ch = new Chain(a);
+                    this.getChains().addLast(ch);
+                }
+            }
         }
+        //this.createChainsWithAltruists(this.getInstance());
 
- */
+        LinkedList<Sequence> sequenceChainCycle = new LinkedList<>();
+        for(Sequence chain : this.chains) {
+            sequenceChainCycle.add(chain);
+        }
+        for(Sequence cycle : this.cycles) {
+            sequenceChainCycle.add(cycle);
+        }
+        //A LA (meme bout de code que dans getMeilleurInsertion
+
+        ReplacementPair insActu;
+        for(Sequence seq : sequenceChainCycle) {
+            insActu = seq.getMeilleureReplacement(pairToReplace);
+            if(insActu.isBest(insMeilleur)) {
+                //if( (seq.getSequence().size() < this.getInstance().getMaxSizeChain() && seq.getSequence().getFirst() instanceof Altruist)
+                  //      || (seq.getSequence().size() < this.getInstance().getMaxSizeCycle() && seq.getSequence().getFirst() instanceof Pair))
+                    insMeilleur = insActu;
+            }
+
+        }
         return insMeilleur;
     }
 
@@ -323,6 +357,15 @@ public class Solution {
 
         this.gainMedTotal += infos.getDeltaCout();
         return true;
+    }
+
+    public boolean doReplacement(ReplacementPair infos) {
+        if(infos == null) return false;
+        if(!this.cycles.contains(infos.getProcessedSequence()) && !this.chains.contains(infos.getProcessedSequence())) return false;
+        if(!infos.doMouvementIfRealisable()) return false;
+
+        this.gainMedTotal += infos.getDeltaCout();
+        return false;
     }
 
 

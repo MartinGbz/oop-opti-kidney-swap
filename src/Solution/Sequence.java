@@ -1,6 +1,7 @@
 package Solution;
 
 import Operateur.InsertionPair;
+import Operateur.ReplacementPair;
 import instance.network.Altruist;
 import instance.network.Base;
 import instance.network.Pair;
@@ -19,7 +20,7 @@ public abstract class Sequence {
     public int getGainMedSequence() {
         return gainMedSequence;
     }
-    public LinkedList getSequence() {
+    public LinkedList<Base> getSequence() {
         return sequence;
     }
 
@@ -33,7 +34,7 @@ public abstract class Sequence {
                 '}';
     }
 
-    private boolean isPositionInsertionValide(int position) {
+    private boolean isPositionValideInsertion(int position) {
         int isAltruist = 0;
         if(this.sequence.getFirst() instanceof Altruist)
             isAltruist = 1;
@@ -42,8 +43,67 @@ public abstract class Sequence {
         return true;
     }
 
+    private boolean isPositionValideReplacement(int position) {
+        int isAltruist = 0;
+        if(this.sequence.getFirst() instanceof Altruist)
+            isAltruist = 1;
+        if( position < isAltruist || position >= this.sequence.size())
+            return false;
+        return true;
+    }
+
+    public int deltaCoutReplacement(int position, Pair pairToReplace) {
+        System.out.println("I am HERE");
+        if(!isPositionValideReplacement(position) || pairToReplace == null)
+            return Integer.MAX_VALUE;
+
+        int deltaCout = 0;
+        if(this.sequence.isEmpty()) return Integer.MAX_VALUE;
+
+        Base bCurrent = this.sequence.get(position);
+        Base bPrec;
+        Base bNext;
+
+        if(this.sequence.size()-1 == position) {
+            if(this.sequence.getFirst() instanceof Altruist) // dernière position d'une chaine
+            {
+                bPrec = this.sequence.get(position-1);
+                if(bPrec.isCompatible(pairToReplace)) {
+                    int oldWay = bPrec.getGainVers((Pair)this.sequence.getLast());
+                    int newWay = bPrec.getGainVers(pairToReplace);
+                    deltaCout = newWay - oldWay;
+                    return deltaCout;
+                }
+                return Integer.MAX_VALUE; // si deltaCout > 0 => AMELIORANT
+            }
+            else {
+                //bPrec = this.sequence.get(position-1);
+                //bCurrent = this.sequence.getLast();
+                bNext = this.sequence.getFirst();
+            }
+        } else {
+            //bPrec = this.sequence.get(position-1);
+            //bCurrent = this.sequence.get(position);
+            bNext = this.sequence.get(position+1);
+        }
+
+        if(this.sequence.getFirst() instanceof Pair && position == 0) {
+            bPrec = this.sequence.getLast();
+        } else {
+            bPrec = this.sequence.get(position-1);
+        }
+
+        if(!bPrec.isCompatible(pairToReplace) || !pairToReplace.isCompatible(bNext)) return Integer.MAX_VALUE;
+
+        int oldWay = bPrec.getGainVers((Pair)bCurrent) + bCurrent.getGainVers((Pair)bNext);
+        int newWay = bPrec.getGainVers(pairToReplace) + pairToReplace.getGainVers((Pair)bNext);
+        deltaCout = newWay - oldWay;
+
+        return deltaCout; // si deltaCout > 0 => AMELIORANT
+    }
+
     public int deltaCoutInsertion(int position, Pair pairToAdd) {
-        if(!isPositionInsertionValide(position) || pairToAdd == null)
+        if(!isPositionValideInsertion(position) || pairToAdd == null)
             return Integer.MAX_VALUE;
 
         int deltaCout = 0;
@@ -98,6 +158,20 @@ public abstract class Sequence {
         return insMeilleur;
     }
 
+    public ReplacementPair getMeilleureReplacement(Pair pairToReplace) {
+        ReplacementPair insMeilleur = new ReplacementPair();
+
+        ReplacementPair insPair;
+        for(int position=0 ; position<this.sequence.size()+1 ; position++) {
+            if(position != 0 || !(this.sequence.getFirst() instanceof Altruist) ) {
+                insPair = new ReplacementPair(this, pairToReplace, position);
+                if (insPair.isBest(insMeilleur))
+                    insMeilleur = insPair;
+            }
+        }
+        return insMeilleur;
+    }
+
     public boolean doInsertion(InsertionPair infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
@@ -116,5 +190,25 @@ public abstract class Sequence {
         return true;
     }
 
+    public boolean doReplacement(ReplacementPair infos) {
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false;
+
+        Pair pair = infos.getPairToReplace();
+
+        this.gainMedSequence += infos.getDeltaCout();
+        //this.sequence.remove(infos.getPosition());
+        //this.sequence.add(infos.getPosition(), pair);
+        this.sequence.set(infos.getPosition(), pair);
+
+/*
+        if(!this.check()) {
+            System.out.println("Erreur : doInsertion");
+            System.out.println(infos);
+            System.exit(-1); //termine le programme en cas d'erreur
+        }
+        */
+        return true;
+    }
 
 }
