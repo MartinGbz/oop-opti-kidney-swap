@@ -26,15 +26,23 @@ public class Node {
     public Node(Base data) {
         this.data = data;
         // TODO : verifier ajout possible
-        if(this.parent != null){
-            this.idList = new ArrayList<>(this.parent.idList);
-            this.parent.idList = null;
+//        if(this.parent != null){
+//            this.idList = new ArrayList<>(this.parent.idList);
+//            this.parent.idList = null;
+//        }
+//        this.idList.add(data.getId());
+        if(this.parent == null){
+            this.idList.add(data.getId());
         }
-        this.idList.add(data.getId());
     }
 
     public Node addChild(Node child) {
         child.setParent(this);
+
+        child.idList = new ArrayList<>(this.idList);
+        this.idList = null;
+        child.idList.add(child.data.getId());
+
         this.children.add(child);
         return child;
     }
