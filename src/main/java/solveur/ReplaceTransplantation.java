@@ -30,7 +30,6 @@ public class ReplaceTransplantation implements Solveur {
         LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs());
 
         initCopyPair(s, copyPair);
-
         while(!copyPair.isEmpty()) {
             ReplacementPair insMeilleur;
             insMeilleur = getMeilleurOperateurReplacement(s, copyPair);
@@ -40,21 +39,7 @@ public class ReplaceTransplantation implements Solveur {
             } else {
                 copyPair.remove(0);
             }
-
-
-            /*
-            if(s.doReplacement(insMeilleur)) {
-                copyPair.remove(insMeilleur.getPairToReplace());
-            }
-             */
-            /*
-            else {
-                s.addPairNewCycle(copyPair.getFirst());
-                copyPair.removeFirst();
-            }
-            */
         }
-
         return s;
     }
 
