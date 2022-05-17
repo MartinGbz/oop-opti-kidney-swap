@@ -2,54 +2,57 @@ package Solution;
 
 import instance.Instance;
 import instance.network.Base;
+import instance.network.Pair;
 import io.InstanceReader;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Node {
 
     private Base data = null;
-
     private List<Node> children = new ArrayList<>();
-
     private Node parent = null;
-
-    private int gain = -1;
-
-    private int idSum = -1;
-
+    private int gain = 0;
+    private int sumId;
     private ArrayList<Integer> idList = new ArrayList<Integer>();
 
     public Node(Base data) {
         this.data = data;
-        // TODO : verifier ajout possible
-//        if(this.parent != null){
-//            this.idList = new ArrayList<>(this.parent.idList);
-//            this.parent.idList = null;
-//        }
-//        this.idList.add(data.getId());
-        if(this.parent == null){
-            this.idList.add(data.getId());
+        this.idList.add(data.getId());
+        this.sumId = data.getId();
+    }
+
+    public boolean addChild(Node child, int tailleMax) {
+        Base baseParent = this.data;
+        Base baseChild = child.data;
+
+        if(this.idList.size() >= tailleMax) {
+            System.out.println("taille max atteinte");
+            return false;
         }
-    }
 
-    public Node addChild(Node child) {
+        if(!baseParent.isCompatible(baseChild)) {
+            System.out.println("parent to child non compatible");
+            return false;
+        }
+
         child.setParent(this);
-
         child.idList = new ArrayList<>(this.idList);
-        this.idList = null;
+
+        if(child.idList.contains(child.data.getId())) {
+            System.out.println("child deja preesent dans cette branche");
+            return false;
+        }
+
         child.idList.add(child.data.getId());
-
+        child.sumId += this.sumId;
+        child.gain = this.gain + baseParent.getGainVers((Pair) baseChild);
+        // this.idList = null;
         this.children.add(child);
-        return child;
-    }
 
-    public void addChildren(List<Node> children) {
-        children.forEach(each -> each.setParent(this));
-        this.children.addAll(children);
+        return true;
     }
 
     public List<Node> getChildren() {
@@ -72,9 +75,24 @@ public class Node {
         return parent;
     }
 
-    private static <T> void printTree(Node node, String appender) {
-        System.out.println(appender + node.getData());
+    private static void printTree(Node node, String appender) {
+        System.out.print(appender + node.getData());
+        System.out.println(" - gain : " + node.gain);
         node.getChildren().forEach(each ->  printTree(each, appender + appender));
+    }
+
+    private static void createTree(Node n, Instance i) {
+
+        // TODO : reduire l'instance à taille max et liste des paires
+
+        for (Pair p: i.getPairs()) {
+            n.addChild(new Node(p), i.getMaxSizeChain());
+        }
+        if(n.getChildren().size() != 0) {
+            for(Node nBis : n.getChildren()) {
+                createTree(nBis, i);
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -112,17 +130,19 @@ public class Node {
                     Instance instance = reader.readInstance();
                     System.out.println(instance);
 
-                    Node n1 = new Node(instance.getPairs().get(0));
-                    System.out.println(n1);
-                    n1.addChild(new Node(instance.getPairs().get(1)));
+                    Node n1 = new Node(instance.getAltruists().get(0));
                     System.out.println(n1);
 
-//                    for (Pair p: instance.getPairs()) {
-//
-//                    }
 
-//                    SolutionTriviale is = new SolutionTriviale();
-//                    is.solveBySolutionTriviale(instance, directorySolution);
+                    createTree(n1, instance);
+                    printTree(n1, " ");
+
+                    LinkedList<ValidChain> validChains = new LinkedList<>();
+                    extractChainsFromTree(n1, validChains);
+                    System.out.println(validChains);
+                    System.out.println(getBetterChain(validChains));
+                    System.out.println(validChains);
+
                 } else {
                     throw new Error("Fichier introuvable");
                 }
@@ -134,13 +154,33 @@ public class Node {
         }
     }
 
+    private static ValidChain getBetterChain(LinkedList<ValidChain> validChains) {
+        validChains.sort(new Comparator<>() {
+            @Override
+            public int compare(final ValidChain record1, final ValidChain record2) {
+                return record1.compareTo(record2);
+            }
+        });
+        return validChains.getLast();
+    }
+
+    private static void extractChainsFromTree(Node n, LinkedList<ValidChain> listChain) {
+        if(n.getChildren().isEmpty()) {
+            listChain.add(new ValidChain(n.gain, n.idList));
+            return;
+        }
+        for (Node nBis: n.getChildren()) {
+            extractChainsFromTree(nBis, listChain);
+        }
+    }
+
     @Override
     public String toString() {
         return "Node{" +
                 "data=" + data +
                 ", children=" + children +
                 ", gain=" + gain +
-                ", idSum=" + idSum +
+                ", idSum=" + sumId +
                 ", idList=" + idList +
                 '}';
     }
