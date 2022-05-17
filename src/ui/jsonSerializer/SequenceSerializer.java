@@ -1,8 +1,10 @@
-package solution;
+package ui.jsonSerializer;
 
 import com.google.gson.*;
 import instance.network.Altruist;
 import instance.network.Base;
+import solution.Sequence;
+
 import java.lang.reflect.Type;
 
 public class SequenceSerializer implements JsonSerializer<Sequence> {

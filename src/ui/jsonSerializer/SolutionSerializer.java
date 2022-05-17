@@ -1,6 +1,11 @@
-package solution;
+package ui.jsonSerializer;
 
 import com.google.gson.*;
+import solution.Chain;
+import solution.Cycle;
+import solution.Sequence;
+import solution.Solution;
+
 import java.lang.reflect.Type;
 
 public class SolutionSerializer implements JsonSerializer<Solution> {

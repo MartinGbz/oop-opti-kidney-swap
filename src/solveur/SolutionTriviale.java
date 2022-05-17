@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import instance.*;
 import io.InstanceReader;
 import io.SolutionWriter;
+import test.TestAllSolveur;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -87,7 +88,7 @@ public class SolutionTriviale implements Solveur {
 
                     Gson gson = new GsonBuilder()
                             .enableComplexMapKeySerialization()
-                            .registerTypeAdapter(Instance.class, new InstanceSerializer())
+                            .registerTypeAdapter(Instance.class, new TestAllSolveur.InstanceSerializer())
                             .setPrettyPrinting().create();
 
 

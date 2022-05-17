@@ -1,6 +1,7 @@
-package instance;
+package ui.jsonSerializer;
 
 import com.google.gson.*;
+import instance.Instance;
 import instance.network.Altruist;
 import instance.network.Pair;
 
