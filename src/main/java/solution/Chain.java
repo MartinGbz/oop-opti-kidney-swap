@@ -1,10 +1,8 @@
-package Solution;
+package solution;
 
 import instance.network.Altruist;
 import instance.network.Base;
 import instance.network.Pair;
-
-import java.util.LinkedList;
 
 public class Chain extends Sequence {
 

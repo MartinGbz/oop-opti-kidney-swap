@@ -1,6 +1,8 @@
-package Solveur;
+package solveur;
 
-import Solution.*;
+import solution.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import instance.*;
 import io.InstanceReader;
 import io.SolutionWriter;
@@ -10,11 +12,11 @@ import java.nio.file.Path;
 
 public class SolutionTriviale implements Solveur {
 
-    private final String name = "Insersion simple";
+    private final String name = "Solution Triviale";
 
     @Override
     public String toString() {
-        return "InsertionSimple{" +
+        return "Solution Triviale{" +
                 "name='" + name + '\'' +
                 '}';
     }
@@ -35,12 +37,13 @@ public class SolutionTriviale implements Solveur {
         return s;
     }
 
-    public void solveBySolutionTriviale(Instance instance, String directorySolution) {
+    public Solution solveBySolutionTriviale(Instance instance, String directorySolution) {
         Solution s = this.solve(instance);
         System.out.println(this);
         System.out.println(s);
         System.out.println("Etat du check interne : " + s.check());
         SolutionWriter sw = new SolutionWriter(s, directorySolution);
+        return s;
     }
 
     public static void main(String[] args) {
@@ -81,8 +84,21 @@ public class SolutionTriviale implements Solveur {
                     InstanceReader reader = new InstanceReader(filenameInstance); //mettre le nom du fichier
                     Instance instance = reader.readInstance();
 
+
+                    Gson gson = new GsonBuilder()
+                            .enableComplexMapKeySerialization()
+                            .registerTypeAdapter(Instance.class, new InstanceSerializer())
+                            .setPrettyPrinting().create();
+
+
+
+
+
                     SolutionTriviale is = new SolutionTriviale();
-                    is.solveBySolutionTriviale(instance, directorySolution);
+                    Solution s = is.solveBySolutionTriviale(instance, directorySolution);
+
+                    String result = gson.toJson(instance);
+                    System.out.println(result);
                 }
                 else{
                     throw new Error("Fichier introuvable");

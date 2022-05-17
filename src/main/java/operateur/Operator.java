@@ -1,6 +1,6 @@
-package Operateur;
+package operateur;
 
-import Solution.Sequence;
+import solution.Sequence;
 
 public abstract class Operator {
 
@@ -34,7 +34,7 @@ public abstract class Operator {
     }
 
     public boolean isMouvementRealisable() {
-        if(getDeltaCout() < Integer.MAX_VALUE && getDeltaCout() > Integer.MIN_VALUE)
+        if(getDeltaCout() < Integer.MAX_VALUE && getDeltaCout() > 0) //avant Integer.MIN_VALUE
             return true;
         return false;
     }

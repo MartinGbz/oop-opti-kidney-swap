@@ -1,9 +1,11 @@
 package instance;
 
+import com.google.gson.*;
 import instance.network.Altruist;
 import instance.network.Base;
 import instance.network.Pair;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,13 +110,15 @@ public class Instance {
         return "Instance{" +
                 "name='" + name + '\'' +
                 ", nbPairs=" + nbPairs +
-                ", nbAltruists=" + nbAltruists +
+                ", nbAltruists:" + nbAltruists +
                 ", maxSizeCycle=" + maxSizeCycle +
                 ", maxSizeChain=" + maxSizeChain +
                 ", altruists=" + altruists +
                 ", pairs=" + pairs +
                 '}';
     }
-}
 
+
+
+}
 

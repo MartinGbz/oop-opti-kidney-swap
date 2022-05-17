@@ -1,8 +1,6 @@
-package Solution;
+package solution;
 
 import instance.network.Pair;
-
-import java.util.LinkedList;
 
 public class Cycle extends Sequence {
 

@@ -1,6 +1,6 @@
-package Solveur;
+package solveur;
 
-import Solution.Solution;
+import solution.Solution;
 import instance.Instance;
 
 public interface Solveur {
