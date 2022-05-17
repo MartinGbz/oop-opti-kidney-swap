@@ -1,8 +1,8 @@
 package io;
 
-import Solution.Solution;
+import solution.Solution;
 import instance.Instance;
-import Solution.*;
+import solution.*;
 import instance.network.Base;
 
 import java.io.File;

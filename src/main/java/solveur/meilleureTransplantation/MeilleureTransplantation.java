@@ -1,8 +1,8 @@
-package Solveur.meilleureTransplantation;
+package solveur.meilleureTransplantation;
 
-import Operateur.InsertionPair;
-import Solution.Solution;
-import Solveur.Solveur;
+import operateur.InsertionPair;
+import solution.Solution;
+import solveur.Solveur;
 import instance.Instance;
 import instance.network.Pair;
 import io.InstanceReader;

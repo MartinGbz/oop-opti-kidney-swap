@@ -1,6 +1,6 @@
-package Operateur;
+package operateur;
 
-import Solution.Sequence;
+import solution.Sequence;
 
 public abstract class Operator {
 

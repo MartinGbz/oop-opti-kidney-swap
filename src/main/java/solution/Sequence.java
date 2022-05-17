@@ -1,7 +1,7 @@
-package Solution;
+package solution;
 
-import Operateur.InsertionPair;
-import Operateur.ReplacementPair;
+import operateur.InsertionPair;
+import operateur.ReplacementPair;
 import instance.network.Altruist;
 import instance.network.Base;
 import instance.network.Pair;

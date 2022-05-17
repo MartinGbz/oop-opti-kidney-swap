@@ -1,9 +1,9 @@
-package Solveur;
+package solveur;
 
-import Operateur.ReplacementPair;
-import Solution.Solution;
-import Solution.Sequence;
-import Solveur.meilleureTransplantation.MeilleureTransplantation;
+import operateur.ReplacementPair;
+import solution.Solution;
+import solution.Sequence;
+import solveur.meilleureTransplantation.MeilleureTransplantation;
 import instance.Instance;
 import instance.network.Base;
 import instance.network.Pair;

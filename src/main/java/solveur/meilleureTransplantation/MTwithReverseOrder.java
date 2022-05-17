@@ -1,7 +1,7 @@
-package Solveur.meilleureTransplantation;
+package solveur.meilleureTransplantation;
 
-import Solution.Solution;
-import Solveur.Solveur;
+import solution.Solution;
+import solveur.Solveur;
 import instance.Instance;
 
 public class MTwithReverseOrder implements Solveur {

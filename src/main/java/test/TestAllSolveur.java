@@ -1,25 +1,29 @@
 package test;
 
-import Solution.Solution;
-import Solveur.Solveur;
-import Solveur.meilleureTransplantation.MTwithReverseOrder;
-import Solveur.meilleureTransplantation.MTwithSortOrder;
-import Solveur.meilleureTransplantation.MTwithoutSort;
+import solution.Solution;
+import solveur.Solveur;
+import solution.Sequence;
+import solveur.meilleureTransplantation.MTwithReverseOrder;
+import solveur.meilleureTransplantation.MTwithSortOrder;
+import solveur.meilleureTransplantation.MTwithoutSort;
+import com.google.gson.*;
 import instance.Instance;
+import instance.InstanceSerializer;
+import solution.SolutionSerializer;
+import solution.SequenceSerializer;
 import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+
+import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import Solveur.SolutionTriviale;
-import Solveur.meilleureTransplantation.MeilleureTransplantation;
-import Solveur.ReplaceTransplantation;
+import solveur.SolutionTriviale;
+import solveur.ReplaceTransplantation;
 
 public class TestAllSolveur{
     /**
@@ -157,9 +161,11 @@ public class TestAllSolveur{
      * @param ecriture le writer sur lequel on fait l'ecriture
      * @param inst l'instane pour laquelle on ecrit les resultats
      */
-    private void printResultatsInstance(PrintWriter ecriture, Instance inst) {
+    private JsonElement printResultatsInstance(PrintWriter ecriture, Instance inst) {
 
         Solution best = new Solution(inst);
+        Solveur bestSolveur= null;
+        JsonElement resultatJson =null;
 
         // TO CHECK : recuperer le nom de l'instance
         String nomInst = inst.getName();
@@ -174,6 +180,7 @@ public class TestAllSolveur{
 
             if(sol.getGainMedTotal()>=best.getGainMedTotal() && sol.check()){
                 best = sol;
+                bestSolveur=solveur;
             }
 
             // TO CHECK : recperer le cout total de la solution, et savoir si
@@ -189,7 +196,31 @@ public class TestAllSolveur{
 
         if(best.getGainMedTotal()>0) {
             SolutionWriter sw = new SolutionWriter(best, directorySolution);
+
+
+            Gson gson = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                    .enableComplexMapKeySerialization()
+                    .setPrettyPrinting()
+                    .registerTypeAdapter(Instance.class, new InstanceSerializer())
+                    .registerTypeAdapter(Solution.class, new SolutionSerializer())
+                    .registerTypeAdapter(Sequence.class, new SequenceSerializer())
+                    .create();
+
+
+            JsonObject jObj = new JsonObject();
+
+
+            JsonObject jObject = new JsonObject();
+            JsonObject jObjectProperties = new JsonObject();
+            jObjectProperties.addProperty("name", bestSolveur.getNom());
+            jObject.add("algorithm", jObjectProperties);
+            jObject.add("instance", gson.toJsonTree(inst));
+            jObject.add("solution", gson.toJsonTree(best));
+
+            resultatJson = gson.toJsonTree(jObject);
         }
+        return resultatJson;
 
     }
 
@@ -216,15 +247,43 @@ public class TestAllSolveur{
      * @param nomFichierResultats nom du fichier de resultats
      */
     public void printAllResultats(String nomFichierResultats) {
+
+        JsonElement jsonElement = null;
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                .enableComplexMapKeySerialization()
+                .setPrettyPrinting()
+                .registerTypeAdapter(Instance.class, new InstanceSerializer())
+                .registerTypeAdapter(Solution.class, new SolutionSerializer())
+                .registerTypeAdapter(Sequence.class, new SequenceSerializer())
+                .create();
+
         PrintWriter ecriture = null;
+        FileWriter ecritureJson = null;
         try {
             ecriture = new PrintWriter(nomFichierResultats+".csv");
+            ecritureJson = new FileWriter(nomFichierResultats+".json");
             printEnTetes(ecriture);
+            JsonArray jsonArray = new JsonArray();
             for(Instance inst : instances) {
-                printResultatsInstance(ecriture, inst);
+               jsonArray.add(printResultatsInstance(ecriture, inst));
             }
+            JsonObject jObject = new JsonObject();
+            jObject.add("results",jsonArray);
+
+            JsonElement jElement = gson.toJsonTree(jObject);
+            ecritureJson.write(jElement.toString());
+            ecritureJson.flush();
+
+
             ecriture.println();
             printSommeResultats(ecriture);
+
+            Desktop desk= Desktop.getDesktop();
+            String url="./";
+            File htmlFile = new File(url);
+            Desktop.getDesktop().browse(htmlFile.toURI());
+
         } catch (IOException ex) {
             System.out.println("Erreur fichier ecriture");
             System.out.println(ex);
@@ -398,6 +457,7 @@ public class TestAllSolveur{
             String filenameInstance;
             String directorySolution;
 
+
             String [] result;
             result=checkParams(args);
             filenameInstance=result[0];
@@ -406,7 +466,8 @@ public class TestAllSolveur{
             TestAllSolveur test = new TestAllSolveur(filenameInstance, directorySolution);
             test.printAllResultats("results");
 
-        } catch (Exception ex) {
+
+    } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }

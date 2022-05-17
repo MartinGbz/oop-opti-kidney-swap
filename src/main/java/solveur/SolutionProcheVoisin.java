@@ -1,6 +1,6 @@
-package Solveur;
+package solveur;
 
-import Solution.Solution;
+import solution.Solution;
 import instance.Instance;
 import io.InstanceReader;
 import io.exception.ReaderException;

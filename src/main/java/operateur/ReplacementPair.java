@@ -1,6 +1,6 @@
-package Operateur;
+package operateur;
 
-import Solution.Sequence;
+import solution.Sequence;
 import instance.network.Pair;
 
 public class ReplacementPair extends Operator {

@@ -1,7 +1,7 @@
-package Solution;
+package solution;
 
-import Operateur.InsertionPair;
-import Operateur.ReplacementPair;
+import operateur.InsertionPair;
+import operateur.ReplacementPair;
 import instance.Instance;
 import instance.network.Altruist;
 import instance.network.Pair;
@@ -10,7 +10,6 @@ import io.SolutionWriter;
 import io.exception.ReaderException;
 
 import java.util.LinkedList;
-import java.util.Map;
 
 public class Solution {
 
@@ -419,4 +418,3 @@ public class Solution {
     }
 
 }
-
