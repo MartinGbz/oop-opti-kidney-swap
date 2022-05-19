@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Objects;
 import solveur.SolutionTriviale;
 import solveur.ReplaceTransplantation;
+import ui.JsonGenerator;
+import ui.jsonSerializer.InstanceSerializer;
 import ui.jsonSerializer.SequenceSerializer;
 import ui.jsonSerializer.SolutionSerializer;
 
@@ -195,35 +197,14 @@ public class TestAllSolveur{
         }
         ecriture.println();
 
-
+        /* Production du fichier solution et sa trame json associée pour le solveur ayant le plus gros gain*/
         if(best.getGainMedTotal()>0) {
             SolutionWriter sw = new SolutionWriter(best, directorySolution);
 
-
-            Gson gson = new GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                    .enableComplexMapKeySerialization()
-                    .setPrettyPrinting()
-                    .registerTypeAdapter(Instance.class, new InstanceSerializer())
-                    .registerTypeAdapter(Solution.class, new SolutionSerializer())
-                    .registerTypeAdapter(Sequence.class, new SequenceSerializer())
-                    .create();
-
-
-            JsonObject jObj = new JsonObject();
-
-
-            JsonObject jObject = new JsonObject();
-            JsonObject jObjectProperties = new JsonObject();
-            jObjectProperties.addProperty("name", bestSolveur.getNom());
-            jObject.add("algorithm", jObjectProperties);
-            jObject.add("instance", gson.toJsonTree(inst));
-            jObject.add("solution", gson.toJsonTree(best));
-
-            resultatJson = gson.toJsonTree(jObject);
+            JsonGenerator gson = new JsonGenerator();
+            resultatJson = gson.generateSolutionForInstance(best, inst, bestSolveur);
         }
         return resultatJson;
-
     }
 
     /**
@@ -250,15 +231,11 @@ public class TestAllSolveur{
      */
     public void printAllResultats(String nomFichierResultats) {
 
-        JsonElement jsonElement = null;
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .enableComplexMapKeySerialization()
-                .setPrettyPrinting()
-                .registerTypeAdapter(Instance.class, new InstanceSerializer())
-                .registerTypeAdapter(Solution.class, new SolutionSerializer())
-                .registerTypeAdapter(Sequence.class, new SequenceSerializer())
-                .create();
+
+        JsonGenerator gson =  new JsonGenerator();
+        JsonObject jObject = new JsonObject();
+        JsonArray jsonArray = new JsonArray();
+
 
         PrintWriter ecriture = null;
         FileWriter ecritureJson = null;
@@ -266,14 +243,15 @@ public class TestAllSolveur{
             ecriture = new PrintWriter(nomFichierResultats+".csv");
             ecritureJson = new FileWriter(nomFichierResultats+".json");
             printEnTetes(ecriture);
-            JsonArray jsonArray = new JsonArray();
+
+
             for(Instance inst : instances) {
                jsonArray.add(printResultatsInstance(ecriture, inst));
             }
-            JsonObject jObject = new JsonObject();
+
             jObject.add("results",jsonArray);
 
-            JsonElement jElement = gson.toJsonTree(jObject);
+            JsonElement jElement = gson.gson.toJsonTree(jObject);
             ecritureJson.write(jElement.toString());
             ecritureJson.flush();
 
@@ -459,7 +437,6 @@ public class TestAllSolveur{
             String filenameInstance;
             String directorySolution;
 
-
             String [] result;
             result=checkParams(args);
             filenameInstance=result[0];
@@ -468,50 +445,11 @@ public class TestAllSolveur{
             TestAllSolveur test = new TestAllSolveur(filenameInstance, directorySolution);
             test.printAllResultats("results");
 
-
     } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
 
-    public static class InstanceSerializer implements JsonSerializer<Instance> {
-        @Override
-        public JsonElement serialize(Instance instance, Type type, JsonSerializationContext jsonSerializationContext) {
-            JsonElement resultat = null;
 
-            if (instance == null) {
-                resultat = JsonNull.INSTANCE;
-            } else {
-
-                JsonObject jObjectInstance = new JsonObject();
-                JsonObject jObjectProperties = new JsonObject();
-                JsonArray listAltruists = new JsonArray();
-                JsonArray listPairs = new JsonArray();
-
-                for(Altruist altruist : instance.getAltruists()){
-                    JsonObject jObjectAltruist = new JsonObject();
-                    jObjectAltruist.addProperty("id", altruist.getId());
-                    listAltruists.add(jObjectAltruist);
-                }
-                for(Pair pair : instance.getPairs()){
-                    JsonObject jObjectPair= new JsonObject();
-                    jObjectPair.addProperty("id", pair.getId());
-                    listPairs.add(jObjectPair);
-                }
-
-                jObjectInstance.addProperty("name", instance.getName());
-                jObjectProperties.addProperty("nbPairs", instance.getNbPairs());
-                jObjectProperties.addProperty("maxSizeCycle", instance.getMaxSizeCycle());
-                jObjectProperties.addProperty("maxSizeChain", instance.getMaxSizeChain());
-                jObjectInstance.add("properties", jObjectProperties);
-
-                jObjectInstance.add("altruists", listAltruists);
-                jObjectInstance.add("pairs", listPairs);
-
-                resultat = jObjectInstance;
-            }
-            return resultat;
-        }
-    }
 }
 

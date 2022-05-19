@@ -1,12 +1,10 @@
 package solveur;
 
 import solution.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import instance.*;
 import io.InstanceReader;
 import io.SolutionWriter;
-import test.TestAllSolveur;
+
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -85,21 +83,8 @@ public class SolutionTriviale implements Solveur {
                     InstanceReader reader = new InstanceReader(filenameInstance); //mettre le nom du fichier
                     Instance instance = reader.readInstance();
 
-
-                    Gson gson = new GsonBuilder()
-                            .enableComplexMapKeySerialization()
-                            .registerTypeAdapter(Instance.class, new TestAllSolveur.InstanceSerializer())
-                            .setPrettyPrinting().create();
-
-
-
-
-
                     SolutionTriviale is = new SolutionTriviale();
                     Solution s = is.solveBySolutionTriviale(instance, directorySolution);
-
-                    String result = gson.toJson(instance);
-                    System.out.println(result);
                 }
                 else{
                     throw new Error("Fichier introuvable");
