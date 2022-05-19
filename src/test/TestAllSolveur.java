@@ -260,7 +260,7 @@ public class TestAllSolveur{
             printSommeResultats(ecriture);
 
             Desktop desk= Desktop.getDesktop();
-            String url="./";
+            String url="src/ui/webapp/index.html";
             File htmlFile = new File(url);
             Desktop.getDesktop().browse(htmlFile.toURI());
 
