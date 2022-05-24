@@ -117,8 +117,5 @@ public class Instance {
                 ", pairs=" + pairs +
                 '}';
     }
-
-
-
 }
 
