@@ -1,5 +1,6 @@
 package solution;
 
+import instance.network.Base;
 import instance.network.Pair;
 
 public class Cycle extends Sequence {
@@ -8,6 +9,9 @@ public class Cycle extends Sequence {
         super();
     }
 
+    public Cycle(Cycle c) {
+        super(c.sequence,c.gainMedSequence);
+    }
     /**
      * Ajoute une paire dans un cycle (si le cycle en cours n'est pas vide = ajout si compatible,
      * sinon le cycle est vide, ajout dans un nouveau cycle)
@@ -38,10 +42,86 @@ public class Cycle extends Sequence {
         return true;
     }
 
+    public boolean addPairToInvalideCycle(Pair pairToAdd) {
+        if(pairToAdd == null) return false;
+        if(!pairToAdd.asCompatibility()) return false;
+        int delta;
+        if(!this.sequence.isEmpty()) {
+            Pair pLast = (Pair) this.sequence.getLast();
+            if(!pLast.isCompatible(pairToAdd)) return false;
+            delta = pLast.getGainVers(pairToAdd);
+            this.gainMedSequence += delta;
+        }
+        this.sequence.addLast(pairToAdd);
+        return true;
+    }
+
+    public boolean standardisation(int maxSizeCycle) {
+        int posBegin, posEnd = maxSizeCycle-1;
+        int sizeCycle = this.sequence.size(), sizeValideCycle=maxSizeCycle;
+        Cycle c = new Cycle(this);
+        Cycle cSol = new Cycle();
+        Base bBegin, bEnd;
+
+        while(sizeValideCycle != 1) {
+            for(posBegin=0 ; posBegin < sizeCycle ; posBegin++) {
+                if(posEnd == sizeCycle) posEnd=0;
+
+                bBegin = c.sequence.get(posBegin);
+                bEnd = c.sequence.get(posEnd);
+
+                if(bEnd.isCompatible(bBegin)) {
+                    Cycle cBis = new Cycle(c);
+                    int posBefore, posAfter;
+                    if(posBegin < posEnd) {
+                        posBefore = posBegin;
+                        posAfter = posEnd;
+                    } else {
+                        posBefore = posEnd;
+                        posAfter = posBegin;
+                    }
+                    if(posAfter != sizeCycle-1)
+                        for(int i=sizeCycle-1 ; i > posAfter ; i--)
+                            cBis.sequence.remove(i);
+                    if(posBefore !=0)
+                        for(int i=0 ; i < posBefore ; i++)
+                            cBis.sequence.removeFirst();
+
+                    if(cSol.calculGainMed() < cBis.calculGainMed()) {
+                        cSol = cBis;
+                        cSol.gainMedSequence = cBis.calculGainMed();
+                    }
+                }
+                posEnd++;
+            }
+            sizeValideCycle--;
+        }
+        if(cSol.gainMedSequence != 0 && cSol.gainMedSequence < Integer.MAX_VALUE) {
+            this.sequence = cSol.sequence;
+            this.gainMedSequence = cSol.gainMedSequence;
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public int calculGainMed() {
-        return 0;
+        if(this.sequence.size() < 2) return 0;
+
+        int gainMed=0;
+        Pair pCurrent, pNext;
+
+        int posCurrent=0, posNext=1;
+        for(posCurrent=0 ; posCurrent < this.sequence.size() ; posCurrent++) {
+            if(posNext == this.sequence.size()) {
+                posNext = 0;
+            }
+            pCurrent = (Pair) this.sequence.get(posCurrent);
+            pNext = (Pair) this.sequence.get(posNext);
+            gainMed += pCurrent.getGainVers(pNext);
+            posNext++;
+        }
+        return gainMed;
     }
 
     public boolean check(int maxSize) {

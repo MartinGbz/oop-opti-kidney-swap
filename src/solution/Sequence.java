@@ -1,5 +1,6 @@
 package solution;
 
+import operateur.CycleNotValide;
 import operateur.InsertionPair;
 import operateur.ReplacementPair;
 import instance.network.Altruist;
@@ -15,6 +16,11 @@ public abstract class Sequence {
     public Sequence() {
         this.gainMedSequence = 0;
         this.sequence = new LinkedList<>();
+    }
+
+    public Sequence(LinkedList<Base> seq, int gainMed) {
+        this.gainMedSequence = gainMed;
+        this.sequence = new LinkedList<>(seq);
     }
 
     public int getGainMedSequence() {
@@ -144,6 +150,18 @@ public abstract class Sequence {
         return deltaCout;
     }
 
+    public int deltaCoutInsertionInvalideCycle(Pair pairToInsert) {
+        if(this.sequence.isEmpty()) return Integer.MAX_VALUE;
+
+        int deltaCout = 0;
+        Base bPrec = this.sequence.getLast();
+
+        if(!bPrec.isCompatible(pairToInsert)) return Integer.MAX_VALUE;
+
+        deltaCout = bPrec.getGainVers(pairToInsert);
+        return deltaCout;
+    }
+
     public InsertionPair getMeilleureInsertion(Pair pairToInsert) {
         InsertionPair insMeilleur = new InsertionPair();
 
@@ -172,6 +190,10 @@ public abstract class Sequence {
         return insMeilleur;
     }
 
+    public CycleNotValide getMeilleurCycleNotValide(Pair pairToInsert) {
+        return new CycleNotValide(this, pairToInsert);
+    }
+
     public boolean doInsertion(InsertionPair infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
@@ -187,6 +209,17 @@ public abstract class Sequence {
             System.exit(-1); //termine le programme en cas d'erreur
         }
         */
+        return true;
+    }
+
+    public boolean doInsertionEnd(CycleNotValide infos) {
+        if(infos == null) return false;
+        if(!infos.isMouvementRealisable()) return false;
+
+        Pair pair = infos.getPairToAdd();
+
+        this.gainMedSequence += infos.getDeltaCout();
+        this.sequence.addLast(pair);
         return true;
     }
 

@@ -1,5 +1,6 @@
 package solution;
 
+import operateur.CycleNotValide;
 import operateur.InsertionPair;
 import operateur.ReplacementPair;
 import instance.Instance;
@@ -23,6 +24,13 @@ public class Solution {
         this.instance = instance;
         this.cycles = new LinkedList<>();
         this.chains = new LinkedList<>();
+    }
+
+    public Solution(Solution s) {
+        this.gainMedTotal = s.getGainMedTotal();
+        this.instance = s.getInstance();
+        this.cycles = new LinkedList<>(s.getCycles());
+        this.chains = new LinkedList<>(s.getChains());
     }
 
     public Instance getInstance() {
@@ -211,7 +219,8 @@ public class Solution {
         LinkedList<Cycle> copyCycle = new LinkedList<>(this.cycles);
         LinkedList<Chain> copyChain = new LinkedList<>(this.chains);
         for(Cycle cycle : copyCycle) {
-            if(cycle.getSequence().size() < 2)
+            if(cycle.getSequence().size() < 2 || cycle.getSequence().size() > this.getInstance().getMaxSizeCycle() ||
+                    !cycle.getSequence().getLast().isCompatible(cycle.getSequence().getFirst()))
                 this.cycles.remove(cycle);
         }
         for(Chain chain : copyChain) {
@@ -349,6 +358,20 @@ public class Solution {
         return insMeilleur;
     }
 
+    public CycleNotValide getMeilleurCycleNotValide(Pair pairToInsert) {
+        CycleNotValide meilleurCycleNotValide = new CycleNotValide();
+        if(pairToInsert == null) return meilleurCycleNotValide;
+
+        CycleNotValide actuelCycleNotValide;
+        for(Sequence cycle : this.cycles) {
+            actuelCycleNotValide = cycle.getMeilleurCycleNotValide(pairToInsert);
+            if(actuelCycleNotValide.isBest(meilleurCycleNotValide)) {
+                meilleurCycleNotValide = actuelCycleNotValide;
+            }
+        }
+        return meilleurCycleNotValide;
+    }
+
     public boolean doInsertion(InsertionPair infos) {
         if(infos == null) return false;
         if(!this.cycles.contains(infos.getProcessedSequence()) && !this.chains.contains(infos.getProcessedSequence())) return false;
@@ -365,6 +388,15 @@ public class Solution {
 
         this.gainMedTotal += infos.getDeltaCout();
         return false;
+    }
+
+    public boolean doAddLast(CycleNotValide infos) {
+        if(infos == null) return false;
+        if(!this.cycles.contains(infos.getProcessedSequence())) return false;
+        if(!infos.doMouvementIfRealisable()) return false;
+
+        //this.gainMedTotal += infos.getDeltaCout();
+        return true;
     }
 
 
