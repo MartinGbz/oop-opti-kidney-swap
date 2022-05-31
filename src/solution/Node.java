@@ -113,7 +113,7 @@ public class Node {
         }
     }
 
-    private static LinkedList<ValidChain> getComboChains(LinkedList<ValidChain> chains1, LinkedList<ValidChain> chains2) {
+    private static LinkedList<ValidChain> getBestComboBetweenListChains(LinkedList<ValidChain> chains1, LinkedList<ValidChain> chains2) {
         int gainTot = 0;
 
         // triage des listes de chaines
@@ -129,13 +129,6 @@ public class Node {
         else {
             chainChoisie1 = chains2.get(0);
         }
-
-        System.out.println("\n-- debut fct -- ");
-        // System.out.println(chains1);
-        // System.out.println(chains2);
-
-        System.out.println("\n-- début boucles");
-
         for(ValidChain v1 : chains1) {
             for(ValidChain v2 : chains2) {
                 if(v1.canBeCombined(v2)) {
@@ -148,102 +141,130 @@ public class Node {
                 }
             }
         }
-
         LinkedList<ValidChain> liste = new LinkedList<>();
         liste.add(chainChoisie1);
         if(chainChoisie2.getGain() != 0) liste.add(chainChoisie2);
         return liste;
     }
 
+    /**
+     * Pour l'instant : retourne le meilleur combo avec les deux premiers altruists
+     * @param altruists
+     * @param listChainsByAltruit
+     * @return
+     */
+    private static LinkedList<ValidChain> getBestCombo(ArrayList<Altruist> altruists, LinkedList<LinkedList<ValidChain>> listChainsByAltruit) {
+        // int gainTot = 0;
+        LinkedList<ValidChain> liste = new LinkedList<>();
+
+        if(altruists.size()>1) {
+            liste = getBestComboBetweenListChains(listChainsByAltruit.get(0), listChainsByAltruit.get(1));
+        }
+        else if(altruists.size()==1) {
+            liste.add(listChainsByAltruit.get(0).getFirst());
+        }
+
+        return liste;
+    }
+
+    private static LinkedList<LinkedList<ValidChain>> getAllValidChainsFromTrees(ArrayList<Altruist> altruists, ArrayList<Pair> pairsValid, int maxDepth) {
+        LinkedList<LinkedList<ValidChain>> listChainsByAltruit = new LinkedList<>();
+        LinkedList<ValidChain> validChains;
+        for(Altruist a : altruists) {
+            Node n1 = new Node(a);
+            createTree(n1, maxDepth, pairsValid);
+            validChains = new LinkedList<>();
+            extractChainsFromTree(n1, validChains);
+            sortChain(validChains, "DESC");
+            listChainsByAltruit.add(validChains);
+        }
+        return listChainsByAltruit;
+    }
+
+    private static void testBasicCreationTree(Instance instance, int maxSize) {
+        Node n1 = new Node(instance.getAltruists().get(0));
+        Node n2 = new Node(instance.getAltruists().get(1));
+
+        System.out.println(n1);
+
+        System.out.println("\n ------------ ARBRE... ");
+        createTree(n1, maxSize, instance.getPairs());
+        createTree(n2, maxSize, instance.getPairs());
+
+        System.out.println("\n ------------ CHAINES VALIDES... ");
+        LinkedList<ValidChain> validChains1 = new LinkedList<>();
+        extractChainsFromTree(n1, validChains1);
+        System.out.println("validChains1.size() : " + validChains1.size());
+        sortChain(validChains1, "DESC");
+        System.out.println(validChains1.get(0));
+
+        LinkedList<ValidChain> validChains2 = new LinkedList<>();
+        extractChainsFromTree(n2, validChains2);
+        System.out.println("validChains2.size() : " + validChains2.size());
+        sortChain(validChains2, "DESC");
+        System.out.println(validChains2.get(0));
+
+        System.out.println("\n ------------ COMBO CHAINES... ");
+        System.out.println(validChains1.get(0).canBeCombined(validChains1.get(1)));
+        System.out.println(getBestComboBetweenListChains(validChains1, validChains2));
+    }
+
+    private static void testGetAllValidChainWithTree(Instance instance, int maxSize) {
+        long lStartTime, lEndTime, output;
+        LinkedList<ValidChain> validChains;
+        ArrayList<Long> times = new ArrayList<>();
+        ArrayList<Integer> maxGains = new ArrayList<>();
+        ArrayList<Integer> sizes = new ArrayList<>();
+        Long totalTime = 0L;
+        int totalGain = 0, totalSize = 0;
+
+        for(Altruist a : instance.getAltruists()) {
+            lStartTime = System.nanoTime();
+            Node n1 = new Node(a);
+            createTree(n1, maxSize, instance.getPairs());
+            validChains = new LinkedList<>();
+            extractChainsFromTree(n1, validChains);
+            sizes.add(validChains.size());
+            totalSize += validChains.size();
+            sortChain(validChains, "DESC");
+            maxGains.add(validChains.get(0).getGain());
+            totalGain += validChains.get(0).getGain();
+            lEndTime = System.nanoTime();
+            output = (lEndTime - lStartTime) / 1000000; // en ms
+            times.add(output);
+            totalTime += output;
+        }
+
+        System.out.println("\n");
+        System.out.println(instance.getName());
+        System.out.println("MAX SIZE: " + maxSize);
+        System.out.println("-- Size --");
+        System.out.println(sizes);
+        System.out.println("Moyenne: " + totalSize / instance.getNbAltruists());
+        System.out.println("-- Max Gain --");
+        System.out.println(maxGains);
+        System.out.println("Moyenne: " + totalGain / instance.getNbAltruists());
+        System.out.println("-- Temps --");
+        System.out.println(times);
+        System.out.println("Total : " + totalTime);
+    }
+
     public static void main(String[] args) {
         try {
-
-            // args
-            // -inst instances/KEP_p9_n1_k3_l3.txt -dSol testSolution
-
             InstanceReader reader = new InstanceReader("instances/KEP_p100_n5_k3_l13.txt");
             Instance instance = reader.readInstance();
             System.out.println(instance);
 
-            // int maxSize = instance.getMaxSizeChain();
-            int maxSize = 11;
-            long lStartTime, lEndTime, output;
-            LinkedList<ValidChain> validChains;
-            ArrayList<Long> times = new ArrayList<>();
-            ArrayList<Integer> maxGains = new ArrayList<>();
-            ArrayList<Integer> sizes = new ArrayList<>();
-            Long totalTime = 0L;
-            int totalGain = 0, totalSize = 0;
+            // testBasicCreationTree(instance, 8);
+            // testGetAllValidChainWithTree(instance, 10);
 
-            for(Altruist a : instance.getAltruists()) {
-                lStartTime = System.nanoTime();
-                // System.out.println("\n--- Altruist id : " + a.getId());
-                Node n1 = new Node(a);
-                createTree(n1, maxSize, instance.getPairs());
-                validChains = new LinkedList<>();
-                extractChainsFromTree(n1, validChains);
-                // System.out.println("size: " + validChains.size());
-                sizes.add(validChains.size());
-                totalSize += validChains.size();
-                sortChain(validChains, "DESC");
-                // System.out.println("gain max: " + validChains.get(0).getGain());
-                maxGains.add(validChains.get(0).getGain());
-                totalGain += validChains.get(0).getGain();
-                lEndTime = System.nanoTime();
-                output = lEndTime - lStartTime;
-                // System.out.println("elapsed time in milliseconds: " + output / 1000000);
-                times.add(output / 1000000);
-                totalTime += output / 1000000;
-            }
+            int maxDepth = 8;
+            LinkedList<LinkedList<ValidChain>> listChainsByAltruit = getAllValidChainsFromTrees(instance.getAltruists(), instance.getPairs(), maxDepth);
 
-            System.out.println("\n");
-            System.out.println(instance.getName());
-            System.out.println("MAX SIZE: " + maxSize);
-            System.out.println("-- Size --");
-            System.out.println(sizes);
-            System.out.println("Moyenne: " + totalSize / instance.getNbAltruists());
-            System.out.println("-- Max Gain --");
-            System.out.println(maxGains);
-            System.out.println("Moyenne: " + totalGain / instance.getNbAltruists());
-            System.out.println("-- Temps --");
-            System.out.println(times);
-            System.out.println("Total : " + totalTime);
+            // System.out.println(getBestComboBetweenListChains(listChainsByAltruit.get(0), listChainsByAltruit.get(1)));
 
-            /*
-            Node n1 = new Node(instance.getAltruists().get(0));
-            Node n2 = new Node(instance.getAltruists().get(1));
+            System.out.println(getBestCombo(instance.getAltruists(), listChainsByAltruit));
 
-            System.out.println(n1);
-
-            System.out.println("\n ------------ ARBRE... ");
-            // createTree(n1, instance.getMaxSizeChain(), instance.getPairs());
-            // createTree(n2, instance.getMaxSizeChain(), instance.getPairs());
-            createTree(n1, 7, instance.getPairs());
-            createTree(n2, 7, instance.getPairs());
-
-            // printTree(n1, " ");
-
-            System.out.println("\n ------------ CHAINES VALIDES... ");
-
-            LinkedList<ValidChain> validChains1 = new LinkedList<>();
-            extractChainsFromTree(n1, validChains1);
-            System.out.println("validChains1.size() : " + validChains1.size());
-            sortChain(validChains1, "DESC");
-            System.out.println(validChains1.get(0));
-
-            LinkedList<ValidChain> validChains2 = new LinkedList<>();
-            extractChainsFromTree(n2, validChains2);
-            System.out.println("validChains2.size() : " + validChains2.size());
-            sortChain(validChains2, "DESC");
-            System.out.println(validChains2.get(0));
-
-
-            System.out.println("\n ------------ COMBO CHAINES... ");
-
-            // System.out.println(validChains1.get(0).canBeCombined(validChains1.get(1)));
-
-            // System.out.println(getComboChains(validChains1, validChains2));
-            */
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
