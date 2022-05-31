@@ -69,7 +69,7 @@ public class DangerousCycle implements Solveur {
     private void traitment(Solution s, LinkedList<Pair> copyPair) {
         CycleNotValide insMeilleur;
         insMeilleur = getMeilleurCycleNotValide(s, copyPair);
-        System.out.println("insMeilleur <" + insMeilleur + ">\n");
+        //System.out.println("insMeilleur <" + insMeilleur + ">\n");
 
         if(s.doAddLast(insMeilleur)) {
             copyPair.remove(insMeilleur.getPairToAdd());
