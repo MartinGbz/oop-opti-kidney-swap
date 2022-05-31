@@ -241,7 +241,7 @@ public class TestAllSolveur{
         FileWriter ecritureJson = null;
         try {
             ecriture = new PrintWriter(nomFichierResultats+".csv");
-            ecritureJson = new FileWriter(nomFichierResultats+".json");
+            ecritureJson = new FileWriter("./webapp/"+nomFichierResultats+".json");
             printEnTetes(ecriture);
 
 
@@ -259,10 +259,10 @@ public class TestAllSolveur{
             ecriture.println();
             printSommeResultats(ecriture);
 
-            Desktop desk= Desktop.getDesktop();
+            /*Desktop desk= Desktop.getDesktop();
             String url="src/ui/webapp/index.html";
             File htmlFile = new File(url);
-            Desktop.getDesktop().browse(htmlFile.toURI());
+            Desktop.getDesktop().browse(htmlFile.toURI());*/
 
         } catch (IOException ex) {
             System.out.println("Erreur fichier ecriture");
