@@ -28,7 +28,7 @@ public class CyclesAndTree implements Solveur {
         DangerousCycle dc = new DangerousCycle();
         Solution s = dc.solve(i);
 
-        LinkedList<Altruist> altruitToChain = new LinkedList<>(s.getInstance().getAltruists());
+        ArrayList<Altruist> altruitToChain = new ArrayList<>(s.getInstance().getAltruists());
         int maxSizeChain = s.getInstance().getMaxSizeChain();
         ArrayList<Pair> pairToChain = new ArrayList<>(s.getInstance().getPairs());
         for(Sequence seq : s.getCycles()) {
@@ -41,7 +41,7 @@ public class CyclesAndTree implements Solveur {
         System.out.println("nombre de paires : <" + pairToChain.size() + ">\n");
         return s;
     }
-
+/*
     public static void main(String[] args) {
         try {
             //InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
@@ -64,4 +64,5 @@ public class CyclesAndTree implements Solveur {
             System.out.println(ex.getMessage());
         }
     }
+ */
 }

@@ -243,7 +243,7 @@ public class TestAllSolveur{
         FileWriter ecritureJson = null;
         try {
             ecriture = new PrintWriter(nomFichierResultats+".csv");
-            ecritureJson = new FileWriter("./webapp/"+nomFichierResultats+".json");
+            //ecritureJson = new FileWriter("./webapp/"+nomFichierResultats+".json");
             printEnTetes(ecriture);
 
 
@@ -253,9 +253,9 @@ public class TestAllSolveur{
 
             jObject.add("results",jsonArray);
 
-            JsonElement jElement = gson.gson.toJsonTree(jObject);
-            ecritureJson.write(jElement.toString());
-            ecritureJson.flush();
+            //JsonElement jElement = gson.gson.toJsonTree(jObject);
+            //ecritureJson.write(jElement.toString());
+            //ecritureJson.flush();
 
 
             ecriture.println();
