@@ -161,11 +161,12 @@ public class Node {
             // args
             // -inst instances/KEP_p9_n1_k3_l3.txt -dSol testSolution
 
-            InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt");
+            InstanceReader reader = new InstanceReader("instances/KEP_p100_n5_k3_l13.txt");
             Instance instance = reader.readInstance();
             System.out.println(instance);
 
-            int maxSize = 9;
+            // int maxSize = instance.getMaxSizeChain();
+            int maxSize = 11;
             long lStartTime, lEndTime, output;
             LinkedList<ValidChain> validChains;
             ArrayList<Long> times = new ArrayList<>();
