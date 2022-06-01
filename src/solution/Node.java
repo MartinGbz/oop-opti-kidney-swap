@@ -80,6 +80,12 @@ public class Node {
         });
     }
 
+    /**
+     * RECURSIVE
+     * Parcourt l'arbre jusqu'à un noeud, puis ajoute une nouvelle chaine valide à partir de la liste des id du noeud
+     * @param n le noeud actuel
+     * @param listChain la liste des chaines valides
+     */
     private static void extractChainsFromTree(Node n, LinkedList<ValidChain> listChain) {
         if(n.getChildren().isEmpty()) {
             listChain.add(new ValidChain(n.gain, n.idList));
