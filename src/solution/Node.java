@@ -15,7 +15,7 @@ public class Node {
     private Node parent = null;
     private int gain = 0;
     private int sumId;
-    private LinkedList<Integer> idList = new LinkedList<Integer>();
+    private ArrayList<Integer> idList = new ArrayList<Integer>();
 
     public Node(Base data) {
         this.data = data;
@@ -38,7 +38,7 @@ public class Node {
         }
 
         child.setParent(this);
-        child.idList = new LinkedList<>(this.idList);
+        child.idList = new ArrayList<>(this.idList);
 
         if(child.idList.contains(child.data.getId())) {
             // System.out.println("child deja preesent dans cette branche");
@@ -181,24 +181,6 @@ public class Node {
         return listChainsByAltruit;
     }
 
-    /**
-     * TODO : A TESTER
-     * @param solution
-     * @param liste
-     */
-    private static void addChainsIntoSolution(Solution solution, LinkedList<ValidChain> liste) {
-        for(ValidChain chain : liste) {
-            Altruist a = solution.getInstance().getAltruists().get(chain.getIdList().getFirst());
-            Chain ch = new Chain(a);
-            for(int i = 1; i<chain.getIdList().size(); i++) {
-                Pair p = solution.getInstance().getPairs().get(chain.getIdList().get(i));
-                ch.sequence.add(p);
-            }
-            ch.gainMedSequence = chain.getGain();
-            solution.getChains().addLast(ch);
-        }
-    }
-
     private static void testBasicCreationTree(Instance instance, int maxSize) {
         Node n1 = new Node(instance.getAltruists().get(0));
         Node n2 = new Node(instance.getAltruists().get(1));
@@ -300,4 +282,3 @@ public class Node {
                 '}';
     }
 }
-

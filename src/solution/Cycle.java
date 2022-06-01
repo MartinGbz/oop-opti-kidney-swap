@@ -4,6 +4,7 @@ import instance.network.Base;
 import instance.network.Pair;
 
 //ceci est un commentaire
+
 public class Cycle extends Sequence {
 
     public Cycle() {

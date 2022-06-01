@@ -15,12 +15,9 @@ import java.util.LinkedList;
 
 public class ReplaceTransplantation implements Solveur {
 
-    private final String name = "Remplacement Transplantation";
-
-
     @Override
     public String getNom() {
-        return name;
+        return "Remplacement Transplantation";
     }
 
     @Override
@@ -58,14 +55,12 @@ public class ReplaceTransplantation implements Solveur {
     private void initCopyPair(Solution s, LinkedList<Pair> copyPair) {
         for(Sequence seq : s.getCycles()) {
             for(Base b : seq.getSequence()) {
-                if(copyPair.contains(b))
-                    copyPair.remove(b);
+                copyPair.remove(b);
             }
         }
         for(Sequence seq : s.getChains()) {
             for(Base b : seq.getSequence()) {
-                if(copyPair.contains(b))
-                    copyPair.remove(b);
+                copyPair.remove(b);
             }
         }
     }
