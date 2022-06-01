@@ -12,6 +12,7 @@ import io.exception.ReaderException;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class DangerousCycle implements Solveur {
 
@@ -28,6 +29,7 @@ public class DangerousCycle implements Solveur {
         Solution s, ss = new Solution(i);
         boolean endLoop = true;
         int notFirstLoop, sizeSol =0;
+        Random r = new Random(0);
 
         for(int k=0 ; k<10000 ; k++) {
             notFirstLoop = 0;
@@ -42,7 +44,7 @@ public class DangerousCycle implements Solveur {
                         }
                     }
                 }
-                Collections.shuffle(copyPair);
+                Collections.shuffle(copyPair,r);
                 for (int j = 0; j < 2; j++) {
                     while (!copyPair.isEmpty()) {
                         traitment(s, copyPair);
