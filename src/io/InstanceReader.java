@@ -9,7 +9,6 @@ import io.exception.OpenFileException;
 import io.exception.ReaderException;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class InstanceReader {

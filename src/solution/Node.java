@@ -10,12 +10,12 @@ import java.util.*;
 
 public class Node {
 
-    private Base data = null;
+    private Base data;
     private final List<Node> children = new ArrayList<>();
     private Node parent = null;
     private int gain = 0;
     private int sumId;
-    private ArrayList<Integer> idList = new ArrayList<Integer>();
+    private LinkedList<Integer> idList = new LinkedList<>();
 
     public Node(Base data) {
         this.data = data;
@@ -38,7 +38,7 @@ public class Node {
         }
 
         child.setParent(this);
-        child.idList = new ArrayList<>(this.idList);
+        child.idList = new LinkedList<>(this.idList);
 
         if(child.idList.contains(child.data.getId())) {
             // System.out.println("child deja preesent dans cette branche");
@@ -149,9 +149,9 @@ public class Node {
 
     /**
      * Pour l'instant : retourne le meilleur combo avec les deux premiers altruists
-     * @param altruists
-     * @param listChainsByAltruit
-     * @return
+     * @param altruists la liste des altruistes
+     * @param listChainsByAltruit la liste des listes de chaines valides par altruiste
+     * @return la liste contenant les (maximum) deux chaines valides trouvées
      */
     private static LinkedList<ValidChain> getBestCombo(ArrayList<Altruist> altruists, LinkedList<LinkedList<ValidChain>> listChainsByAltruit) {
         // int gainTot = 0;
@@ -179,6 +179,24 @@ public class Node {
             listChainsByAltruit.add(validChains);
         }
         return listChainsByAltruit;
+    }
+
+    /**
+     * TODO : A TESTER
+     * @param solution
+     * @param liste
+     */
+    private static void addChainsIntoSolution(Solution solution, LinkedList<ValidChain> liste) {
+        for(ValidChain chain : liste) {
+            Altruist a = solution.getInstance().getAltruists().get(chain.getIdList().getFirst());
+            Chain ch = new Chain(a);
+            for(int i = 1; i<chain.getIdList().size(); i++) {
+                Pair p = solution.getInstance().getPairs().get(chain.getIdList().get(i));
+                ch.sequence.add(p);
+            }
+            ch.gainMedSequence = chain.getGain();
+            solution.getChains().addLast(ch);
+        }
     }
 
     private static void testBasicCreationTree(Instance instance, int maxSize) {
@@ -215,7 +233,7 @@ public class Node {
         ArrayList<Long> times = new ArrayList<>();
         ArrayList<Integer> maxGains = new ArrayList<>();
         ArrayList<Integer> sizes = new ArrayList<>();
-        Long totalTime = 0L;
+        long totalTime = 0L;
         int totalGain = 0, totalSize = 0;
 
         for(Altruist a : instance.getAltruists()) {
