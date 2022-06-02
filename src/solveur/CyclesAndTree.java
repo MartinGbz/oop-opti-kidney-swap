@@ -41,13 +41,13 @@ public class CyclesAndTree implements Solveur {
         System.out.println("nombre de paires : <" + pairToChain.size() + ">\n");
         return s;
     }
-/*
+
     public static void main(String[] args) {
         try {
             //InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
             //InstanceReader reader = new InstanceReader("instances/KEP_p9_n0_k3_l0.txt"); // mettre le nom du fichier
-            //InstanceReader reader = new InstanceReader("instances/KEP_p9_n1_k3_l3.txt"); // mettre le nom du fichier
-            InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt"); // mettre le nom du fichier
+            InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k5_l17.txt"); // mettre le nom du fichier
+            //InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt"); // mettre le nom du fichier
             Instance instance = reader.readInstance();
 
             CyclesAndTree ct = new CyclesAndTree();
@@ -64,5 +64,5 @@ public class CyclesAndTree implements Solveur {
             System.out.println(ex.getMessage());
         }
     }
- */
+
 }
