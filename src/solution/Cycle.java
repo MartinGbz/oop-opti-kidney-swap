@@ -65,6 +65,11 @@ public class Cycle extends Sequence {
         Cycle cSol = new Cycle();
         Base bBegin, bEnd;
 
+        if(sizeCycle < maxSizeCycle) {
+            sizeValideCycle=sizeCycle;
+            posEnd=sizeCycle-1;
+        }
+
         while(sizeValideCycle != 1) {
             for(posBegin=0 ; posBegin < sizeCycle ; posBegin++) {
                 if(posEnd == sizeCycle) posEnd=0;

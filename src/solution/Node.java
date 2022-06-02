@@ -88,7 +88,8 @@ public class Node {
      */
     private static void extractChainsFromTree(Node n, LinkedList<ValidChain> listChain) {
         if(n.getChildren().isEmpty()) {
-            listChain.add(new ValidChain(n.gain, n.idList));
+            if(n.idList.size()>1)
+                listChain.add(new ValidChain(n.gain, n.idList));
             return;
         }
         for (Node nBis: n.getChildren()) {
@@ -159,21 +160,20 @@ public class Node {
      * @param listChainsByAltruit la liste des listes de chaines valides par altruiste
      * @return la liste contenant les (maximum) deux chaines valides trouvées
      */
-    private static LinkedList<ValidChain> getBestCombo(ArrayList<Altruist> altruists, LinkedList<LinkedList<ValidChain>> listChainsByAltruit) {
-        // int gainTot = 0;
+    public static LinkedList<ValidChain> getBestCombo(ArrayList<Altruist> altruists, LinkedList<LinkedList<ValidChain>> listChainsByAltruit) {
         LinkedList<ValidChain> liste = new LinkedList<>();
 
-        if(altruists.size()>1) {
+        if(listChainsByAltruit.size()>1) {
             liste = getBestComboBetweenListChains(listChainsByAltruit.get(0), listChainsByAltruit.get(1));
         }
-        else if(altruists.size()==1) {
+        else if(listChainsByAltruit.size()==1) {
             liste.add(listChainsByAltruit.get(0).getFirst());
         }
-
+        System.out.println(liste);
         return liste;
     }
 
-    private static LinkedList<LinkedList<ValidChain>> getAllValidChainsFromTrees(ArrayList<Altruist> altruists, ArrayList<Pair> pairsValid, int maxDepth) {
+    public static LinkedList<LinkedList<ValidChain>> getAllValidChainsFromTrees(ArrayList<Altruist> altruists, ArrayList<Pair> pairsValid, int maxDepth) {
         LinkedList<LinkedList<ValidChain>> listChainsByAltruit = new LinkedList<>();
         LinkedList<ValidChain> validChains;
         for(Altruist a : altruists) {
@@ -181,9 +181,12 @@ public class Node {
             createTree(n1, maxDepth, pairsValid);
             validChains = new LinkedList<>();
             extractChainsFromTree(n1, validChains);
-            sortChain(validChains, "DESC");
-            listChainsByAltruit.add(validChains);
+            if(!validChains.isEmpty()) {
+                sortChain(validChains, "DESC");
+                listChainsByAltruit.add(validChains);
+            }
         }
+        System.out.println(listChainsByAltruit);
         return listChainsByAltruit;
     }
 
@@ -192,16 +195,32 @@ public class Node {
      * @param solution
      * @param liste
      */
-    private static void addChainsIntoSolution(Solution solution, LinkedList<ValidChain> liste) {
+    public static void addChainsIntoSolution(Solution solution, LinkedList<ValidChain> liste) {
         for(ValidChain chain : liste) {
-            Altruist a = solution.getInstance().getAltruists().get(chain.getIdList().getFirst());
+
+            Altruist a = null;
+            for(Altruist aSearch : solution.getInstance().getAltruists()) {
+                if(aSearch.getId() == chain.getIdList().getFirst()) {
+                    a = aSearch;
+                }
+            }
+            if(a == null) return;
             Chain ch = new Chain(a);
+
             for(int i = 1; i<chain.getIdList().size(); i++) {
-                Pair p = solution.getInstance().getPairs().get(chain.getIdList().get(i));
+                Pair p = null;
+                for(Pair pSearch : solution.getInstance().getPairs()) {
+                    if(pSearch.getId() == chain.getIdList().get(i)) {
+                        p = pSearch;
+                    }
+                }
+                if(p==null) return;
                 ch.sequence.add(p);
             }
+            System.out.println(ch);
             ch.gainMedSequence = chain.getGain();
             solution.getChains().addLast(ch);
+            solution.calculGainSolution();
         }
     }
 
@@ -288,6 +307,10 @@ public class Node {
             // System.out.println(getBestComboBetweenListChains(listChainsByAltruit.get(0), listChainsByAltruit.get(1)));
 
             System.out.println(getBestCombo(instance.getAltruists(), listChainsByAltruit));
+
+            Solution s = new Solution(instance);
+            addChainsIntoSolution(s, getBestCombo(instance.getAltruists(), listChainsByAltruit));
+            System.out.println(s);
 
 
         } catch (Exception ex) {

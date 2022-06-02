@@ -7,8 +7,10 @@ import instance.network.Pair;
 import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
+import solution.Node;
 import solution.Sequence;
 import solution.Solution;
+import solution.ValidChain;
 import solveur.meilleureTransplantation.MeilleureTransplantation;
 
 import java.util.ArrayList;
@@ -36,6 +38,12 @@ public class CyclesAndTree implements Solveur {
                 pairToChain.remove(b);
             }
         }
+
+        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>5) maxSizeChain = 10;
+        LinkedList<LinkedList<ValidChain>> listChainsByAltruit = Node.getAllValidChainsFromTrees(altruitToChain, pairToChain, maxSizeChain);
+        Node.addChainsIntoSolution(s, Node.getBestCombo(altruitToChain, listChainsByAltruit));
+
+        System.out.println(s);
 
         System.out.println("nombre de paires : <" + s.getInstance().getPairs().size() + ">\n");
         System.out.println("nombre de paires : <" + pairToChain.size() + ">\n");
