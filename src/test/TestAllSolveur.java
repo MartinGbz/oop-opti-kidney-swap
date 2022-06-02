@@ -3,7 +3,6 @@ package test;
 import instance.network.Altruist;
 import instance.network.Pair;
 import solution.Solution;
-import solveur.CyclesAndTree;
 import solveur.Solveur;
 import solution.Sequence;
 import solveur.meilleureTransplantation.MTwithReverseOrder;
@@ -26,9 +25,6 @@ import java.util.Objects;
 import solveur.SolutionTriviale;
 import solveur.ReplaceTransplantation;
 import ui.JsonGenerator;
-import ui.jsonSerializer.InstanceSerializer;
-import ui.jsonSerializer.SequenceSerializer;
-import ui.jsonSerializer.SolutionSerializer;
 
 public class TestAllSolveur{
     /**
@@ -79,12 +75,11 @@ public class TestAllSolveur{
      */
     private void addSolveurs() {
         // TO CHECK : constructeur par defaut de la classe InsertionSimple
-        //solveurs.add(new SolutionTriviale());
-        //solveurs.add(new MTwithSortOrder()); //trié croissant
-        //solveurs.add(new MTwithReverseOrder()); //trié decroissant
-        //solveurs.add(new MTwithoutSort()); //pas trié
-        //solveurs.add(new ReplaceTransplantation()); //utilise true,true
-        solveurs.add(new CyclesAndTree());
+        solveurs.add(new SolutionTriviale());
+        solveurs.add(new MTwithSortOrder()); //trié croissant
+        solveurs.add(new MTwithReverseOrder()); //trié decroissant
+        solveurs.add(new MTwithoutSort()); //pas trié
+        solveurs.add(new ReplaceTransplantation()); //utilise true,true
     }
 
 
@@ -243,19 +238,19 @@ public class TestAllSolveur{
         FileWriter ecritureJson = null;
         try {
             ecriture = new PrintWriter(nomFichierResultats+".csv");
-            //ecritureJson = new FileWriter("./webapp/"+nomFichierResultats+".json");
+            ecritureJson = new FileWriter("./src/ui/webapp/"+nomFichierResultats+".json");
             printEnTetes(ecriture);
 
 
             for(Instance inst : instances) {
-               jsonArray.add(printResultatsInstance(ecriture, inst));
+                jsonArray.add(printResultatsInstance(ecriture, inst));
             }
 
             jObject.add("results",jsonArray);
 
-            //JsonElement jElement = gson.gson.toJsonTree(jObject);
-            //ecritureJson.write(jElement.toString());
-            //ecritureJson.flush();
+            JsonElement jElement = gson.gson.toJsonTree(jObject);
+            ecritureJson.write("var data='"+jElement.toString()+"';");
+            ecritureJson.flush();
 
 
             ecriture.println();
@@ -447,7 +442,7 @@ public class TestAllSolveur{
             TestAllSolveur test = new TestAllSolveur(filenameInstance, directorySolution);
             test.printAllResultats("results");
 
-    } catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
