@@ -1,18 +1,18 @@
 package solution;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class ValidChain {
 
     private int gain;
-    private final ArrayList<Integer> idList;
+    private final LinkedList<Integer> idList;
 
     public ValidChain() {
         this.gain = 0;
-        this.idList = new ArrayList<>();
+        this.idList = new LinkedList<>();
     }
 
-    public ValidChain(int gain, ArrayList<Integer> idList) {
+    public ValidChain(int gain, LinkedList<Integer> idList) {
         this.gain = gain;
         this.idList = idList;
     }
@@ -20,7 +20,7 @@ public class ValidChain {
     public int getGain() {
         return gain;
     }
-    public ArrayList<Integer> getIdList() {
+    public LinkedList<Integer> getIdList() {
         return idList;
     }
 

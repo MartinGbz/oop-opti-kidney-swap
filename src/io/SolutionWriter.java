@@ -15,9 +15,9 @@ public class SolutionWriter {
 
     private final String pathSolution;
 
-    private String directorySolution;
-    private String tab = "\t";
-    private String backLine = "\n";
+    private final String directorySolution;
+    private final String tab = "\t";
+    private final String backLine = "\n";
 
     public SolutionWriter(Solution solution, String directorySolution) {
         String nomFicInst = stripExtension(solution.getInstance().getName());
@@ -129,6 +129,5 @@ public class SolutionWriter {
 
 
     }
-
 
 }

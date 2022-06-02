@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 public class InstanceSerializer implements JsonSerializer<Instance> {
     @Override
     public JsonElement serialize(Instance instance, Type type, JsonSerializationContext jsonSerializationContext) {
-        JsonElement resultat = null;
+        JsonElement resultat;
 
         if (instance == null) {
             resultat = JsonNull.INSTANCE;

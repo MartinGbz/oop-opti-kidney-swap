@@ -24,7 +24,6 @@ public class Chain extends Sequence {
         this.sequence.addLast(pairToAdd);
 
         int delta = b.getTransplantations().get(pairToAdd).getMedicalGain();
-        // System.out.println("gain ajouté chain <" + delta + ">");
         this.gainMedSequence += delta;
 
         return true;
