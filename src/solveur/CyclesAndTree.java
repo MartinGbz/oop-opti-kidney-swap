@@ -12,6 +12,7 @@ import solution.Sequence;
 import solution.Solution;
 import solution.ValidChain;
 import solveur.meilleureTransplantation.MeilleureTransplantation;
+import solveur.meilleureTransplantation.MeilleureTransplantationAdaptable;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -38,15 +39,39 @@ public class CyclesAndTree implements Solveur {
                 pairToChain.remove(b);
             }
         }
+        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>15) maxSizeChain = 3;
+        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>10) maxSizeChain = 4;
+        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>5) maxSizeChain = 5;
 
-        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>5) maxSizeChain = 10;
         LinkedList<LinkedList<ValidChain>> listChainsByAltruit = Node.getAllValidChainsFromTrees(altruitToChain, pairToChain, maxSizeChain);
         Node.addChainsIntoSolution(s, Node.getBestCombo(altruitToChain, listChainsByAltruit));
 
+        System.out.println("--------------------------------");
+        System.out.println(i.getName());
         System.out.println(s);
+/*
+        MeilleureTransplantationAdaptable mta = new MeilleureTransplantationAdaptable();
+        LinkedList<Pair> lastPairs = new LinkedList<>(s.getInstance().getPairs());
+        System.out.println("nombre de paires : <" + lastPairs.size() + ">\n");
+        for(Sequence seq : s.getCycles()) {
+            for(Base b : seq.getSequence()) {
+                lastPairs.remove(b);
+            }
+        }
+        for(Sequence seq : s.getChains()) {
+            for(Base b : seq.getSequence()) {
+                lastPairs.remove(b);
+            }
+        }
+        System.out.println("nombre de paires : <" + lastPairs.size() + ">\n");
+        System.out.println(lastPairs);
+        mta.finishSolve(lastPairs, s);
 
-        System.out.println("nombre de paires : <" + s.getInstance().getPairs().size() + ">\n");
-        System.out.println("nombre de paires : <" + pairToChain.size() + ">\n");
+        System.out.println(s);
+*/
+        //System.out.println("nombre de paires : <" + s.getInstance().getPairs().size() + ">\n");
+        //System.out.println("nombre de paires : <" + pairToChain.size() + ">\n");
+        //System.out.println("nombre de paires : <" + lastPairs.size() + ">\n");
         return s;
     }
 
