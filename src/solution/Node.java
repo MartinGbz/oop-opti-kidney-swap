@@ -190,11 +190,7 @@ public class Node {
         return listChainsByAltruit;
     }
 
-    /**
-     * TODO : A TESTER
-     * @param solution
-     * @param liste
-     */
+
     public static void addChainsIntoSolution(Solution solution, LinkedList<ValidChain> liste) {
         for(ValidChain chain : liste) {
 
@@ -294,14 +290,14 @@ public class Node {
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/KEP_p100_n5_k3_l13.txt");
+            InstanceReader reader = new InstanceReader("instances/KEP_p250_n13_k3_l7.txt");
             Instance instance = reader.readInstance();
             System.out.println(instance);
 
             // testBasicCreationTree(instance, 8);
-            // testGetAllValidChainWithTree(instance, 10);
+            testGetAllValidChainWithTree(instance, instance.getMaxSizeChain());
 
-            int maxDepth = 8;
+            /*int maxDepth = 8;
             LinkedList<LinkedList<ValidChain>> listChainsByAltruit = getAllValidChainsFromTrees(instance.getAltruists(), instance.getPairs(), maxDepth);
 
             // System.out.println(getBestComboBetweenListChains(listChainsByAltruit.get(0), listChainsByAltruit.get(1)));
@@ -311,7 +307,7 @@ public class Node {
             Solution s = new Solution(instance);
             addChainsIntoSolution(s, getBestCombo(instance.getAltruists(), listChainsByAltruit));
             System.out.println(s);
-
+            */
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
