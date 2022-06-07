@@ -28,6 +28,8 @@ public class CyclesAndTree implements Solveur {
         DangerousCycle dc = new DangerousCycle();
         Solution s = dc.solve(i);
 
+        // -inst instances/KEP_p50_n3_k3_l7.txt -dSol testSolution
+
         ArrayList<Altruist> altruitToChain = new ArrayList<>(s.getInstance().getAltruists().values());
         int maxSizeChain = s.getInstance().getMaxSizeChain();
         ArrayList<Pair> pairToChain = new ArrayList<>(s.getInstance().getPairs().values());
@@ -36,12 +38,32 @@ public class CyclesAndTree implements Solveur {
                 pairToChain.remove(b);
             }
         }
-        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>15) maxSizeChain = 3;
-        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>10) maxSizeChain = 4;
-        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>5) maxSizeChain = 5;
 
-        LinkedList<LinkedList<Chain>> listChainsByAltruit = Node.getAllValidChainsFromTrees(i, pairToChain, maxSizeChain);
-        Node.addChainsIntoSolution(s, Node.getBestCombo(altruitToChain, listChainsByAltruit));
+        LinkedList<LinkedList<Chain>> listChainsByAltruit;
+
+        do {
+            System.out.println("***********************************");
+            System.out.println(altruitToChain);
+            for(Chain chain : s.getChains()) {
+                altruitToChain.remove(chain.getSequence().getFirst());
+                for(int k=1; k<chain.getSequence().size(); k++) {
+                    pairToChain.remove(chain.getSequence().get(k));
+                }
+            }
+            System.out.println(altruitToChain);
+            System.out.println("***********************************");
+
+            System.out.println("pairToChain.size(): " + pairToChain.size());
+            System.out.println("altruitToChain.size(): " + altruitToChain.size());
+
+            if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>15) maxSizeChain = 3;
+            if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>10) maxSizeChain = 4;
+            if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>5) maxSizeChain = 5;
+
+            listChainsByAltruit = Node.getAllValidChainsFromTrees(i, altruitToChain, pairToChain, maxSizeChain);
+            Node.addChainsIntoSolution(s, Node.getBestCombo(altruitToChain, listChainsByAltruit));
+
+        } while(!listChainsByAltruit.isEmpty());
 
         System.out.println("--------------------------------");
         System.out.println(i.getName());

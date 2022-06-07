@@ -194,10 +194,10 @@ public class Node {
         return liste;
     }
 
-    public static LinkedList<LinkedList<Chain>> getAllValidChainsFromTrees(Instance i, ArrayList<Pair> pairsValid, int maxDepth) {
+    public static LinkedList<LinkedList<Chain>> getAllValidChainsFromTrees(Instance i, ArrayList<Altruist> altruistsValid, ArrayList<Pair> pairsValid, int maxDepth) {
         LinkedList<LinkedList<Chain>> listChainsByAltruit = new LinkedList<>();
         LinkedList<Chain> validChains;
-        for(Altruist a : i.getAltruists().values()) {
+        for(Altruist a : altruistsValid) {
             Node n1 = new Node(a);
             createTree(n1, maxDepth, pairsValid);
             validChains = new LinkedList<>();
@@ -207,7 +207,7 @@ public class Node {
                 listChainsByAltruit.add(validChains);
             }
         }
-        System.out.println(listChainsByAltruit);
+        // System.out.println(listChainsByAltruit);
         return listChainsByAltruit;
     }
 
@@ -293,7 +293,7 @@ public class Node {
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/KEP_p50_n3_k3_l7.txt");
+            InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l7.txt");
             Instance instance = reader.readInstance();
             System.out.println(instance);
 
