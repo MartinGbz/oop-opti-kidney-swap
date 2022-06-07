@@ -16,6 +16,6 @@ public class Pair extends Base{
         }
         s+= "\n}";
         return s;*/
-       return "Pair{id=" + this.getId() + "}";
+       return "Pair{id=" + this.getId()  + "}";
     }
 }
