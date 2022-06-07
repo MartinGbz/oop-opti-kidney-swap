@@ -21,12 +21,12 @@ public class InstanceSerializer implements JsonSerializer<Instance> {
             JsonArray listAltruists = new JsonArray();
             JsonArray listPairs = new JsonArray();
 
-            for(Altruist altruist : instance.getAltruists()){
+            for(Altruist altruist : instance.getAltruists().values()){
                 JsonObject jObjectAltruist = new JsonObject();
                 jObjectAltruist.addProperty("id", altruist.getId());
                 listAltruists.add(jObjectAltruist);
             }
-            for(Pair pair : instance.getPairs()){
+            for(Pair pair : instance.getPairs().values()){
                 JsonObject jObjectPair= new JsonObject();
                 jObjectPair.addProperty("id", pair.getId());
                 listPairs.add(jObjectPair);
