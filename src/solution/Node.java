@@ -196,41 +196,12 @@ public class Node {
         return listChainsByAltruit;
     }
 
-
     public static void addChainsIntoSolution(Solution solution, LinkedList<Chain> chainsToAdd) {
         for(Chain chain : chainsToAdd) {
-
-            /*
-            int idAlt = chain.getIdList().getFirst();
-            Altruist a = solution.getInstance().getAltruists().get(idAlt);
-
-
-            for(Altruist aSearch : solution.getInstance().getAltruists()) {
-                if(aSearch.getId() == chain.getIdList().getFirst()) {
-                    a = aSearch;
-                }
-            }
-            if(a == null) return;
-            Chain ch = new Chain(a);
-
-            for(int i = 1; i<chain.getIdList().size(); i++) {
-                int idPair = chain.getIdList().get(i);
-                Pair p = solution.getInstance().getPairs().get(idPair);
-
-                /*
-                for(Pair pSearch : solution.getInstance().getPairs()) {
-                    if(pSearch.getId() == chain.getIdList().get(i)) {
-                        p = pSearch;
-                    }
-                }
-                if(p==null) return;
-                ch.sequence.add(p);
-            }*/
-            System.out.println(chain);
-            // ch.gainMedSequence = chain.getGain();
+            System.out.println(chain);;
             solution.getChains().addLast(chain);
         }
-        solution.calculGainSolution(); // ICI
+        solution.calculGainSolution();
     }
 
     private static void testBasicCreationTree(Instance instance, int maxSize) {
