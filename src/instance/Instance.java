@@ -27,11 +27,11 @@ public class Instance {
         this.pairs = new HashMap<>();
     }
 
-    public ArrayList<Pair> getPairs() {
-        return new ArrayList<>(pairs.values());
+    public HashMap<Integer, Altruist> getAltruists() {
+        return altruists;
     }
-    public ArrayList<Altruist> getAltruists() {
-        return new ArrayList<>(altruists.values());
+    public HashMap<Integer, Pair> getPairs() {
+        return pairs;
     }
     public String getName() {
         return name;

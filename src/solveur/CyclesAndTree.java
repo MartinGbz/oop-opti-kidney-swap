@@ -7,10 +7,7 @@ import instance.network.Pair;
 import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
-import solution.Node;
-import solution.Sequence;
-import solution.Solution;
-import solution.ValidChain;
+import solution.*;
 import solveur.meilleureTransplantation.MeilleureTransplantation;
 import solveur.meilleureTransplantation.MeilleureTransplantationAdaptable;
 
@@ -31,9 +28,9 @@ public class CyclesAndTree implements Solveur {
         DangerousCycle dc = new DangerousCycle();
         Solution s = dc.solve(i);
 
-        ArrayList<Altruist> altruitToChain = new ArrayList<>(s.getInstance().getAltruists());
+        ArrayList<Altruist> altruitToChain = new ArrayList<>(s.getInstance().getAltruists().values());
         int maxSizeChain = s.getInstance().getMaxSizeChain();
-        ArrayList<Pair> pairToChain = new ArrayList<>(s.getInstance().getPairs());
+        ArrayList<Pair> pairToChain = new ArrayList<>(s.getInstance().getPairs().values());
         for(Sequence seq : s.getCycles()) {
             for(Base b : seq.getSequence()) {
                 pairToChain.remove(b);
@@ -43,7 +40,7 @@ public class CyclesAndTree implements Solveur {
         if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>10) maxSizeChain = 4;
         if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>5) maxSizeChain = 5;
 
-        LinkedList<LinkedList<ValidChain>> listChainsByAltruit = Node.getAllValidChainsFromTrees(altruitToChain, pairToChain, maxSizeChain);
+        LinkedList<LinkedList<Chain>> listChainsByAltruit = Node.getAllValidChainsFromTrees(i, pairToChain, maxSizeChain);
         Node.addChainsIntoSolution(s, Node.getBestCombo(altruitToChain, listChainsByAltruit));
 
         System.out.println("--------------------------------");
