@@ -120,6 +120,16 @@ public class Node {
         }
     }
 
+//    private static void getBestComboLLC(LinkedList<LinkedList<ValidChain>>listListChain) {
+//        for (int i = 0; i < listListChain.size(); i++) {
+//            LinkedList<ValidChain> chains1 = listListChain.get(i);
+//            LinkedList<ValidChain> chains2;
+//            for (int j = i; j < listListChain.size(); j++) {
+//                chains2 = listListChain.get(j);
+//            }
+//        }
+//    }
+
     private static LinkedList<ValidChain> getBestComboBetweenListChains(LinkedList<ValidChain> chains1, LinkedList<ValidChain> chains2) {
         int gainTot = 0;
 
@@ -137,6 +147,9 @@ public class Node {
             chainChoisie1 = chains2.get(0);
         }
         for(ValidChain v1 : chains1) {
+            if( (v1.getGain() + (chains2.get(0).getGain())) < gainTot) {
+              break;
+            }
             for(ValidChain v2 : chains2) {
                 if(v1.canBeCombined(v2)) {
                     int gainTemp = v1.getGain() + v2.getGain();
@@ -145,6 +158,7 @@ public class Node {
                         chainChoisie1 = v1;
                         chainChoisie2 = v2;
                     }
+                    break;
                 }
             }
         }
