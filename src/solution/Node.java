@@ -69,12 +69,7 @@ public class Node {
             sortingDirection = "DESC";
         }
         String finalSortingDirection = sortingDirection;
-        validChains.sort(new Comparator<>() {
-            @Override
-            public int compare(final Chain record1, final Chain record2) {
-                return record1.compareTo(record2, finalSortingDirection);
-            }
-        });
+        validChains.sort((record1, record2) -> record1.compareTo(record2, finalSortingDirection));
     }
 
     private static Chain getChainFromIdList(Altruist a, HashMap<Integer, Pair> pairs, int gain, LinkedList<Integer> idList) {
@@ -126,23 +121,6 @@ public class Node {
         }
     }
 
-    private static LinkedList<Chain> getBestComboAmongAltruists(LinkedList<LinkedList<Chain>>listListChain) {
-        BestCombo bestComboCur;
-        BestCombo bestComboFinal = new BestCombo();
-        for (int i = 0; i < listListChain.size(); i++) {
-            LinkedList<Chain> chains1 = listListChain.get(i);
-            LinkedList<Chain> chains2;
-            for (int j = i+1; j < listListChain.size(); j++) {
-                chains2 = listListChain.get(j);
-                bestComboCur = getBestComboBetweenListChains(chains1, chains2);
-                if (bestComboCur.getGainTot() > bestComboFinal.getGainTot()) {
-                    bestComboFinal = bestComboCur;
-                }
-            }
-        }
-        return bestComboFinal.list;
-    }
-
     private static class BestCombo {
         LinkedList<Chain> list;
         int gainTot;
@@ -160,6 +138,23 @@ public class Node {
         public int getGainTot() {
             return gainTot;
         }
+    }
+
+    private static LinkedList<Chain> getBestComboAmongAltruists(LinkedList<LinkedList<Chain>>listListChain) {
+        BestCombo bestComboCur;
+        BestCombo bestComboFinal = new BestCombo();
+        for (int i = 0; i < listListChain.size(); i++) {
+            LinkedList<Chain> chains1 = listListChain.get(i);
+            LinkedList<Chain> chains2;
+            for (int j = i+1; j < listListChain.size(); j++) {
+                chains2 = listListChain.get(j);
+                bestComboCur = getBestComboBetweenListChains(chains1, chains2);
+                if (bestComboCur.getGainTot() > bestComboFinal.getGainTot()) {
+                    bestComboFinal = bestComboCur;
+                }
+            }
+        }
+        return bestComboFinal.list;
     }
 
     private static BestCombo getBestComboBetweenListChains(LinkedList<Chain> chains1, LinkedList<Chain> chains2) {
@@ -197,8 +192,7 @@ public class Node {
         LinkedList<Chain> liste = new LinkedList<>();
         liste.add(chainChoisie1);
         if(chainChoisie2.getGainMedSequence() != 0) liste.add(chainChoisie2);
-        BestCombo bestCombo = new BestCombo(liste, gainTot);
-        return bestCombo;
+        return new BestCombo(liste, gainTot);
     }
 
     /**
@@ -239,7 +233,7 @@ public class Node {
 
     public static void addChainsIntoSolution(Solution solution, LinkedList<Chain> chainsToAdd) {
         for(Chain chain : chainsToAdd) {
-            System.out.println(chain);;
+            System.out.println(chain);
             solution.getChains().addLast(chain);
         }
         solution.calculGainSolution();
