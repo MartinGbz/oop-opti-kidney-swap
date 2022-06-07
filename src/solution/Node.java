@@ -137,7 +137,7 @@ public class Node {
 //        }
 //    }
 
-    private static LinkedList<ValidChain> getBestComboBetweenListChains(LinkedList<Chain> chains1, LinkedList<Chain> chains2) {
+    private static LinkedList<Chain> getBestComboBetweenListChains(LinkedList<Chain> chains1, LinkedList<Chain> chains2) {
         int gainTot = 0;
 
         // triage des listes de chaines
