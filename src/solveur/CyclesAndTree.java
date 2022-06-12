@@ -28,8 +28,28 @@ public class CyclesAndTree implements Solveur {
 
     @Override
     public Solution solve(Instance i) {
-        DangerousCycle dc = new DangerousCycle();
-        Solution s = dc.solve(i);
+        //DangerousCycle dc = new DangerousCycle();
+        //Solution s = dc.solve(i);
+
+        Solution s = new Solution(i);
+        NotValidCycle nvc = new NotValidCycle();
+        s = nvc.creatCycle(new LinkedList<>(i.getPairs()),s);
+
+/*
+        LinkedList<Altruist> altruitToChain = new LinkedList<>(s.getInstance().getAltruists());
+        int maxSizeChain = s.getInstance().getMaxSizeChain();
+        LinkedList<Pair> pairToChain = new LinkedList<>(s.getInstance().getPairs());
+        for(Sequence seq : s.getCycles()) {
+            for(Base b : seq.getSequence()) {
+                pairToChain.remove(b);
+            }
+        }
+
+        System.out.println("--------------- "+ i.getName() +" -----------------");
+        //System.out.println(s);
+        System.out.println("nombre de paires début : <" + s.getInstance().getPairs().size() + ">");
+        System.out.println("nombre de paires restantes : <" + pairToChain.size() + ">");
+*/
 
         ArrayList<Altruist> altruitToChain = new ArrayList<>(s.getInstance().getAltruists());
         int maxSizeChain = s.getInstance().getMaxSizeChain();
@@ -46,9 +66,9 @@ public class CyclesAndTree implements Solveur {
         LinkedList<LinkedList<ValidChain>> listChainsByAltruit = Node.getAllValidChainsFromTrees(altruitToChain, pairToChain, maxSizeChain);
         Node.addChainsIntoSolution(s, Node.getBestCombo(altruitToChain, listChainsByAltruit));
 
-        System.out.println("--------------------------------");
-        System.out.println(i.getName());
+        System.out.println("--------------- "+ i.getName() +" -----------------");
         System.out.println(s);
+        System.out.println("nombre de paires début : <" + s.getInstance().getPairs().size() + ">");
 /*
         MeilleureTransplantationAdaptable mta = new MeilleureTransplantationAdaptable();
         LinkedList<Pair> lastPairs = new LinkedList<>(s.getInstance().getPairs());

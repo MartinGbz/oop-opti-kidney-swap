@@ -22,9 +22,7 @@ public class MeilleureTransplantationAdaptable  {
         while(!copyPair.isEmpty()) {
             traitment(solution, copyPair);
         }
-
         solution.deleteSequenceNotUsed();
-
     }
 
 

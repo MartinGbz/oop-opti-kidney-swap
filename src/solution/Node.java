@@ -186,7 +186,7 @@ public class Node {
                 listChainsByAltruit.add(validChains);
             }
         }
-        System.out.println(listChainsByAltruit);
+        //System.out.println(listChainsByAltruit);
         return listChainsByAltruit;
     }
 
