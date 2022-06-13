@@ -29,11 +29,12 @@ public class JsonGenerator {
                 .create();
     }
 
-    public JsonElement generateSolutionForInstance(Solution solution, Instance instance, Solveur solveur){
+    public JsonElement generateSolutionForInstance(Solution solution, Instance instance, Solveur solveur, long bestExecTime){
 
         JsonObject jObject = new JsonObject();
         JsonObject jObjectProperties = new JsonObject();
         jObjectProperties.addProperty("name", solveur.getNom());
+        jObjectProperties.addProperty("executionTime", bestExecTime);
         jObject.add("algorithm", jObjectProperties);
         jObject.add("instance", gson.toJsonTree(instance));
         jObject.add("solution", gson.toJsonTree(solution));

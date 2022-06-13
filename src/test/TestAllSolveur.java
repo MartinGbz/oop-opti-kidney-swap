@@ -167,6 +167,7 @@ public class TestAllSolveur{
         Solution best = new Solution(inst);
         Solveur bestSolveur= null;
         JsonElement resultatJson =null;
+        long bestExecTime=0;
 
         // TO CHECK : recuperer le nom de l'instance
         String nomInst = inst.getName();
@@ -180,6 +181,7 @@ public class TestAllSolveur{
             long time = System.currentTimeMillis() - start;
 
             if(sol.getGainMedTotal()>=best.getGainMedTotal() && sol.check()){
+                bestExecTime = time;
                 best = sol;
                 bestSolveur=solveur;
             }
@@ -199,7 +201,7 @@ public class TestAllSolveur{
             SolutionWriter sw = new SolutionWriter(best, directorySolution);
 
             JsonGenerator gson = new JsonGenerator();
-            resultatJson = gson.generateSolutionForInstance(best, inst, bestSolveur);
+            resultatJson = gson.generateSolutionForInstance(best, inst, bestSolveur, bestExecTime);
         }
         return resultatJson;
     }
@@ -238,7 +240,7 @@ public class TestAllSolveur{
         FileWriter ecritureJson = null;
         try {
             ecriture = new PrintWriter(nomFichierResultats+".csv");
-            ecritureJson = new FileWriter("./"+nomFichierResultats+".json");
+            ecritureJson = new FileWriter("./webapp/src/app/"+nomFichierResultats+".json");
             printEnTetes(ecriture);
 
 
