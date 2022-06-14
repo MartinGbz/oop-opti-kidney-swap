@@ -1,30 +1,20 @@
 package test;
 
-import instance.network.Altruist;
-import instance.network.Pair;
 import solution.Solution;
 import solveur.CyclesAndTree;
 import solveur.Solveur;
-import solution.Sequence;
-import solveur.meilleureTransplantation.MTwithReverseOrder;
-import solveur.meilleureTransplantation.MTwithSortOrder;
-import solveur.meilleureTransplantation.MTwithoutSort;
 import com.google.gson.*;
 import instance.Instance;
 import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 
-import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import solveur.SolutionTriviale;
-import solveur.ReplaceTransplantation;
 import ui.JsonGenerator;
 
 public class TestAllSolveur{
@@ -104,6 +94,10 @@ public class TestAllSolveur{
         }
     }
 
+    /**
+     * Lecture de l'instance
+     * @param file
+     */
     private void read(File file) {
         if (file.isFile()) {
             try {
@@ -119,10 +113,10 @@ public class TestAllSolveur{
     }
 
     /**
-     *
-     * @param params
-     * @return
-     * @throws Exception
+     * Fonction vérifiant la présence des params -inst & -dSol avec leurs valeurs associées
+     * @param params : liste des paramètres
+     * @return String[] : Tableau contenant le chemin vers le répertoire/fichier d'instance et le répertoire contenant les solutions
+     * @throws Exception : si absence de paramètres ou paramètres incorrects
      */
     public static String[] checkParams(String[] params) throws Exception {
 
@@ -171,7 +165,7 @@ public class TestAllSolveur{
         JsonElement resultatJson =null;
         long bestExecTime=0;
 
-        // TO CHECK : recuperer le nom de l'instance
+        //Recuperation du nom de l'instance pour le csv
         String nomInst = inst.getName();
         String [] nom = nomInst.split("\\.");
         ecriture.print(nom[0]);
@@ -182,13 +176,13 @@ public class TestAllSolveur{
             Solution sol = solveur.solve(inst);
             long time = System.currentTimeMillis() - start;
 
+            //Récupération de la meilleure solution valide pour une instance donnée
             if(sol.getGainMedTotal()>=best.getGainMedTotal() && sol.check()){
                 bestExecTime = time;
                 best = sol;
                 bestSolveur=solveur;
             }
 
-            // TO CHECK : recperer le cout total de la solution, et savoir si
             // la solution est valide
             System.out.println("Cout total de la solution "+ sol.getGainMedTotal());
             Resultat result = new Resultat(sol.getGainMedTotal(), time, sol.check());
@@ -198,10 +192,9 @@ public class TestAllSolveur{
         }
         ecriture.println();
 
-        /* Production du fichier solution et sa trame json associée pour le solveur ayant le plus gros gain*/
+        //Production de la trame json de la solution ayant le plus gros gain médical
         if(best.getGainMedTotal()>0) {
             SolutionWriter sw = new SolutionWriter(best, directorySolution);
-
             JsonGenerator gson = new JsonGenerator();
             resultatJson = gson.generateSolutionForInstance(best, inst, bestSolveur, bestExecTime);
         }
@@ -228,15 +221,14 @@ public class TestAllSolveur{
     /**
      * Affichage de tous les resultats.
      * Les resultats sont affiches dans un fichier csv avec separateur ';'.
+     * L'ensemble des propriétés de la solution (instance, solveur, cycle & chaines générés) sont écrits dans un fichier Json pour l'interface web
      * @param nomFichierResultats nom du fichier de resultats
      */
     public void printAllResultats(String nomFichierResultats) {
 
-
         JsonGenerator gson =  new JsonGenerator();
         JsonObject jObject = new JsonObject();
         JsonArray jsonArray = new JsonArray();
-
 
         PrintWriter ecriture = null;
         FileWriter ecritureJson = null;
@@ -245,13 +237,13 @@ public class TestAllSolveur{
             ecritureJson = new FileWriter("../kidney-webapp/src/app/"+nomFichierResultats+".json");
             printEnTetes(ecriture);
 
-
+            //Fabrication du json pour l'ensemble des instances
             for(Instance inst : instances) {
                 jsonArray.add(printResultatsInstance(ecriture, inst));
             }
-
             jObject.add("results",jsonArray);
 
+            //Ecriture du fichier json
             JsonElement jElement = gson.gson.toJsonTree(jObject);
             ecritureJson.write(jElement.toString());
             ecritureJson.flush();
@@ -285,7 +277,6 @@ public class TestAllSolveur{
             ecriture.print(";"+totalStats.get(solveur).formatCsv());
         }
     }
-
 
     /**
      * Cette classe interne represente le couple instance / solveur
@@ -426,11 +417,9 @@ public class TestAllSolveur{
 
     }
 
-
     /**
-     * Test de perforances de tous les solveurs sur les instances du repertoire
-     * 'instances'.
-     * @param args
+     * Test de perforances de tous les solveurs sur les instances du repertoire/instance spécifique
+     * @param args String[] : liste des paramètres à fournir à l'exécution.
      */
     public static  void main(String[] args){
 
