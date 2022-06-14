@@ -46,6 +46,8 @@ public class Solution {
         return chains;
     }
 
+
+
     @Override
     public String toString() {
         return "Solution{" +
@@ -207,6 +209,7 @@ public class Solution {
     }
 
     public void calculGainSolution() {
+        this.gainMedTotal = 0;
         for(Cycle cycle : this.cycles) {
             this.gainMedTotal += cycle.getGainMedSequence();
         }

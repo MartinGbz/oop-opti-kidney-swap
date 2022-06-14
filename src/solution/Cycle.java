@@ -59,12 +59,15 @@ public class Cycle extends Sequence {
     }
 
     public boolean standardisation(int maxSizeCycle) {
-        int posBegin, posEnd = maxSizeCycle-1;
+        int posBegin=0, posEnd = maxSizeCycle-1;
         int sizeCycle = this.sequence.size(), sizeValideCycle=maxSizeCycle;
         Cycle c = new Cycle(this);
         Cycle cSol = new Cycle();
         Base bBegin, bEnd;
-
+        if(sizeCycle < maxSizeCycle) {
+            sizeValideCycle=sizeCycle;
+            posEnd=sizeCycle-1;
+        }
         while(sizeValideCycle != 1) {
             for(posBegin=0 ; posBegin < sizeCycle ; posBegin++) {
                 if(posEnd == sizeCycle) posEnd=0;

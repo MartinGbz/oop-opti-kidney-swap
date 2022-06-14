@@ -31,7 +31,7 @@ public class DangerousCycle implements Solveur {
         int notFirstLoop, sizeSol =0;
         Random r = new Random(0);
 
-        for(int k=0 ; k<10000 ; k++) {
+        for(int k=0 ; k<1000 ; k++) {
             notFirstLoop = 0;
             s = new Solution(i);
             endLoop = true;

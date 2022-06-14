@@ -3,6 +3,7 @@ package test;
 import instance.network.Altruist;
 import instance.network.Pair;
 import solution.Solution;
+import solveur.CyclesAndTree;
 import solveur.Solveur;
 import solution.Sequence;
 import solveur.meilleureTransplantation.MTwithReverseOrder;
@@ -75,11 +76,12 @@ public class TestAllSolveur{
      */
     private void addSolveurs() {
         // TO CHECK : constructeur par defaut de la classe InsertionSimple
-        solveurs.add(new SolutionTriviale());
-        solveurs.add(new MTwithSortOrder()); //trié croissant
-        solveurs.add(new MTwithReverseOrder()); //trié decroissant
-        solveurs.add(new MTwithoutSort()); //pas trié
-        solveurs.add(new ReplaceTransplantation()); //utilise true,true
+        //solveurs.add(new SolutionTriviale());
+        //solveurs.add(new MTwithSortOrder()); //trié croissant
+        //solveurs.add(new MTwithReverseOrder()); //trié decroissant
+        //solveurs.add(new MTwithoutSort()); //pas trié
+        //solveurs.add(new ReplaceTransplantation()); //utilise true,true
+        solveurs.add(new CyclesAndTree());
     }
 
 
