@@ -240,7 +240,7 @@ public class TestAllSolveur{
         FileWriter ecritureJson = null;
         try {
             ecriture = new PrintWriter(nomFichierResultats+".csv");
-            ecritureJson = new FileWriter("./webapp/src/app/"+nomFichierResultats+".json");
+            ecritureJson = new FileWriter("../kidney-webapp/src/app/"+nomFichierResultats+".json");
             printEnTetes(ecriture);
 
 
