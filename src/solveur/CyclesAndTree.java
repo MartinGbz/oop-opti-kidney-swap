@@ -20,6 +20,11 @@ import java.util.LinkedList;
 public class CyclesAndTree implements Solveur {
 
     private final String name = "best cycles + tree chain";
+    private boolean ordre = true;
+
+    public CyclesAndTree(boolean ordre) {
+        this.ordre = ordre;
+    }
 
     @Override
     public String getNom() {
@@ -28,71 +33,91 @@ public class CyclesAndTree implements Solveur {
 
     @Override
     public Solution solve(Instance i) {
-        //DangerousCycle dc = new DangerousCycle();
-        //Solution s = dc.solve(i);
-
+        LinkedList<Pair> pairsAvailables;
         Solution s = new Solution(i);
-        NotValidCycle nvc = new NotValidCycle();
-        s = nvc.creatCycle(new LinkedList<>(i.getPairs()),s);
+        Solution s1 = new Solution(i);
+        Solution s2 = new Solution(i);
+
+
+        if(ordre) {
+            pairsAvailables = new LinkedList<>(s.restOfPairs());
+            NotValidCycle nvc = new NotValidCycle();
+            s = nvc.creatCycle(pairsAvailables,s);
+            //cycleGeneration(s);
+            chainGeneration(s);
+            localGeneration(s);
+        } else {
+            chainGeneration(s);
+            pairsAvailables = new LinkedList<>(s.restOfPairs());
+            NotValidCycle nvc = new NotValidCycle();
+            s = nvc.creatCycle(pairsAvailables,s);
+            //cycleGeneration(s);
+            localGeneration(s);
+        }
 
 /*
-        LinkedList<Altruist> altruitToChain = new LinkedList<>(s.getInstance().getAltruists());
-        int maxSizeChain = s.getInstance().getMaxSizeChain();
-        LinkedList<Pair> pairToChain = new LinkedList<>(s.getInstance().getPairs());
-        for(Sequence seq : s.getCycles()) {
-            for(Base b : seq.getSequence()) {
-                pairToChain.remove(b);
-            }
+        pairsAvailables = new LinkedList<>(s1.restOfPairs());
+        NotValidCycle nvc1 = new NotValidCycle();
+        s1 = nvc1.creatCycle(pairsAvailables,s1);
+        //cycleGeneration(s);
+
+        chainGeneration(s1);
+
+        localGeneration(s1);
+
+        chainGeneration(s2);
+
+        pairsAvailables = new LinkedList<>(s2.restOfPairs());
+        NotValidCycle nvc2 = new NotValidCycle();
+        s2 = nvc2.creatCycle(pairsAvailables,s2);
+        //cycleGeneration(s);
+
+        localGeneration(s2);
+
+        if(s1.getGainMedTotal() > s2.getGainMedTotal()) {
+            System.out.println("--------------- "+ i.getName() +" -----------------");
+            System.out.println(s1);
+            return s1;
+        } else {
+            System.out.println("--------------- "+ i.getName() +" -----------------");
+            System.out.println(s2);
+            return s2;
         }
-
-        System.out.println("--------------- "+ i.getName() +" -----------------");
-        //System.out.println(s);
-        System.out.println("nombre de paires début : <" + s.getInstance().getPairs().size() + ">");
-        System.out.println("nombre de paires restantes : <" + pairToChain.size() + ">");
-*/
-
-        ArrayList<Altruist> altruitToChain = new ArrayList<>(s.getInstance().getAltruists());
-        int maxSizeChain = s.getInstance().getMaxSizeChain();
-        ArrayList<Pair> pairToChain = new ArrayList<>(s.getInstance().getPairs());
-        for(Sequence seq : s.getCycles()) {
-            for(Base b : seq.getSequence()) {
-                pairToChain.remove(b);
-            }
-        }
-        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>15) maxSizeChain = 3;
-        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>10) maxSizeChain = 4;
-        if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>5) maxSizeChain = 5;
-
-        LinkedList<LinkedList<ValidChain>> listChainsByAltruit = Node.getAllValidChainsFromTrees(altruitToChain, pairToChain, maxSizeChain);
-        Node.addChainsIntoSolution(s, Node.getBestCombo(altruitToChain, listChainsByAltruit));
-
+ */
         System.out.println("--------------- "+ i.getName() +" -----------------");
         System.out.println(s);
-        System.out.println("nombre de paires début : <" + s.getInstance().getPairs().size() + ">");
-/*
-        MeilleureTransplantationAdaptable mta = new MeilleureTransplantationAdaptable();
-        LinkedList<Pair> lastPairs = new LinkedList<>(s.getInstance().getPairs());
-        System.out.println("nombre de paires : <" + lastPairs.size() + ">\n");
-        for(Sequence seq : s.getCycles()) {
-            for(Base b : seq.getSequence()) {
-                lastPairs.remove(b);
-            }
-        }
-        for(Sequence seq : s.getChains()) {
-            for(Base b : seq.getSequence()) {
-                lastPairs.remove(b);
-            }
-        }
-        System.out.println("nombre de paires : <" + lastPairs.size() + ">\n");
-        System.out.println(lastPairs);
-        mta.finishSolve(lastPairs, s);
-
-        System.out.println(s);
-*/
-        //System.out.println("nombre de paires : <" + s.getInstance().getPairs().size() + ">\n");
-        //System.out.println("nombre de paires : <" + pairToChain.size() + ">\n");
-        //System.out.println("nombre de paires : <" + lastPairs.size() + ">\n");
         return s;
+    }
+
+    public void cycleGeneration(Solution s) {
+        LinkedList<Pair> pairsAvailables = new LinkedList<>(s.restOfPairs());
+        NotValidCycle nvc = new NotValidCycle();
+        s = nvc.creatCycle(pairsAvailables,s);
+    }
+
+    public void localGeneration(Solution s) {
+        LinkedList<Pair> pairsAvailables = new LinkedList<>(s.restOfPairs());
+        MeilleureTransplantationAdaptable mta = new MeilleureTransplantationAdaptable();
+        mta.finishSolve(pairsAvailables, s);
+    }
+
+    public void chainGeneration(Solution s) {
+        LinkedList<Altruist> altruistsAvailables = new LinkedList<>(s.restOfAltruists());
+        LinkedList<Pair> pairsAvailables = new LinkedList<>(s.restOfPairs());
+        int maxSizeChain = s.getInstance().getMaxSizeChain();
+
+        if(maxSizeChain>8 && pairsAvailables.size()>75 && altruistsAvailables.size()>15) maxSizeChain = 3;
+        if(maxSizeChain>8 && pairsAvailables.size()>75 && altruistsAvailables.size()>10) maxSizeChain = 4;
+        if(maxSizeChain>8 && pairsAvailables.size()>75 && altruistsAvailables.size()>5) maxSizeChain = 5;
+
+        if(altruistsAvailables.size()>27) maxSizeChain = 4;
+        if(altruistsAvailables.size() == 13 && s.getInstance().getMaxSizeChain() > 4) maxSizeChain = 4;
+        if(altruistsAvailables.size() == 5 && s.getInstance().getMaxSizeChain() == 13) maxSizeChain = 4;
+
+        LinkedList<LinkedList<ValidChain>> listChainsByAltruit =
+                Node.getAllValidChainsFromTrees(new ArrayList<>(altruistsAvailables),
+                        new ArrayList<>(pairsAvailables) , maxSizeChain);
+        Node.addChainsIntoSolution(s, Node.getBestCombo(new ArrayList<>(altruistsAvailables) , listChainsByAltruit));
     }
 
     public static void main(String[] args) {
@@ -103,7 +128,7 @@ public class CyclesAndTree implements Solveur {
             //InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt"); // mettre le nom du fichier
             Instance instance = reader.readInstance();
 
-            CyclesAndTree ct = new CyclesAndTree();
+            CyclesAndTree ct = new CyclesAndTree(true);
             Solution s = ct.solve(instance);
 
             System.out.println(ct);

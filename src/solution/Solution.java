@@ -1,5 +1,6 @@
 package solution;
 
+import instance.network.Base;
 import operateur.CycleNotValide;
 import operateur.InsertionPair;
 import operateur.ReplacementPair;
@@ -252,6 +253,13 @@ public class Solution {
         }
     }
 
+    public void createChainsWithSpecificAltruists(LinkedList<Altruist> altruists) {
+        for(Altruist altruistToAdd : altruists) {
+            Chain ch = new Chain(altruistToAdd);
+            this.getChains().addLast(ch);
+        }
+    }
+
     public void addPairsIntoChains(Instance i) {
         boolean status;
         for(Pair pairToAdd : i.getPairs()) {
@@ -295,8 +303,15 @@ public class Solution {
         InsertionPair insMeilleur = new InsertionPair();
         if(pairToInsert == null) return insMeilleur;
 
-        if(this.chains.size() < this.getInstance().getNbAltruists())
-            this.createChainsWithAltruists(this.getInstance());
+        if(this.chains.size() < this.getInstance().getNbAltruists()) {
+            LinkedList<Altruist> lastAltruists = new LinkedList<>(this.getInstance().getAltruists());
+            for(Chain chain : this.getChains()) {
+                for(Base b : chain.getSequence()) {
+                    lastAltruists.remove(b);
+                }
+            }
+            this.createChainsWithSpecificAltruists(lastAltruists);
+        }
 
         LinkedList<Sequence> sequenceChainCycle = new LinkedList<>();
         for(Sequence chain : this.chains) {
@@ -400,6 +415,29 @@ public class Solution {
 
         //this.gainMedTotal += infos.getDeltaCout();
         return true;
+    }
+
+    public LinkedList<Pair> restOfPairs() {
+        LinkedList<Pair> pairsNotAssigned = new LinkedList<Pair>(this.getInstance().getPairs());
+        for(Sequence seq : this.getCycles()) {
+            for(Base b : seq.getSequence()) {
+                pairsNotAssigned.remove(b);
+            }
+        }
+        for(Sequence seq : this.getChains()) {
+            for(Base b : seq.getSequence()) {
+                pairsNotAssigned.remove(b);
+            }
+        }
+        return pairsNotAssigned;
+    }
+
+    public LinkedList<Altruist> restOfAltruists() {
+        LinkedList<Altruist> altruitsNotAssigned = new LinkedList<Altruist>(this.getInstance().getAltruists());
+        for(Sequence seq : this.getChains()) {
+            altruitsNotAssigned.remove(seq.getSequence().getFirst());
+        }
+        return altruitsNotAssigned;
     }
 
 

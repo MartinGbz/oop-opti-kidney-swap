@@ -81,7 +81,8 @@ public class TestAllSolveur{
         //solveurs.add(new MTwithReverseOrder()); //trié decroissant
         //solveurs.add(new MTwithoutSort()); //pas trié
         //solveurs.add(new ReplaceTransplantation()); //utilise true,true
-        solveurs.add(new CyclesAndTree());
+        solveurs.add(new CyclesAndTree(true));
+        //solveurs.add(new CyclesAndTree(false));
     }
 
 
