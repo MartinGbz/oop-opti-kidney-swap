@@ -29,6 +29,7 @@ public abstract class Sequence {
     public LinkedList<Base> getSequence() {
         return sequence;
     }
+    public int getSequenceSize(){ return  sequence.size(); }
 
     public abstract int calculGainMed();
 
