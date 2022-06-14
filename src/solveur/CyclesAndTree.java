@@ -56,12 +56,8 @@ public class CyclesAndTree implements Solveur {
             System.out.println("pairToChain.size(): " + pairToChain.size());
             System.out.println("altruitToChain.size(): " + altruitToChain.size());
 
-            if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>15) maxSizeChain = 3;
-            if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>10) maxSizeChain = 4;
-            if(maxSizeChain>8 && pairToChain.size()>75 && altruitToChain.size()>5) maxSizeChain = 5;
-
             listChainsByAltruit = Node.getAllValidChainsFromTrees(i, altruitToChain, pairToChain, maxSizeChain);
-            Node.addChainsIntoSolution(s, Node.getBestCombo(altruitToChain, listChainsByAltruit));
+            Node.addChainsIntoSolution(s, Node.getBestCombo(listChainsByAltruit));
 
         } while(!listChainsByAltruit.isEmpty());
 
