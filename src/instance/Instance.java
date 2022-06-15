@@ -6,7 +6,6 @@ import instance.network.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Instance {
     private final String name;
@@ -81,7 +80,7 @@ public class Instance {
      * @return True/false
      */
     public Boolean addTranspantations(Base donneur, ArrayList<Integer> gains) {
-        if(donneur==null) return false; //le code dit que 5 et 6 sont null
+        if(donneur==null) return false;
         for(int i=0; i< nbPairs; i++) {
             donneur.addTransplantation(pairs.get(i + nbAltruists+1), gains.get(i));
         }
@@ -108,7 +107,7 @@ public class Instance {
         return "Instance{" +
                 "name='" + name + '\'' +
                 ", nbPairs=" + nbPairs +
-                ", nbAltruists=" + nbAltruists +
+                ", nbAltruists:" + nbAltruists +
                 ", maxSizeCycle=" + maxSizeCycle +
                 ", maxSizeChain=" + maxSizeChain +
                 ", altruists=" + altruists +
@@ -116,5 +115,4 @@ public class Instance {
                 '}';
     }
 }
-
 

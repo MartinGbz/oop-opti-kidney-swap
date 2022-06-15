@@ -1,8 +1,8 @@
 package io;
 
-import Solution.Solution;
+import solution.Solution;
 import instance.Instance;
-import Solution.*;
+import solution.*;
 import instance.network.Base;
 
 import java.io.File;
@@ -15,9 +15,9 @@ public class SolutionWriter {
 
     private final String pathSolution;
 
-    private String directorySolution;
-    private String tab = "\t";
-    private String backLine = "\n";
+    private final String directorySolution;
+    private final String tab = "\t";
+    private final String backLine = "\n";
 
     public SolutionWriter(Solution solution, String directorySolution) {
         String nomFicInst = stripExtension(solution.getInstance().getName());
@@ -50,7 +50,7 @@ public class SolutionWriter {
 
         File d = new File(directorySolution);
         if(!d.exists() || !d.isDirectory()){
-            d.mkdir();
+            d.mkdirs();
         }
         if(f.isFile()) { //si le fichier existe deja
             f.delete(); //on le supprime
@@ -129,6 +129,5 @@ public class SolutionWriter {
 
 
     }
-
 
 }
