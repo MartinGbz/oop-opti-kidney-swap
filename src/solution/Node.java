@@ -402,17 +402,21 @@ public class Node {
 
         LinkedList<LinkedList<ValidChain>> listValidChainsByAltruit = new LinkedList<>();
         LinkedList<ValidChain> validChains;
-        long tpsByTree = 7000 / altruistsValid.size();
 
-        for(Altruist a : altruistsValid) {
-            Node n1 = new Node(a);
-            createTree(n1, maxDepth, pairsValid, tpsByTree);
-            validChains = new LinkedList<>();
-            extractValidChainsFromTree(n1, validChains);
+        if(altruistsValid.size() != 0) {
+            //ceci est a adapter ! et modifier pour avoir des résultats concluants
+            long tpsByTree = 10000 / altruistsValid.size();
 
-            if(!validChains.isEmpty()) {
-                sortValidChain(validChains, "DESC");
-                listValidChainsByAltruit.add(validChains);
+            for(Altruist a : altruistsValid) {
+                Node n1 = new Node(a);
+                createTree(n1, maxDepth, pairsValid, tpsByTree);
+                validChains = new LinkedList<>();
+                extractValidChainsFromTree(n1, validChains);
+
+                if(!validChains.isEmpty()) {
+                    sortValidChain(validChains, "DESC");
+                    listValidChainsByAltruit.add(validChains);
+                }
             }
         }
         return listValidChainsByAltruit;
