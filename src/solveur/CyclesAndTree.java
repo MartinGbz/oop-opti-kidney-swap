@@ -39,7 +39,8 @@ public class CyclesAndTree implements Solveur {
             }
         }
 
-        LinkedList<LinkedList<Chain>> listChainsByAltruit;
+        // LinkedList<LinkedList<Chain>> listChainsByAltruit;
+        LinkedList<LinkedList<ValidChain>> listValidChainsByAltruit;
 
         do {
             System.out.println("***********************************");
@@ -56,10 +57,14 @@ public class CyclesAndTree implements Solveur {
             System.out.println("pairToChain.size(): " + pairToChain.size());
             System.out.println("altruitToChain.size(): " + altruitToChain.size());
 
-            listChainsByAltruit = Node.getAllValidChainsFromTrees(i, altruitToChain, pairToChain, maxSizeChain);
-            Node.addChainsIntoSolution(s, Node.getBestCombo(listChainsByAltruit));
+            listValidChainsByAltruit = Node.getAllValidChainsFromTrees(i, altruitToChain, pairToChain, maxSizeChain);
+            // listChainsByAltruit = Node.getAllChainsFromTrees(i, altruitToChain, pairToChain, maxSizeChain);
 
-        } while(!listChainsByAltruit.isEmpty());
+            Node.addValidChainsIntoSolution(s, Node.getBestComboValidChain(listValidChainsByAltruit));
+            // Node.addChainsIntoSolution(s, Node.getBestCombo(listChainsByAltruit));
+
+        } while(!listValidChainsByAltruit.isEmpty());
+        // } while(!listChainsByAltruit.isEmpty());
 
         System.out.println("--------------------------------");
         System.out.println(i.getName());
