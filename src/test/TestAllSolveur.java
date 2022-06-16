@@ -3,6 +3,7 @@ package test;
 import solution.Solution;
 import solveur.CyclesAndTree;
 import solveur.ReplaceTransplantation;
+import solveur.SolutionTriviale;
 import solveur.Solveur;
 import com.google.gson.*;
 import instance.Instance;
@@ -16,6 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import solveur.meilleureTransplantation.MTwithReverseOrder;
+import solveur.meilleureTransplantation.MTwithSortOrder;
+import solveur.meilleureTransplantation.MTwithoutSort;
 import ui.JsonGenerator;
 
 public class TestAllSolveur{
@@ -67,11 +72,11 @@ public class TestAllSolveur{
      */
     private void addSolveurs() {
         // TO CHECK : constructeur par defaut de la classe InsertionSimple
-        //solveurs.add(new SolutionTriviale());
-        //solveurs.add(new MTwithSortOrder()); //trié croissant
-        //solveurs.add(new MTwithReverseOrder()); //trié decroissant
-        //solveurs.add(new MTwithoutSort()); //pas trié
-        //solveurs.add(new ReplaceTransplantation()); //utilise true,true
+        solveurs.add(new SolutionTriviale());
+        solveurs.add(new MTwithSortOrder()); //trié croissant
+        solveurs.add(new MTwithReverseOrder()); //trié decroissant
+        solveurs.add(new MTwithoutSort()); //pas trié
+        solveurs.add(new ReplaceTransplantation()); //utilise true,true
         solveurs.add(new CyclesAndTree(true));
         //solveurs.add(new CyclesAndTree(false));
     }
@@ -236,11 +241,10 @@ public class TestAllSolveur{
         FileWriter ecritureJson = null;
         try {
             ecriture = new PrintWriter(nomFichierResultats+".csv");
-            //ecritureJson = new FileWriter("../kidney-webapp/src/app/"+nomFichierResultats+".json");
-            ecritureJson = new FileWriter("../oop-opti-kidney-swap/"+nomFichierResultats+".json");
+            ecritureJson = new FileWriter("./"+nomFichierResultats+".json");
             printEnTetes(ecriture);
 
-            //Fabrication du json pour l'ensemble des instances
+            //Fabrication du json & csv pour l'ensemble des instances
             for(Instance inst : instances) {
                 jsonArray.add(printResultatsInstance(ecriture, inst));
             }
@@ -260,9 +264,11 @@ public class TestAllSolveur{
             File htmlFile = new File(url);
             Desktop.getDesktop().browse(htmlFile.toURI());*/
 
-        } catch (IOException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println("Erreur fichier ecriture");
             System.out.println(ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         if(ecriture != null) {
             ecriture.close();
