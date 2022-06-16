@@ -50,7 +50,7 @@ public class DangerousCycle implements Solveur {
             s = new Solution(i);
             endLoop = true;
             while (endLoop) {
-                LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs());
+                LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs().values());
                 if (notFirstLoop != 0) {
                     for (Cycle c : s.getCycles()) {
                         for (Base b : c.getSequence()) {

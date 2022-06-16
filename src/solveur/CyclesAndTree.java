@@ -7,10 +7,7 @@ import instance.network.Pair;
 import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
-import solution.Node;
-import solution.Sequence;
-import solution.Solution;
-import solution.ValidChain;
+import solution.*;
 import solveur.meilleureTransplantation.MeilleureTransplantation;
 import solveur.meilleureTransplantation.MeilleureTransplantationAdaptable;
 
@@ -72,7 +69,33 @@ public class CyclesAndTree implements Solveur {
         s2 = nvc2.creatCycle(pairsAvailables,s2);
         //cycleGeneration(s);
 
+        // LinkedList<LinkedList<Chain>> listChainsByAltruit;
+        LinkedList<LinkedList<ValidChain>> listValidChainsByAltruit;
+
         localGeneration(s2);
+        do {
+            System.out.println("***********************************");
+            System.out.println(altruitToChain);
+            for(Chain chain : s.getChains()) {
+                altruitToChain.remove(chain.getSequence().getFirst());
+                for(int k=1; k<chain.getSequence().size(); k++) {
+                    pairToChain.remove(chain.getSequence().get(k));
+                }
+            }
+            System.out.println(altruitToChain);
+            System.out.println("***********************************");
+
+            System.out.println("pairToChain.size(): " + pairToChain.size());
+            System.out.println("altruitToChain.size(): " + altruitToChain.size());
+
+            listValidChainsByAltruit = Node.getAllValidChainsFromTrees(i, altruitToChain, pairToChain, maxSizeChain);
+            // listChainsByAltruit = Node.getAllChainsFromTrees(i, altruitToChain, pairToChain, maxSizeChain);
+
+            Node.addValidChainsIntoSolution(s, Node.getBestComboValidChain(listValidChainsByAltruit));
+            // Node.addChainsIntoSolution(s, Node.getBestCombo(listChainsByAltruit));
+
+        } while(!listValidChainsByAltruit.isEmpty());
+        // } while(!listChainsByAltruit.isEmpty());
 
         if(s1.getGainMedTotal() > s2.getGainMedTotal()) {
             System.out.println("--------------- "+ i.getName() +" -----------------");

@@ -11,6 +11,7 @@ import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Solution {
@@ -46,8 +47,6 @@ public class Solution {
     public LinkedList<Chain> getChains() {
         return chains;
     }
-
-
 
     @Override
     public String toString() {
@@ -130,7 +129,8 @@ public class Solution {
      * @return
      */
     private boolean checkPresenceUniqueAltruists() {
-        for(Altruist altruist : this.instance.getAltruists()) {
+        ArrayList<Altruist> altruists = new ArrayList<>(this.instance.getAltruists().values());
+        for(Altruist altruist : altruists) {
             if(!isAltruistUnique(altruist)) {
                 System.out.println("Check PresenceUniqueAltruists False (altruiste : " + altruist + ")");
                 return false;
@@ -144,7 +144,8 @@ public class Solution {
      * @return
      */
     private boolean checkPresenceUniquePairs() {
-        for(Pair pair: this.instance.getPairs()) {
+        ArrayList<Pair> pairs = new ArrayList<>(this.instance.getPairs().values());
+        for(Pair pair: pairs) {
             if(!isPairUnique(pair)) {
                 System.out.println("Check PresenceUniquePairs False (paire : " + pair + ")");
                 return false;
@@ -220,8 +221,8 @@ public class Solution {
     }
 
     public void deleteSequenceNotUsed() {
-        LinkedList<Cycle> copyCycle = new LinkedList<>(this.cycles);
-        LinkedList<Chain> copyChain = new LinkedList<>(this.chains);
+        LinkedList<Cycle> copyCycle = new LinkedList<>(this.getCycles());
+        LinkedList<Chain> copyChain = new LinkedList<>(this.getChains());
         for(Cycle cycle : copyCycle) {
             if(cycle.getSequence().size() < 2 || cycle.getSequence().size() > this.getInstance().getMaxSizeCycle() ||
                     !cycle.getSequence().getLast().isCompatible(cycle.getSequence().getFirst()))
@@ -246,8 +247,13 @@ public class Solution {
         return pairsToBeReused;
     }
 
+    /**
+     * Créé et ajoute des chaines à partir de la liste des altruistes dans l'instance
+     * @param i une instance
+     */
     public void createChainsWithAltruists(Instance i) {
-        for(Altruist altruistToAdd : i.getAltruists()) {
+        ArrayList<Altruist> altruists = new ArrayList<>(i.getAltruists().values());
+        for(Altruist altruistToAdd : altruists) {
             Chain ch = new Chain(altruistToAdd);
             this.getChains().addLast(ch);
         }
@@ -262,7 +268,8 @@ public class Solution {
 
     public void addPairsIntoChains(Instance i) {
         boolean status;
-        for(Pair pairToAdd : i.getPairs()) {
+        ArrayList<Pair> pairs = new ArrayList<>(i.getPairs().values());
+        for(Pair pairToAdd : pairs) {
             status = false;
             for(Chain chain : this.getChains()) {
                 if(chain.getSequence().size() < i.getMaxSizeChain())
@@ -274,7 +281,8 @@ public class Solution {
 
     public void addPairsIntoCycles(Instance i) {
         boolean status;
-        for(Pair pairToAdd : i.getPairs()) {
+        ArrayList<Pair> pairs = new ArrayList<>(i.getPairs().values());
+        for(Pair pairToAdd : pairs) {
             status = false;
             if(!isUsedInChain(pairToAdd)) {
                 for(Cycle cycle : this.getCycles()) {
@@ -341,7 +349,8 @@ public class Solution {
 
         boolean presence = false;
         if(this.chains.size() < this.getInstance().getNbAltruists()) {
-            for(Altruist a : this.getInstance().getAltruists()) {
+            ArrayList<Altruist> altruists = new ArrayList<>(this.getInstance().getAltruists().values());
+            for(Altruist a : altruists) {
                 for(Chain c : this.getChains()) {
                     if(c.sequence.contains(a))
                         presence = true;
