@@ -2,6 +2,7 @@ package test;
 
 import solution.Solution;
 import solveur.CyclesAndTree;
+import solveur.ReplaceTransplantation;
 import solveur.Solveur;
 import com.google.gson.*;
 import instance.Instance;
@@ -235,7 +236,8 @@ public class TestAllSolveur{
         FileWriter ecritureJson = null;
         try {
             ecriture = new PrintWriter(nomFichierResultats+".csv");
-            ecritureJson = new FileWriter("../kidney-webapp/src/app/"+nomFichierResultats+".json");
+            //ecritureJson = new FileWriter("../kidney-webapp/src/app/"+nomFichierResultats+".json");
+            ecritureJson = new FileWriter("../oop-opti-kidney-swap/"+nomFichierResultats+".json");
             printEnTetes(ecriture);
 
             //Fabrication du json pour l'ensemble des instances

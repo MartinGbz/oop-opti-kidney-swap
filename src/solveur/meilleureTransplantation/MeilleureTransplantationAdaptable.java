@@ -45,8 +45,8 @@ public class MeilleureTransplantationAdaptable  {
         for(Pair p : copyPair) {
             ratio.add(p.ratioGain());
         }
-        Collections.sort(ratio);
-
+        //Collections.sort(ratio);
+        Collections.sort(ratio, Collections.reverseOrder());
         for(Integer r : ratio) {
             for(Pair p : copyPair) {
                 if(r == p.ratioGain()) {

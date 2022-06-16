@@ -99,6 +99,10 @@ public class CyclesAndTree implements Solveur {
         LinkedList<Pair> pairsAvailables = new LinkedList<>(s.restOfPairs());
         MeilleureTransplantationAdaptable mta = new MeilleureTransplantationAdaptable();
         mta.finishSolve(pairsAvailables, s);
+
+        pairsAvailables = new LinkedList<>(s.restOfPairs());
+        ReplaceTransplantationAdaptable rta = new ReplaceTransplantationAdaptable();
+        rta.localReplacement(pairsAvailables, s);
     }
 
     public void chainGeneration(Solution s) {

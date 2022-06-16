@@ -60,7 +60,7 @@ public abstract class Sequence {
     }
 
     public int deltaCoutReplacement(int position, Pair pairToReplace) {
-        System.out.println("I am HERE");
+        //System.out.println("I am HERE");
         if(!isPositionValideReplacement(position) || pairToReplace == null)
             return Integer.MAX_VALUE;
 
