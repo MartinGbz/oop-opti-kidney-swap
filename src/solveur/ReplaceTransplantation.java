@@ -24,7 +24,7 @@ public class ReplaceTransplantation implements Solveur {
     public Solution solve(Instance i) {
         MeilleureTransplantation mt = new MeilleureTransplantation(true, false);
         Solution s = mt.solve(i);
-        LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs());
+        LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs().values());
 
         initCopyPair(s, copyPair);
         while(!copyPair.isEmpty()) {

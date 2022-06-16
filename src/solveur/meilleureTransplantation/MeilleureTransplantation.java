@@ -35,7 +35,7 @@ public class MeilleureTransplantation implements Solveur {
     public Solution solve(Instance i) {
         if(i == null) return null;
         Solution s = new Solution(i);
-        LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs());
+        LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs().values());
         //InsertionPair insMeilleur;
 
         if(activeSort) {

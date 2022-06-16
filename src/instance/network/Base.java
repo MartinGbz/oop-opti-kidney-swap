@@ -56,12 +56,10 @@ public abstract class Base {
     public boolean asCompatibility() {
         // if(this == null) return false;
         //Boucle while+iterator
-        Iterator iterator = this.transplantations.entrySet().iterator();
-        while(iterator.hasNext()) {
-            Map.Entry mapentry = (Map.Entry) iterator.next();
-            Transplantation t = (Transplantation) mapentry.getValue();
+        for (Map.Entry<Pair, Transplantation> pairTransplantationEntry : this.transplantations.entrySet()) {
+            Transplantation t = (Transplantation) ((Map.Entry<?, ?>) pairTransplantationEntry).getValue();
             int gain = t.getMedicalGain();
-            if(gain != -1) return true;
+            if (gain != -1) return true;
         }
         return false;
     }
@@ -139,4 +137,7 @@ public abstract class Base {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
+
 }

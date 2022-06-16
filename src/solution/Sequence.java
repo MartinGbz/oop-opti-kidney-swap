@@ -303,4 +303,43 @@ public abstract class Sequence {
         return true;
     }
 
+    /**
+     * Comparaison afin d'obtenir un tri décroissant lors des tris
+     * @param v2 la chaine à comparer avec this
+     * @param sortingDirection "ASC" ou "DESC"
+     * @return 1 ou -1 en fonction du sens choisi et de la comparaison
+     */
+    public int compareTo(Chain v2, String sortingDirection) {
+        int gain1 = this.getGainMedSequence();
+        int gain2 = v2.getGainMedSequence();
+        if(sortingDirection.equals("ASC")) {
+            if(gain1 < gain2) {
+                return -1;
+            }
+            else if(gain1 > gain2) {
+                return 1;
+            }
+        }
+        else if(sortingDirection.equals("DESC")) {
+            if (gain1 > gain2) {
+                return -1;
+            } else if (gain1 < gain2) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Parcourt les deux séquences pour déterminer si l'association des deux séquences ne crée pas de doublon de Paires ou d'altruistes
+     * @param seqToCompare la séquence à comparer avec this
+     * @return True si aucun doublon, false sinon
+     */
+    public boolean canBeCombined(Sequence seqToCompare) {
+        for(Base b : seqToCompare.getSequence()) {
+            if(this.getSequence().contains(b)) return false;
+        }
+        return true;
+    }
+
 }

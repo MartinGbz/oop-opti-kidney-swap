@@ -32,13 +32,13 @@ public class InstanceSerializer implements JsonSerializer<Instance> {
             JsonArray listPairs = new JsonArray();
 
             //Parcours de tous les altruists
-            for(Altruist altruist : instance.getAltruists()){
+            for(Altruist altruist : instance.getAltruists().values()){
                 JsonObject jObjectAltruist = new JsonObject();
                 jObjectAltruist.addProperty("id", altruist.getId());
                 listAltruists.add(jObjectAltruist);
             }
             //Parcours de toutes les paires
-            for(Pair pair : instance.getPairs()){
+            for(Pair pair : instance.getPairs().values()){
                 JsonObject jObjectPair= new JsonObject();
                 jObjectPair.addProperty("id", pair.getId());
                 listPairs.add(jObjectPair);
