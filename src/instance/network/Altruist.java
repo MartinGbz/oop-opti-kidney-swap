@@ -1,7 +1,11 @@
 package instance.network;
 
+/**
+ * Classe Altruist héritée de Base
+ */
 public class Altruist extends Base {
 
+    //Constructor
     public Altruist(int id) {
         super(id);
     }

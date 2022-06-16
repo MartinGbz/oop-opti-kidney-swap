@@ -4,17 +4,25 @@ import instance.network.Altruist;
 import instance.network.Base;
 import instance.network.Pair;
 
+/**
+ * Classe représentant la chaine constitué d'1 altruist et de n paires
+ */
 public class Chain extends Sequence {
 
+    //Constructor
     public Chain() {
         super();
     }
-
     public Chain(Altruist altruist) {
         this();
         this.sequence.addFirst(altruist);
     }
 
+    /**
+     * Ajoute une paire dans une chaine
+     * @param pairToAdd paire à ajouter à la chaine
+     * @return Etat du succès de l'ajout d'une paire à la chaine (boolean)
+     */
     public boolean addPairToChain(Pair pairToAdd) {
         if(pairToAdd == null) return false;
         Base b = this.sequence.getLast();
@@ -29,6 +37,10 @@ public class Chain extends Sequence {
         return true;
     }
 
+    /**
+     * Obtention du gain médical du cycle
+     * @return gain médical du cycle (Int)
+     */
     @Override
     public int calculGainMed() {
         return 0;

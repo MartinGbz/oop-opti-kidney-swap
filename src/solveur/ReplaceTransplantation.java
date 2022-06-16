@@ -22,7 +22,7 @@ public class ReplaceTransplantation implements Solveur {
 
     @Override
     public Solution solve(Instance i) {
-        MeilleureTransplantation mt = new MeilleureTransplantation(true, true);
+        MeilleureTransplantation mt = new MeilleureTransplantation(true, false);
         Solution s = mt.solve(i);
         LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs());
 

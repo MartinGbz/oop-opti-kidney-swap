@@ -172,6 +172,11 @@ public class Solution {
         return true;
     }
 
+    /**
+     *
+     * @param pair
+     * @return
+     */
     public boolean isPairUnique(Pair pair) {
         int nbTot = 0;
         for(Chain c : this.chains) {

@@ -3,20 +3,24 @@ package solution;
 import instance.network.Base;
 import instance.network.Pair;
 
-//ceci est un commentaire
-
+/**
+ * Classe représentant le cycle entre paires
+ */
 public class Cycle extends Sequence {
 
+    //Constructor
     public Cycle() {
         super();
     }
-
     public Cycle(Cycle c) {
         super(c.sequence,c.gainMedSequence);
     }
+
     /**
      * Ajoute une paire dans un cycle (si le cycle en cours n'est pas vide = ajout si compatible,
      * sinon le cycle est vide, ajout dans un nouveau cycle)
+     * @param pairToAdd paire à ajouter au cycle
+     * @return Etat du succès de l'ajout d'une paire à un cycle (boolean)
      */
     public boolean addPairToCycleEnd(Pair pairToAdd) {
         if(pairToAdd == null) return false;
@@ -44,7 +48,7 @@ public class Cycle extends Sequence {
         return true;
     }
 
-    public boolean addPairToInvalideCycle(Pair pairToAdd) {
+    /*public boolean addPairToInvalideCycle(Pair pairToAdd) {
         if(pairToAdd == null) return false;
         if(!pairToAdd.asCompatibility()) return false;
         int delta;
@@ -56,8 +60,14 @@ public class Cycle extends Sequence {
         }
         this.sequence.addLast(pairToAdd);
         return true;
-    }
+    }*/
 
+    /**
+     *
+     * @param maxSizeCycle
+     * @return (boolean)
+     */
+    //TODO javadoc
     public boolean standardisation(int maxSizeCycle) {
         int posBegin=0, posEnd = maxSizeCycle-1;
         int sizeCycle = this.sequence.size(), sizeValideCycle=maxSizeCycle;
@@ -109,6 +119,10 @@ public class Cycle extends Sequence {
         return false;
     }
 
+    /**
+     * Obtention du gain médical du cycle
+     * @return gain médical du cycle (Int)
+     */
     @Override
     public int calculGainMed() {
         if(this.sequence.size() < 2) return 0;
@@ -129,6 +143,11 @@ public class Cycle extends Sequence {
         return gainMed;
     }
 
+    /**
+     * Checker vérifiant la faisabilité du cycle (respect des contraintes)
+     * @param maxSize taille maximale du cycle
+     * @return état de validation du checker (boolean)
+     */
     public boolean check(int maxSize) {
         if(this.sequence.isEmpty()) return false;
         int sizeSeq = this.sequence.size();

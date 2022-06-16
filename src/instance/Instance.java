@@ -7,6 +7,9 @@ import instance.network.Pair;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe contenant les propriétés de l'instance lue
+ */
 public class Instance {
     private final String name;
     private final int nbPairs;
@@ -17,6 +20,7 @@ public class Instance {
     private final HashMap<Integer, Altruist> altruists;
     private final HashMap<Integer, Pair> pairs;
 
+    //Constructor
     public Instance(String name, int nbPairs, int nbAltruists, int maxSizeCycle, int maxSizeChain) {
         this.name = name;
         this.nbPairs = nbPairs;
@@ -27,6 +31,7 @@ public class Instance {
         this.pairs = new HashMap<>();
     }
 
+    //Getters
     public ArrayList<Pair> getPairs() {
         return new ArrayList<>(pairs.values());
     }

@@ -78,7 +78,7 @@ public class TestAllSolveur{
         solveurs.add(new MTwithoutSort()); //pas trié
         solveurs.add(new ReplaceTransplantation()); //utilise true,true
         solveurs.add(new CyclesAndTree(true));
-        //solveurs.add(new CyclesAndTree(false));
+        /*solveurs.add(new CyclesAndTree(false));*/
     }
 
 

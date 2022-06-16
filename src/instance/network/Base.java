@@ -2,16 +2,21 @@ package instance.network;
 
 import java.util.*;
 
+/**
+ * Classe abstraite représentant le patient/donneur
+ */
 public abstract class Base {
 
     protected int id;
     private final Map<Pair, Transplantation> transplantations;
 
+    //Constructor
     public Base(int id) {
         this.id = id;
         this.transplantations = new HashMap<>();
     }
 
+    //Getters
     public int getId() {
         return id;
     }
@@ -84,6 +89,11 @@ public abstract class Base {
         return idBestCompatibility;
     }
 
+    /**
+     * Obtenir le gain médical entre un altruiste/paire vers une paire
+     * @param dest Paire de destination
+     * @return gain médical (Int)
+     */
     public int getGainVers(Pair dest) {
         int gain = this.transplantations.get(dest).getMedicalGain();
         if(gain != -1)
@@ -92,6 +102,10 @@ public abstract class Base {
             return Integer.MAX_VALUE;
     }
 
+    /**
+     * Obtenir les altruists ayant le plus fort taux de compatibilité
+     * @return ratio obtenu (Int)
+     */
     public int ratioGain() {
         int ratioTemp, ratio=0, div=0;
         Transplantation t;
