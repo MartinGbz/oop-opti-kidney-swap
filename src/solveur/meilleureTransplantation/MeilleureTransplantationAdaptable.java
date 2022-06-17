@@ -57,7 +57,6 @@ public class MeilleureTransplantationAdaptable  {
             }
         }
         copyPair = copyOfCopyPair;
-        System.out.println("la liste des pairs après < " + copyPair + " >");
         return copyPair;
     }
 
