@@ -176,7 +176,7 @@ public class Node {
             LinkedList<ValidChain> chains2;
             for (int j = i+1; j < listListValidChain.size(); j++) {
                 chains2 = listListValidChain.get(j);
-                bestComboCur = getBestComboBetweenListValidChains(validChains1, chains2);
+                bestComboCur = getBestComboBetweenListValidChains(validChains1, chains2, bestComboFinal.getGainTot()); // TODO : envoyer le gain actu pour limiter les boucles dans la fonction
                 if (bestComboCur.getGainTot() > bestComboFinal.getGainTot()) {
                     bestComboFinal = bestComboCur;
                 }
@@ -185,13 +185,12 @@ public class Node {
         return bestComboFinal.list;
     }
 
-    private static BestComboValidChain getBestComboBetweenListValidChains(LinkedList<ValidChain> chains1, LinkedList<ValidChain> chains2) {
-        int gainTot = 0;
+    private static BestComboValidChain getBestComboBetweenListValidChains(LinkedList<ValidChain> chains1, LinkedList<ValidChain> chains2, int gainActuTrouve) {
+        int gainTot;
 
         ValidChain chainChoisie1;
         ValidChain chainChoisie2 = new ValidChain();
 
-        double percentage = 0.4;
         double limite = Integer.MAX_VALUE; // à modifier si besoin
 
         double limit1 = chains1.size();
@@ -215,7 +214,8 @@ public class Node {
 
         for(int i = 0; i < limit1; i++) {
             ValidChain vC1 = chains1.get(i);
-            if( (chains1.get(i).getGain() + (chains2.get(0).getGain())) < gainTot) {
+            if( ((chains1.get(i).getGain() + chains2.get(0).getGain()) < gainTot) ||
+                    ( (chains1.get(i).getGain() + chains2.get(0).getGain()) < gainActuTrouve) ) {
                 break;
             }
             for(int j = 0; j < limit2; j++) {
@@ -342,7 +342,7 @@ public class Node {
         System.out.println("\n ------------ COMBO CHAINES... ");
         System.out.println("Les deux chaines peuvent elles se combiner ? " + validChains1.get(0).canBeCombined(validChains1.get(1)));
         System.out.println("Meilleur combo entre les deux listes de chaines valides :");
-        System.out.println(getBestComboBetweenListValidChains(validChains1, validChains2));
+        System.out.println(getBestComboBetweenListValidChains(validChains1, validChains2, 0));
     }
 
     /**
@@ -411,13 +411,24 @@ public class Node {
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/KEP_p50_n3_k3_l4.txt");
+            InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt");
             Instance instance = reader.readInstance();
             System.out.println(instance);
 
             // testBasicCreationTree(instance, instance.getMaxSizeChain());
 
-            testGetAllValidChainWithTree(instance, instance.getMaxSizeChain(), 1000);
+            int maxSizeChain = instance.getMaxSizeChain();
+
+            if(instance.getMaxSizeChain() > 9) {
+                switch (instance.getAltruists().values().size()) {
+                    case 82 -> maxSizeChain = 4;
+                    case 27 -> maxSizeChain = 5;
+                    case 8122 -> maxSizeChain = 6;
+                }
+            }
+            System.out.println("Taille max de la chaine <" + maxSizeChain + ">");
+
+            testGetAllValidChainWithTree(instance, maxSizeChain, 1000);
             // testGetAllValidChainWithTree(instance,6);
 
         } catch (Exception ex) {

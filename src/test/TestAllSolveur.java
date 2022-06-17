@@ -71,14 +71,12 @@ public class TestAllSolveur{
      * Ajout de tous les solveurs que l'on souhaite comparer
      */
     private void addSolveurs() {
-        // TO CHECK : constructeur par defaut de la classe InsertionSimple
-        //solveurs.add(new SolutionTriviale());
-        solveurs.add(new MTwithSortOrder()); //trié croissant
-        solveurs.add(new MTwithReverseOrder()); //trié decroissant
-        solveurs.add(new MTwithoutSort()); //pas trié
-        solveurs.add(new ReplaceTransplantation()); //utilise true,true
-        solveurs.add(new CyclesAndTree(true));
-        /*solveurs.add(new CyclesAndTree(false));*/
+//        solveurs.add(new SolutionTriviale());
+//        solveurs.add(new MTwithSortOrder()); //trié croissant
+//        solveurs.add(new MTwithReverseOrder()); //trié decroissant
+//        solveurs.add(new MTwithoutSort()); //pas trié
+//        solveurs.add(new ReplaceTransplantation()); //utilise true,true
+        solveurs.add(new CyclesAndTree());
     }
 
 

@@ -88,7 +88,6 @@ public class MeilleureTransplantation implements Solveur {
             }
         }
         copyPair = copyOfCopyPair;
-        System.out.println("la liste des pairs après < " + copyPair + " >");
         return copyPair;
     }
 
