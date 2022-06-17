@@ -309,23 +309,38 @@ public class Node {
         ValidChain chainChoisie1;
         ValidChain chainChoisie2 = new ValidChain();
 
+        double percentage = 0.4;
+        double limite = 1500;
+
+        double limit1 = chains1.size();
+        if(limit1 > limite) limit1 = limite;
+
+        double limit2 = chains2.size();
+        if(limit2 > limite) limit2 = limite;
+
+        // System.out.println("limit1 : " + limit1);
+        // System.out.println("limit2 : " + limit2);
+
         if(chains1.get(0).getGain() >= chains2.get(0).getGain()) {
             chainChoisie1 = chains1.get(0);
         }
         else {
             chainChoisie1 = chains2.get(0);
         }
-        for(ValidChain v1 : chains1) {
-            if( (v1.getGain() + (chains2.get(0).getGain())) < gainTot) {
+        // for(ValidChain v1 : chains1) {
+        for(int i = 0; i < limit1; i++) {
+            ValidChain vC1 = chains1.get(i);
+            if( (chains1.get(i).getGain() + (chains2.get(0).getGain())) < gainTot) {
                 break;
             }
-            for(ValidChain v2 : chains2) {
-                if(v1.canBeCombined(v2)) {
-                    int gainTemp = v1.getGain() + v2.getGain();
+            for(int j = 0; j < limit2; j++) {
+                ValidChain vC2 = chains2.get(i);
+                if(vC1.canBeCombined(vC2)) {
+                    int gainTemp = vC1.getGain() + vC2.getGain();
                     if(gainTemp > gainTot) {
                         gainTot = gainTemp;
-                        chainChoisie1 = v1;
-                        chainChoisie2 = v2;
+                        chainChoisie1 = vC1;
+                        chainChoisie2 = vC2;
                     }
                     break;
                 }
@@ -465,8 +480,8 @@ public class Node {
 
         System.out.println("\n ------------ ARBRE... ");
         ArrayList<Pair> pairs = new ArrayList<>(instance.getPairs().values());
-        createTree(n1, maxDepth, pairs, 100000);
-        createTree(n2, maxDepth, pairs, 100000);
+        createTree(n1, maxDepth, pairs, 1000);
+        createTree(n2, maxDepth, pairs, 1000);
 
         System.out.println("\n ------------ CHAINES VALIDES... ");
         LinkedList<Chain> validChains1 = new LinkedList<>();
@@ -578,6 +593,7 @@ public class Node {
         System.out.println("-- Temps --");
         System.out.println(times);
         System.out.println("Total : " + totalTime);
+
     }
 
     private static void testGetAllValidChainWithTree(Instance instance, int maxDepth, int timeByTree) {
@@ -590,6 +606,7 @@ public class Node {
         int totalGain = 0, totalSize = 0;
 
         ArrayList<Pair> pairs = new ArrayList<>(instance.getPairs().values());
+        LinkedList<LinkedList<ValidChain>> listValidChainsByAltruit = new LinkedList<>();
 
         System.out.println("** tpsByTree: " + timeByTree);
 
@@ -606,6 +623,7 @@ public class Node {
             sortValidChain(validChains, "DESC");
             maxGains.add(validChains.get(0).getGain());
             totalGain += validChains.get(0).getGain();
+            listValidChainsByAltruit.add(validChains);
             lEndTime = System.nanoTime();
             output = (lEndTime - lStartTime) / 1000000; // en ms
             times.add(output);
@@ -626,11 +644,18 @@ public class Node {
         System.out.println("-- Temps --");
         System.out.println(times);
         System.out.println("Total : " + totalTime);
+
+        lStartTime = System.nanoTime();
+        Node.getBestComboValidChain(listValidChainsByAltruit);
+        lEndTime = System.nanoTime();
+        output = (lEndTime - lStartTime) / 1000000; // en ms
+        System.out.println("Temps getBestComboValidChain: " + output);
+
     }
 
     public static void main(String[] args) {
         try {
-            InstanceReader reader = new InstanceReader("instances/KEP_p250_n83_k5_l17.txt");
+            InstanceReader reader = new InstanceReader("instances/KEP_p100_n5_k3_l13.txt");
             Instance instance = reader.readInstance();
             System.out.println(instance);
 
