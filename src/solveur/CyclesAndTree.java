@@ -2,13 +2,11 @@ package solveur;
 
 import instance.Instance;
 import instance.network.Altruist;
-import instance.network.Base;
 import instance.network.Pair;
 import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 import solution.*;
-import solveur.meilleureTransplantation.MeilleureTransplantation;
 import solveur.meilleureTransplantation.MeilleureTransplantationAdaptable;
 
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ import java.util.LinkedList;
 public class CyclesAndTree implements Solveur {
 
     private final String name = "best cycles + tree chain";
-    private boolean ordre = true;
+    private final boolean ordre;
 
     public CyclesAndTree(boolean ordre) {
         this.ordre = ordre;
@@ -139,13 +137,13 @@ public class CyclesAndTree implements Solveur {
 
         //ceci est a adapter ! et modifier pour avoir des résultats concluants
         if(altruistsAvailables.size() > 82) {
-            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 5;
+            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 4;
             else maxSizeChain = s.getInstance().getMaxSizeChain();
         } else if(altruistsAvailables.size() > 27) {
-            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 6;
+            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 5;
             else maxSizeChain = s.getInstance().getMaxSizeChain();
         } else if(altruistsAvailables.size() > 12) {
-            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 7;
+            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 6;
             else maxSizeChain = s.getInstance().getMaxSizeChain();
         } else {
             maxSizeChain = s.getInstance().getMaxSizeChain();
