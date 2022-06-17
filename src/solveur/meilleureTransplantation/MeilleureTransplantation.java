@@ -36,7 +36,6 @@ public class MeilleureTransplantation implements Solveur {
         if(i == null) return null;
         Solution s = new Solution(i);
         LinkedList<Pair> copyPair = new LinkedList<>(s.getInstance().getPairs().values());
-        //InsertionPair insMeilleur;
 
         if(activeSort) {
             copyPair = sortInReverseOrder(copyPair);
@@ -89,7 +88,6 @@ public class MeilleureTransplantation implements Solveur {
             }
         }
         copyPair = copyOfCopyPair;
-        System.out.println("la liste des pairs après < " + copyPair + " >");
         return copyPair;
     }
 
@@ -107,10 +105,7 @@ public class MeilleureTransplantation implements Solveur {
 
     public static void main(String[] args) {
         try {
-            //InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
-            //InstanceReader reader = new InstanceReader("instances/KEP_p9_n0_k3_l0.txt"); // mettre le nom du fichier
-            InstanceReader reader = new InstanceReader("instances/KEP_p9_n1_k3_l3.txt"); // mettre le nom du fichier
-            //InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt"); // mettre le nom du fichier
+            InstanceReader reader = new InstanceReader("instances/KEP_p9_n1_k3_l3.txt");
             Instance instance = reader.readInstance();
 
             MeilleureTransplantation mt = new MeilleureTransplantation(true, true);
