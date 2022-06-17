@@ -4,7 +4,7 @@ import solution.Sequence;
 
 public abstract class Operator {
 
-    protected Sequence processedSequence ;
+    protected Sequence processedSequence;
     protected int deltaCoutOperation;
 
     public Operator() {
@@ -23,9 +23,6 @@ public abstract class Operator {
         return processedSequence;
     }
 
-    public void setProcessedSequence(Sequence processedSequence) {
-        this.processedSequence = processedSequence;
-    }
 
     public boolean doMouvementIfRealisable() {
         if(!this.isMouvementRealisable()) return false;
@@ -56,5 +53,4 @@ public abstract class Operator {
                 ", \ndeltaCoutOperation=" + deltaCoutOperation +
                 '}';
     }
-
 }

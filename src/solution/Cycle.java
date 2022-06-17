@@ -8,7 +8,6 @@ import instance.network.Pair;
  */
 public class Cycle extends Sequence {
 
-    //Constructor
     public Cycle() {
         super();
     }
@@ -69,7 +68,7 @@ public class Cycle extends Sequence {
      */
     //TODO javadoc
     public boolean standardisation(int maxSizeCycle) {
-        int posBegin=0, posEnd = maxSizeCycle-1;
+        int posBegin, posEnd = maxSizeCycle-1;
         int sizeCycle = this.sequence.size(), sizeValideCycle=maxSizeCycle;
         Cycle c = new Cycle(this);
         Cycle cSol = new Cycle();

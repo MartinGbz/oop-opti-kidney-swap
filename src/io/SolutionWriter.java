@@ -68,8 +68,8 @@ public class SolutionWriter {
         if(!d.exists() || !d.isDirectory()){
             d.mkdirs();
         }
-        if(f.isFile()) { //si le fichier existe deja
-            f.delete(); //on le supprime
+        if(f.isFile()) { // si le fichier existe deja
+            f.delete(); // on le supprime
         }
         f.createNewFile(); //on créé le fichier dans le répertoire
     }
@@ -100,7 +100,6 @@ public class SolutionWriter {
         fw.close();
         this.writeCycleSolution(solution.getCycles());
         this.writeChaineSolution(solution.getChains());
-        //this.writeSequenceSolution(solution);
     }
 
     /**
@@ -111,7 +110,7 @@ public class SolutionWriter {
      */
     public void writeSequenceSolution(FileWriter fw, Sequence c) throws Exception {
         for(int i = 0 ; i < c.getSequence().size() ; i++) {
-            String id = String.valueOf(((Base) c.getSequence().get(i)).getId());
+            String id = String.valueOf((c.getSequence().get(i)).getId());
             fw.write(id);
             if(i != (c.getSequence().size()-1))
                 fw.write(tab);
@@ -126,7 +125,6 @@ public class SolutionWriter {
     public void writeCycleSolution(LinkedList<Cycle> cycles) throws Exception {
         FileWriter fw = new FileWriter(pathSolution + ".txt",true);
         fw.write("// Cycles" + backLine);
-        //TODO : faire une boucle sur les vrais cycles
         for(Sequence c : cycles) {
             this.writeSequenceSolution(fw, c);
             fw.write(backLine);
@@ -143,7 +141,6 @@ public class SolutionWriter {
     public void writeChaineSolution(LinkedList<Chain> chains) throws Exception {
         FileWriter fw = new FileWriter(pathSolution + ".txt",true);
         fw.write("// Chaines" + backLine);
-        //TODO : faire une boucle sur les vraies chaines
         for(Chain c : chains) {
             this.writeSequenceSolution(fw, c);
             if(!c.equals(chains.getLast()))

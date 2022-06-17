@@ -6,17 +6,13 @@ package instance.network;
 public class Transplantation {
 
     private final int medicalGain;
-    private final Base donneur;
     private final Pair patient;
 
-    //Constructor
-    public Transplantation(int medicalGain, Base donneur, Pair patient) {
+    public Transplantation(int medicalGain, Pair patient) {
         this.medicalGain = medicalGain;
-        this.donneur = donneur;
         this.patient = patient;
     }
 
-    //Getter
     public int getMedicalGain() {
         return medicalGain;
     }

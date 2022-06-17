@@ -22,7 +22,6 @@ public class ReplacementPair extends Operator {
     public Pair getPairToReplace() {
         return pairToReplace;
     }
-
     public int getPosition() {
         return position;
     }

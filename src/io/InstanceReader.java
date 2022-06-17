@@ -97,7 +97,6 @@ public class InstanceReader {
      * @param nbPair Integer : nombre de paires dans l'instance
      * @param nbAltruist Integer : nombre d'altruistes dans l'instance
      * @return un tableau deux dimensions contenant les valeurs de transplantations pour chaque altruiste et chaque paire
-     * @throws IOException
      */
     private ArrayList<ArrayList<Integer>> readMatrice(BufferedReader br, Integer nbPair, Integer nbAltruist) throws IOException {
         String ligne = br.readLine();
@@ -118,8 +117,7 @@ public class InstanceReader {
      * Place nbCol valeurs de la chaine (séparées par des tabulations) dans un tableau
      * @param ligne ligne de fichier texte à lire
      * @param nbCol nombre de valeurs à stocker dans le tableau
-     * @return
-     * @throws NumberFormatException
+     * @return le tableau créé
      */
     private ArrayList<Integer> getLine(String ligne, Integer nbCol) throws NumberFormatException {
         String[] values = ligne.split(" |\t");

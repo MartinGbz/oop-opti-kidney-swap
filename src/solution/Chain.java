@@ -9,10 +9,10 @@ import instance.network.Pair;
  */
 public class Chain extends Sequence {
 
-    //Constructor
     public Chain() {
         super();
     }
+
     public Chain(Altruist altruist) {
         this();
         this.sequence.addFirst(altruist);
@@ -46,6 +46,11 @@ public class Chain extends Sequence {
         return 0;
     }
 
+    /**
+     * Check de la compatibilité entre les elements de la chaine et du non dépassement de la taille maximale
+     * @param maxSize la profondeur maximale de la chaine
+     * @return True/False
+     */
     public boolean check(int maxSize) {
         if(this.sequence.isEmpty()) return false;
         if(!(this.sequence.getFirst() instanceof Altruist)) return false;

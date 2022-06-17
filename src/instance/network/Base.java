@@ -10,13 +10,11 @@ public abstract class Base {
     protected int id;
     private final Map<Pair, Transplantation> transplantations;
 
-    //Constructor
     public Base(int id) {
         this.id = id;
         this.transplantations = new HashMap<>();
     }
 
-    //Getters
     public int getId() {
         return id;
     }
@@ -31,12 +29,12 @@ public abstract class Base {
      * @param gain le gain associé à l'échange
      */
     public void addTransplantation(Pair patient, int gain) {
-        Transplantation t = new Transplantation(gain, this, patient);
+        Transplantation t = new Transplantation(gain, patient);
         this.transplantations.put(patient, t);
     }
 
     /**
-     * Test si l'objet actuel (Base) est compatible avec le patient (gain != -1)
+     * Test si l'objet actuel (Base) est compatible avec le patient (gain != -1 dans le HashMap)
      * @param patient le patient recevant le don
      * @return false (patient and this are not compatible) else true
      */
@@ -54,8 +52,6 @@ public abstract class Base {
      * @return false (no compatibility) true (min one compatibility)
      */
     public boolean asCompatibility() {
-        // if(this == null) return false;
-        //Boucle while+iterator
         for (Map.Entry<Pair, Transplantation> pairTransplantationEntry : this.transplantations.entrySet()) {
             Transplantation t = (Transplantation) ((Map.Entry<?, ?>) pairTransplantationEntry).getValue();
             int gain = t.getMedicalGain();
@@ -88,7 +84,7 @@ public abstract class Base {
     }
 
     /**
-     * Obtenir le gain médical entre un altruiste/paire vers une paire
+     * Retourne gain médical entre un altruiste/paire vers une paire
      * @param dest Paire de destination
      * @return gain médical (Int)
      */
@@ -101,15 +97,15 @@ public abstract class Base {
     }
 
     /**
-     * Obtenir les altruists ayant le plus fort taux de compatibilité
+     * Retourne la moyenne des gains (!= -1) partant de this
      * @return ratio obtenu (Int)
      */
     public int ratioGain() {
         int ratioTemp, ratio=0, div=0;
         Transplantation t;
-        if(this == null) return -1;
-        if(!this.asCompatibility()) return -1;
-
+        if(!this.asCompatibility()) {
+            return -1;
+        }
         for(Map.Entry entry : this.transplantations.entrySet()) {
             t = (Transplantation) entry.getValue();
             ratioTemp = t.getMedicalGain();
@@ -118,10 +114,12 @@ public abstract class Base {
                 div++;
             }
         }
-        if(ratio != 0)
+        if(ratio != 0) {
             ratio = ratio / div ;
-        else
+        }
+        else {
             ratio = -1;
+        }
         return ratio;
     }
 
@@ -137,7 +135,4 @@ public abstract class Base {
     public int hashCode() {
         return Objects.hash(id);
     }
-
-
-
 }

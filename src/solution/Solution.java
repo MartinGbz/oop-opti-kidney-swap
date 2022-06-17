@@ -215,6 +215,10 @@ public class Solution {
         return true;
     }
 
+    /**
+     * Remise à 0 du gainMedical de la solution
+     * Et parcours les cycles et chaines de la solution pour ajouter leur gain à la solution
+     */
     public void calculGainSolution() {
         this.gainMedTotal = 0;
         for(Cycle cycle : this.cycles) {
@@ -254,10 +258,9 @@ public class Solution {
 
     /**
      * Créé et ajoute des chaines à partir de la liste des altruistes dans l'instance
-     * @param i une instance
      */
-    public void createChainsWithAltruists(Instance i) {
-        ArrayList<Altruist> altruists = new ArrayList<>(i.getAltruists().values());
+    public void createChainsWithAltruists() {
+        ArrayList<Altruist> altruists = new ArrayList<>(this.instance.getAltruists().values());
         for(Altruist altruistToAdd : altruists) {
             Chain ch = new Chain(altruistToAdd);
             this.getChains().addLast(ch);
@@ -271,27 +274,27 @@ public class Solution {
         }
     }
 
-    public void addPairsIntoChains(Instance i) {
+    public void addPairsIntoChains() {
         boolean status;
-        ArrayList<Pair> pairs = new ArrayList<>(i.getPairs().values());
+        ArrayList<Pair> pairs = new ArrayList<>(this.instance.getPairs().values());
         for(Pair pairToAdd : pairs) {
             status = false;
             for(Chain chain : this.getChains()) {
-                if(chain.getSequence().size() < i.getMaxSizeChain())
+                if(chain.getSequence().size() < this.instance.getMaxSizeChain())
                     status = chain.addPairToChain(pairToAdd);
                 if(status) break;
             }
         }
     }
 
-    public void addPairsIntoCycles(Instance i) {
+    public void addPairsIntoCycles() {
         boolean status;
-        ArrayList<Pair> pairs = new ArrayList<>(i.getPairs().values());
+        ArrayList<Pair> pairs = new ArrayList<>(this.instance.getPairs().values());
         for(Pair pairToAdd : pairs) {
             status = false;
             if(!isUsedInChain(pairToAdd)) {
                 for(Cycle cycle : this.getCycles()) {
-                    if(cycle.getSequence().size() < i.getMaxSizeCycle()) {
+                    if(cycle.getSequence().size() < this.instance.getMaxSizeCycle()) {
                         status = cycle.addPairToCycleEnd(pairToAdd);
                         if(status) break;
                     }
@@ -419,7 +422,7 @@ public class Solution {
         if(!infos.doMouvementIfRealisable()) return false;
 
         this.gainMedTotal += infos.getDeltaCout();
-        return false;
+        return true; // TODO : false changé en true
     }
 
     public boolean doAddLast(CycleNotValide infos) {

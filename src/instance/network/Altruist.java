@@ -5,7 +5,6 @@ package instance.network;
  */
 public class Altruist extends Base {
 
-    //Constructor
     public Altruist(int id) {
         super(id);
     }
