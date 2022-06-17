@@ -16,7 +16,6 @@ public class Node {
     private int sumId;
     private LinkedList<Integer> idList = new LinkedList<>();
 
-    //Constructor
     public Node(Base data) {
         this.data = data;
         this.idList.add(data.getId());
@@ -49,7 +48,6 @@ public class Node {
         this.children.add(child);
     }
 
-    //Getter
     public List<Node> getChildren() {
         return children;
     }
@@ -92,11 +90,6 @@ public class Node {
         }
     }
 
-    /**
-     *
-     * @param node
-     * @param appender
-     */
     private static void printTree(Node node, String appender) {
         System.out.print(appender + node.getData());
         System.out.println(" - gain : " + node.gain);
@@ -108,7 +101,8 @@ public class Node {
      * @param racine le noeud contenant un altruist
      * @param maxSizeChain la taille maximale qu'une chaine peut prendre
      * @param pairs la liste des pairs utilisée pour créer l'arbre
-     * @param lStartTime
+     * @param lStartTime valeur de lancement de la création de l'arbre (ms)
+     * @param maxTime temps maximal pour la création (ms)
      */
     private static void createTreeRecursive(Node racine, int maxSizeChain, ArrayList<Pair> pairs, long lStartTime, long maxTime) {
         for (Pair p : pairs) {
@@ -117,7 +111,6 @@ public class Node {
         if(racine.getChildren().size() != 0) {
             for(Node nBis : racine.getChildren()) {
                 long lEndTime = System.nanoTime();
-                // System.out.println((lEndTime - lStartTime) / 1000000);
                 if(((lEndTime - lStartTime) / 1000000) > maxTime) {
                     return;
                 }
@@ -129,18 +122,15 @@ public class Node {
     }
 
     /**
-     * TODO
-     * @param racine
-     * @param maxSizeChain
-     * @param pairs
+     * Lance la fonction createTreeRecursive en passant en paramètre le temps de
+     * @param racine le noeud contenant un altruist
+     * @param maxSizeChain la taille maximale qu'une chaine peut prendre
+     * @param pairs la liste des pairs utilisée pour créer l'arbre
      * @param maxTime temps max pour la création d'un arbre en millisecondes
      */
     private static void createTree(Node racine, int maxSizeChain, ArrayList<Pair> pairs, long maxTime) {
         long lStartTime = System.nanoTime();
         createTreeRecursive(racine, maxSizeChain, pairs, lStartTime, maxTime);
-
-        long lEndTime = System.nanoTime();
-        System.out.println("*** temps total pour l'abre: " + (lEndTime - lStartTime) / 1000000 + " (altruiste: " + racine.data.getId() + ") ***");
     }
 
     /**
@@ -258,13 +248,6 @@ public class Node {
         return liste;
     }
 
-    /**
-     * TODO
-     * @param altruistsValid
-     * @param pairsValid
-     * @param maxDepth
-     * @return
-     */
     public static LinkedList<LinkedList<ValidChain>> getAllValidChainsFromTrees(ArrayList<Altruist> altruistsValid, ArrayList<Pair> pairsValid, int maxDepth) {
 
         LinkedList<LinkedList<ValidChain>> listValidChainsByAltruit = new LinkedList<>();
@@ -425,13 +408,12 @@ public class Node {
 
             int maxSizeChain = instance.getMaxSizeChain();
 
-            if(instance.getMaxSizeChain() > 9) {
-                switch (instance.getAltruists().values().size()) {
-                    case 82 -> maxSizeChain = 4;
-                    case 27 -> maxSizeChain = 5;
-                    case 8122 -> maxSizeChain = 6;
-                }
+            if(maxSizeChain > 9) {
+                if (instance.getAltruists().values().size()>82) maxSizeChain = 4;
+                else if (instance.getAltruists().values().size()>27) maxSizeChain = 5;
+                else if (instance.getAltruists().values().size()>12) maxSizeChain = 6;
             }
+
             System.out.println("Taille max de la chaine <" + maxSizeChain + ">");
 
             testGetAllValidChainWithTree(instance, maxSizeChain, 1000);

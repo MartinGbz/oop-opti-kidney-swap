@@ -48,7 +48,6 @@ public abstract class Base {
 
     /**
      * Recherche si donneur peut donner à quelqu'un
-     * A tester
      * @return false (no compatibility) true (min one compatibility)
      */
     public boolean asCompatibility() {
@@ -62,8 +61,6 @@ public abstract class Base {
 
     /**
      * Cherche la meilleure compatibilité avec le donneur
-     * a tester
-     * @param donneur
      * @return Integer.MAX_VALUE OU idBestCompatibility
      */
     public int bestCompatibility(Base donneur) {

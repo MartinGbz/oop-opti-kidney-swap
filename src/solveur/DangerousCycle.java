@@ -30,19 +30,10 @@ public class DangerousCycle implements Solveur {
         boolean endLoop = true;
         int notFirstLoop, sizeSol =0, maxLoop=0;
         Random r = new Random(0);
-        /*
-        if(i.getPairs().size() < 51) maxLoop = 10000;
-        else if(i.getPairs().size() < 101) maxLoop = 5000;
-        else maxLoop = 1000;
-        */
+
         if(i.getPairs().size() < 51) maxLoop = 1000;
         else if(i.getPairs().size() < 101) maxLoop = 500;
         else maxLoop = 100;
-        /*
-        if(i.getPairs().size() < 51) maxLoop = 2000;
-        else if(i.getPairs().size() < 101) maxLoop = 1000;
-        else maxLoop = 250;
-         */
 
         System.out.println("Itération choisi <" + maxLoop + ">");
         for(int k=0 ; k<maxLoop ; k++) {

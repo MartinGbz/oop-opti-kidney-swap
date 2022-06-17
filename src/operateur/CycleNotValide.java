@@ -10,13 +10,8 @@ public class CycleNotValide extends Operator {
 
     private Pair pairToAdd;
 
-    //Constructor
     public CycleNotValide() {
         super();
-    }
-    public CycleNotValide(Pair pairToAdd) {
-        this();
-        this.pairToAdd = pairToAdd;
     }
     public CycleNotValide(Sequence sequence, Pair pairToAdd) {
         super(sequence);
@@ -24,7 +19,6 @@ public class CycleNotValide extends Operator {
         this.deltaCoutOperation = this.evalDeltaCout();
     }
 
-    //Getter
     public Pair getPairToAdd() {
         return pairToAdd;
     }

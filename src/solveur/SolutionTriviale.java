@@ -4,8 +4,6 @@ import solution.*;
 import instance.*;
 import io.InstanceReader;
 import io.SolutionWriter;
-
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -38,9 +36,6 @@ public class SolutionTriviale implements Solveur {
 
     public Solution solveBySolutionTriviale(Instance instance, String directorySolution) {
         Solution s = this.solve(instance);
-        System.out.println(this);
-        System.out.println(s);
-        System.out.println("Etat du check interne : " + s.check());
         SolutionWriter sw = new SolutionWriter(s, directorySolution);
         return s;
     }
@@ -67,19 +62,17 @@ public class SolutionTriviale implements Solveur {
                     throw new Error("Paramètre -inst manquant");
                 }
 
-                if(args[0].equals("-dSol")){
+                if(args[0].equals("-dSol")) {
                     directorySolution = args[1];
                 }
-                else if(args[2].equals("-dSol")){
+                else if(args[2].equals("-dSol")) {
                     directorySolution = args[3];
                 }
-                else{
+                else {
                     throw new Error("Paramètre -dSol manquant");
                 }
 
-
                 if(Files.isRegularFile(Path.of(filenameInstance))){
-
                     InstanceReader reader = new InstanceReader(filenameInstance); //mettre le nom du fichier
                     Instance instance = reader.readInstance();
 

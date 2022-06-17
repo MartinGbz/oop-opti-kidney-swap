@@ -49,7 +49,6 @@ public class Instance {
 
     /**
      * Ajout d'un altruiste dans le tableau correspondant (altruists)
-     * @param altruist
      * @return True/False
      */
     public boolean addAltruist(Altruist altruist) {
@@ -62,7 +61,6 @@ public class Instance {
 
     /**
      * Ajout d'un altruiste dans le HashMap des pairs
-     * @param pair
      * @return True/False
      */
     public boolean addPair(Pair pair) {

@@ -24,7 +24,6 @@ public class Solution {
     private final LinkedList<Cycle> cycles;
     private final LinkedList<Chain> chains;
 
-    //Constructor
     public Solution(Instance instance) {
         this.gainMedTotal = 0;
         this.instance = instance;
@@ -39,7 +38,6 @@ public class Solution {
         this.chains = new LinkedList<>(s.getChains());
     }
 
-    //Getters
     public Instance getInstance() {
         return instance;
     }
@@ -314,9 +312,6 @@ public class Solution {
         }
     }
 
-    /**
-     *
-     */
     public void addPairsIntoCycles() {
         boolean status;
         ArrayList<Pair> pairs = new ArrayList<>(this.instance.getPairs().values());
@@ -397,7 +392,7 @@ public class Solution {
      */
     public ReplacementPair getMeilleureReplacement(Pair pairToReplace) {
         ReplacementPair insMeilleur = new ReplacementPair();
-        //a FACTORISER D'ICI
+
         if(pairToReplace == null) return insMeilleur;
 
         boolean presence = false;
@@ -414,7 +409,6 @@ public class Solution {
                 }
             }
         }
-        //this.createChainsWithAltruists(this.getInstance());
 
         LinkedList<Sequence> sequenceChainCycle = new LinkedList<>();
         for(Sequence chain : this.chains) {
@@ -423,26 +417,18 @@ public class Solution {
         for(Sequence cycle : this.cycles) {
             sequenceChainCycle.add(cycle);
         }
-        //A LA (meme bout de code que dans getMeilleurInsertion
+
 
         ReplacementPair insActu;
         for(Sequence seq : sequenceChainCycle) {
             insActu = seq.getMeilleureReplacement(pairToReplace);
             if(insActu.isBest(insMeilleur)) {
-                //if( (seq.getSequence().size() < this.getInstance().getMaxSizeChain() && seq.getSequence().getFirst() instanceof Altruist)
-                  //      || (seq.getSequence().size() < this.getInstance().getMaxSizeCycle() && seq.getSequence().getFirst() instanceof Pair))
-                    insMeilleur = insActu;
+                insMeilleur = insActu;
             }
-
         }
         return insMeilleur;
     }
 
-    /**
-     *
-     * @param pairToInsert
-     * @return
-     */
     public CycleNotValide getMeilleurCycleNotValide(Pair pairToInsert) {
         CycleNotValide meilleurCycleNotValide = new CycleNotValide();
         if(pairToInsert == null) return meilleurCycleNotValide;
@@ -486,7 +472,7 @@ public class Solution {
     }
 
     /**
-     * C
+     *
      * @param infos Opérateur d'insertion dans un cycle non valide
      * @return état du succès d'insertion (boolean)
      */
@@ -494,7 +480,6 @@ public class Solution {
         if(infos == null) return false;
         if(!this.cycles.contains(infos.getProcessedSequence())) return false;
         if(!infos.doMouvementIfRealisable()) return false;
-
         return true;
     }
 
@@ -529,7 +514,6 @@ public class Solution {
         return altruitsNotAssigned;
     }
 
-
     public static void main(String[] args) {
         try {
             InstanceReader reader = new InstanceReader("instances/testInstance.txt");
@@ -538,39 +522,9 @@ public class Solution {
 
             Solution s = new Solution(i);
             System.out.println(s.getInstance().getPairs());
-            //s.solutionInstanceWithCycles();
-            //s.solutionInstanceWithChain();
-            //s.SolutionInstance();
             System.out.println(s);
             System.out.println("Etat du check : " + s.check());
 
-            /*
-            Solution sCheck = new Solution(i);
-            Chain c1 = new Chain(i.getAltruists().get(0));
-            Chain c2 = new Chain(i.getAltruists().get(0));
-            Chain c3 = new Chain(i.getAltruists().get(1));
-
-            sCheck.chains.addLast(c1);
-            sCheck.chains.addLast(c2);
-            sCheck.chains.addLast(c3);
-
-            Pair p1 = i.getPairs().get(2);
-            Pair p2 = i.getPairs().get(3);
-            Pair p3 = i.getPairs().get(3);
-
-            Cycle cycle1 = new Cycle();
-            cycle1.sequence.addLast(p1);
-            cycle1.sequence.addLast(p2);
-            cycle1.sequence.addLast(p3);
-            sCheck.cycles.addLast(cycle1);
-
-            System.out.println(sCheck);
-
-            System.out.println("-> checkChains : " + sCheck.checkChains());
-            System.out.println("-> checkCycles : " + sCheck.checkCycles());
-            System.out.println("-> checkGainMedicalTotal : " + sCheck.checkGainMedicalTotal());
-            System.out.println("-> checkPresenceUniqueAltruists : " + sCheck.checkPresenceUniqueAltruists());
-            System.out.println("-> checkPresenceUniquePairs : " + sCheck.checkPresenceUniquePairs());*/
             SolutionWriter sw = new SolutionWriter(s, "testSolution");
 
         }

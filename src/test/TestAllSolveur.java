@@ -2,8 +2,6 @@ package test;
 
 import solution.Solution;
 import solveur.CyclesAndTree;
-import solveur.ReplaceTransplantation;
-import solveur.SolutionTriviale;
 import solveur.Solveur;
 import com.google.gson.*;
 import instance.Instance;
@@ -18,9 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import solveur.meilleureTransplantation.MTwithReverseOrder;
-import solveur.meilleureTransplantation.MTwithSortOrder;
-import solveur.meilleureTransplantation.MTwithoutSort;
 import ui.JsonGenerator;
 
 public class TestAllSolveur{
