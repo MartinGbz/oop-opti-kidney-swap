@@ -14,7 +14,6 @@ public class CycleNotValide extends Operator {
     public CycleNotValide() {
         super();
     }
-
     public CycleNotValide(Pair pairToAdd) {
         this();
         this.pairToAdd = pairToAdd;
@@ -24,6 +23,8 @@ public class CycleNotValide extends Operator {
         this.pairToAdd = pairToAdd;
         this.deltaCoutOperation = this.evalDeltaCout();
     }
+
+    //Getter
     public Pair getPairToAdd() {
         return pairToAdd;
     }
