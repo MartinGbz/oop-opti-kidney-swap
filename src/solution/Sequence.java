@@ -192,9 +192,9 @@ public abstract class Sequence {
     }
 
     /**
-     * Obtenir
-     * @param pairToInsert
-     * @return
+     * Obtenir la meilleure insertion
+     * @param pairToInsert paire à insérer
+     * @return la meilleur opération d'insertion
      */
     public InsertionPair getMeilleureInsertion(Pair pairToInsert) {
         InsertionPair insMeilleur = new InsertionPair();
@@ -211,9 +211,9 @@ public abstract class Sequence {
     }
 
     /**
-     *
-     * @param pairToReplace
-     * @return
+     * Obtenir le meilleur remplacement
+     * @param pairToReplace paire de remplacement
+     * @return la meilleur opération de remplacement
      */
     public ReplacementPair getMeilleureReplacement(Pair pairToReplace) {
         ReplacementPair insMeilleur = new ReplacementPair();
@@ -239,9 +239,9 @@ public abstract class Sequence {
     }
 
     /**
-     *
-     * @param infos
-     * @return
+     * Operation d'insertion de la paire dans la séquence
+     * @param infos Operateur d'insertion (InsertionPair)
+     * @return succès d'insertion de la paire dans la séquence
      */
     public boolean doInsertion(InsertionPair infos) {
         if(infos == null) return false;
@@ -262,9 +262,9 @@ public abstract class Sequence {
     }
 
     /**
-     *
-     * @param infos
-     * @return
+     * Opération d'insertion d'une paire à la fin d'un cycle non valide (chaine sans altruiste)
+     * @param infos Operateur de (CycleNotValide)
+     * @return succès d'insertion de la paire dans la séquence
      */
     public boolean doInsertionEnd(CycleNotValide infos) {
         if(infos == null) return false;
@@ -278,9 +278,9 @@ public abstract class Sequence {
     }
 
     /**
-     *
-     * @param infos
-     * @return
+     * Operation de remplacement d'une paire dans la séquence
+     * @param infos Operateur de remplacement (RemplacementPair)
+     * @return succès de remplacement de la paire dans la séquence
      */
     public boolean doReplacement(ReplacementPair infos) {
         if(infos == null) return false;
