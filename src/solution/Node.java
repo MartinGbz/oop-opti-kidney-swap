@@ -249,6 +249,7 @@ public class Node {
         else if(numberOfList==1) {
             liste.add(listChainsByAltruit.get(0).getFirst());
         }
+        System.out.println(liste);
         return liste;
     }
 
