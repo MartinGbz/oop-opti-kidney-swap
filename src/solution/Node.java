@@ -237,12 +237,21 @@ public class Node {
     private static BestComboValidChain getBestComboBetweenListValidChains(LinkedList<ValidChain> chains1, LinkedList<ValidChain> chains2) {
         int gainTot = 0;
 
-        // triage des listes de chaines
-        sortValidChain(chains1, "DESC");
-        sortValidChain(chains2, "DESC");
-
         ValidChain chainChoisie1;
         ValidChain chainChoisie2 = new ValidChain();
+
+        double percentage = 0.4;
+        double limite = Integer.MAX_VALUE; // à modifier si besoin
+
+        double limit1 = chains1.size();
+        if(limit1 > limite) {
+            limit1 = limite;
+        }
+
+        double limit2 = chains2.size();
+        if(limit2 > limite) {
+            limit2 = limite;
+        }
 
         if(chains1.get(0).getGain() >= chains2.get(0).getGain()) {
             chainChoisie1 = chains1.get(0);
@@ -250,22 +259,26 @@ public class Node {
         else {
             chainChoisie1 = chains2.get(0);
         }
-        for(ValidChain v1 : chains1) {
-            if( (v1.getGain() + (chains2.get(0).getGain())) < gainTot) {
+
+        for(int i = 0; i < limit1; i++) {
+            ValidChain vC1 = chains1.get(i);
+            if( (chains1.get(i).getGain() + (chains2.get(0).getGain())) < gainTot) {
                 break;
             }
-            for(ValidChain v2 : chains2) {
-                if(v1.canBeCombined(v2)) {
-                    int gainTemp = v1.getGain() + v2.getGain();
+            for(int j = 0; j < limit2; j++) {
+                ValidChain vC2 = chains2.get(i);
+                if(vC1.canBeCombined(vC2)) {
+                    int gainTemp = vC1.getGain() + vC2.getGain();
                     if(gainTemp > gainTot) {
                         gainTot = gainTemp;
-                        chainChoisie1 = v1;
-                        chainChoisie2 = v2;
+                        chainChoisie1 = vC1;
+                        chainChoisie2 = vC2;
                     }
                     break;
                 }
             }
         }
+
         LinkedList<ValidChain> liste = new LinkedList<>();
         liste.add(chainChoisie1);
         if(chainChoisie2.getGain() != 0) liste.add(chainChoisie2);
@@ -288,19 +301,18 @@ public class Node {
 
     /**
      * TODO
-     * @param i
      * @param altruistsValid
      * @param pairsValid
      * @param maxDepth
      * @return
      */
-    public static LinkedList<LinkedList<ValidChain>> getAllValidChainsFromTrees(Instance i, ArrayList<Altruist> altruistsValid, ArrayList<Pair> pairsValid, int maxDepth) {
+    public static LinkedList<LinkedList<ValidChain>> getAllValidChainsFromTrees(ArrayList<Altruist> altruistsValid, ArrayList<Pair> pairsValid, int maxDepth) {
 
         LinkedList<LinkedList<ValidChain>> listValidChainsByAltruit = new LinkedList<>();
         LinkedList<ValidChain> validChains;
 
         if(altruistsValid.size() != 0) {
-            //ceci est a adapter ! et modifier pour avoir des résultats concluants
+            // ceci est a adapter ! et modifier pour avoir des résultats concluants
             long tpsByTree = 7000 / altruistsValid.size();
 
             for(Altruist a : altruistsValid) {

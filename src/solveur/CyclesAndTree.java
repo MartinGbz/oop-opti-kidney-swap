@@ -163,7 +163,7 @@ public class CyclesAndTree implements Solveur {
 */
         //System.out.println("nb altruistes <" + new ArrayList<>(altruistsAvailables).size() + ">");
 
-        listValidChainsByAltruit = Node.getAllValidChainsFromTrees(s.getInstance(), new ArrayList<>(altruistsAvailables),
+        listValidChainsByAltruit = Node.getAllValidChainsFromTrees(new ArrayList<>(altruistsAvailables),
                 new ArrayList<>(pairsAvailables), maxSizeChain);
         Node.addValidChainsIntoSolution(s, Node.getBestComboValidChain(listValidChainsByAltruit));
     }
