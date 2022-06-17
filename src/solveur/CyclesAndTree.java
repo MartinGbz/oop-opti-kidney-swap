@@ -139,13 +139,13 @@ public class CyclesAndTree implements Solveur {
 
         //ceci est a adapter ! et modifier pour avoir des résultats concluants
         if(altruistsAvailables.size() > 82) {
-            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 4;
-            else maxSizeChain = s.getInstance().getMaxSizeChain();
-        } else if(altruistsAvailables.size() > 27) {
             if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 5;
             else maxSizeChain = s.getInstance().getMaxSizeChain();
-        } else if(altruistsAvailables.size() > 12) {
+        } else if(altruistsAvailables.size() > 27) {
             if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 6;
+            else maxSizeChain = s.getInstance().getMaxSizeChain();
+        } else if(altruistsAvailables.size() > 12) {
+            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 7;
             else maxSizeChain = s.getInstance().getMaxSizeChain();
         } else {
             maxSizeChain = s.getInstance().getMaxSizeChain();
