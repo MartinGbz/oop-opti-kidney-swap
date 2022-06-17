@@ -1,12 +1,10 @@
 package solveur;
 
-import instance.Instance;
 import instance.network.Base;
 import instance.network.Pair;
 import operateur.ReplacementPair;
 import solution.Sequence;
 import solution.Solution;
-import solveur.meilleureTransplantation.MeilleureTransplantation;
 
 import java.util.LinkedList;
 

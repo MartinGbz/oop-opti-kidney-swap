@@ -1,6 +1,5 @@
 package solveur;
 
-import instance.Instance;
 import instance.network.Base;
 import instance.network.Pair;
 import operateur.CycleNotValide;
@@ -14,8 +13,8 @@ import java.util.Random;
 public class NotValidCycle {
 
     public Solution creatCycle(LinkedList<Pair> lastPairs, Solution solution) {
-        boolean endLoop = true;
-        int notFirstLoop, sizeSol =0, maxLoop=0;
+        boolean endLoop;
+        int notFirstLoop, sizeSol =0, maxLoop;
         Random r = new Random(0);
         Solution solBase = new Solution(solution);
         Solution s;
