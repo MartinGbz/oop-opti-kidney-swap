@@ -14,6 +14,9 @@ import io.exception.ReaderException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * Classe représentant une solution générée pour une instance
+ */
 public class Solution {
 
     private int gainMedTotal;
@@ -21,6 +24,7 @@ public class Solution {
     private final LinkedList<Cycle> cycles;
     private final LinkedList<Chain> chains;
 
+    //Constructor
     public Solution(Instance instance) {
         this.gainMedTotal = 0;
         this.instance = instance;
@@ -35,6 +39,7 @@ public class Solution {
         this.chains = new LinkedList<>(s.getChains());
     }
 
+    //Getters
     public Instance getInstance() {
         return instance;
     }
@@ -91,6 +96,10 @@ public class Solution {
         return false;
     }
 
+    /**
+     * Checker de la solution
+     * @return état de succès du checker
+     */
     public boolean check() {
         return checkCycles() && checkChains() && checkGainMedicalTotal() &&
                 checkPresenceUniqueAltruists() && checkPresenceUniquePairs();
@@ -98,7 +107,7 @@ public class Solution {
 
     /**
      * Vérifie que chaque cycle est valide (via la fonction check() de Cycle.java)
-     * @return
+     * @return état du checker pour les cycles (boolean)
      */
     private boolean checkCycles() {
         for(Cycle cycle : this.cycles) {
@@ -112,7 +121,7 @@ public class Solution {
 
     /**
      * Vérifie que chaque chaine est valide (via la fonction check() de Chain.java)
-     * @return
+     * @return état du checker pour les chaines (boolean)
      */
     private boolean checkChains() {
         for(Chain chain : this.chains) {
@@ -126,7 +135,7 @@ public class Solution {
 
     /**
      * Vérifie si tous les ALTRUISTS ne sont présents qu'une fois dans l'ensemble des chaines
-     * @return
+     * @return état du checker (boolean)
      */
     private boolean checkPresenceUniqueAltruists() {
         ArrayList<Altruist> altruists = new ArrayList<>(this.instance.getAltruists().values());
@@ -141,7 +150,7 @@ public class Solution {
 
     /**
      * Vérifie si toutes les PAIRES ne sont présentes qu'une fois dans l'ensemble des cycles/chaines
-     * @return
+     * @return état du checker (boolean)
      */
     private boolean checkPresenceUniquePairs() {
         ArrayList<Pair> pairs = new ArrayList<>(this.instance.getPairs().values());
@@ -156,7 +165,7 @@ public class Solution {
 
     /**
      * Vérifie que le gain médical de la solution est égal à la somme des gain méd de chaque cycle & chaine
-     * @return
+     * @return état du checker gain recalculé vs gain de la solution (boolean)
      */
     private boolean checkGainMedicalTotal() {
         int gainTotalCalc = 0;
@@ -174,9 +183,9 @@ public class Solution {
     }
 
     /**
-     *
-     * @param pair
-     * @return
+     * Vérifie si une paire est présente une seule fois dans l'ensnemble cycle+chaine de la solution
+     * @param pair Paire à vérifier
+     * @return état du checker (boolean)
      */
     public boolean isPairUnique(Pair pair) {
         int nbTot = 0;
@@ -200,7 +209,11 @@ public class Solution {
         }
         return true;
     }
-
+    /**
+     * Vérifie si un altruiste est présent qu'une seule fois dans les chaines de la solution
+     * @param altruist Altruist à vérifier
+     * @return état du checker (boolean)
+     */
     public boolean isAltruistUnique(Altruist altruist) {
         int nbTot = 0;
         for(Chain c : this.chains) {
@@ -229,6 +242,9 @@ public class Solution {
         }
     }
 
+    /**
+     * Supprime les séquences non utilisées
+     */
     public void deleteSequenceNotUsed() {
         LinkedList<Cycle> copyCycle = new LinkedList<>(this.getCycles());
         LinkedList<Chain> copyChain = new LinkedList<>(this.getChains());
@@ -243,6 +259,10 @@ public class Solution {
         }
     }
 
+    /**
+     *  Récupérer les cycles de tailles 1
+     * @return
+     */
     public LinkedList<Pair> recoverCyclesOfOne() {
         LinkedList<Cycle> copyCycle = new LinkedList<>(this.cycles);
         LinkedList<Pair> pairsToBeReused = new LinkedList<>();
@@ -267,6 +287,10 @@ public class Solution {
         }
     }
 
+    /**
+     *
+     * @param altruists
+     */
     public void createChainsWithSpecificAltruists(LinkedList<Altruist> altruists) {
         for(Altruist altruistToAdd : altruists) {
             Chain ch = new Chain(altruistToAdd);
@@ -274,6 +298,9 @@ public class Solution {
         }
     }
 
+    /**
+     *
+     */
     public void addPairsIntoChains() {
         boolean status;
         ArrayList<Pair> pairs = new ArrayList<>(this.instance.getPairs().values());
@@ -287,6 +314,9 @@ public class Solution {
         }
     }
 
+    /**
+     *
+     */
     public void addPairsIntoCycles() {
         boolean status;
         ArrayList<Pair> pairs = new ArrayList<>(this.instance.getPairs().values());
@@ -306,6 +336,11 @@ public class Solution {
         }
     }
 
+    /**
+     * Vérifie si la séquence est présente dans une liste de chaine
+     * @param pair paire à rechercher
+     * @return état du succès
+     */
     public boolean isUsedInChain(Pair pair) {
         for(Chain c : this.getChains()) {
             if(c.getSequence().contains(pair)) {
@@ -315,6 +350,11 @@ public class Solution {
         return false;
     }
 
+    /**
+     * Obtenir le meilleur opérateur d'insertion pour une paire
+     * @param pairToInsert paire à insérer
+     * @return le meilleur operateur d'insertion
+     */
     public InsertionPair getMeilleureInsertion(Pair pairToInsert) {
         InsertionPair insMeilleur = new InsertionPair();
         if(pairToInsert == null) return insMeilleur;
@@ -350,6 +390,11 @@ public class Solution {
         return insMeilleur;
     }
 
+    /**
+     * Obtenir le meilleur opérateur de remplacement pour une paire
+     * @param pairToReplace paire à remplacer
+     * @return meilleur opérateur de remplacement
+     */
     public ReplacementPair getMeilleureReplacement(Pair pairToReplace) {
         ReplacementPair insMeilleur = new ReplacementPair();
         //a FACTORISER D'ICI
@@ -393,6 +438,11 @@ public class Solution {
         return insMeilleur;
     }
 
+    /**
+     *
+     * @param pairToInsert
+     * @return
+     */
     public CycleNotValide getMeilleurCycleNotValide(Pair pairToInsert) {
         CycleNotValide meilleurCycleNotValide = new CycleNotValide();
         if(pairToInsert == null) return meilleurCycleNotValide;
@@ -407,6 +457,11 @@ public class Solution {
         return meilleurCycleNotValide;
     }
 
+    /**
+     * Réalise l'insertion à partir de l'opérateur
+     * @param infos Opérateur d'insertion
+     * @return état du succès d'insertion (boolean)
+     */
     public boolean doInsertion(InsertionPair infos) {
         if(infos == null) return false;
         if(!this.cycles.contains(infos.getProcessedSequence()) && !this.chains.contains(infos.getProcessedSequence())) return false;
@@ -416,24 +471,37 @@ public class Solution {
         return true;
     }
 
+    /**
+     * Réalise le remplacement à partir de l'opérateur
+     * @param infos Opérateur de remplacement
+     * @return état du succès de remplacement (boolean)
+     */
     public boolean doReplacement(ReplacementPair infos) {
         if(infos == null) return false;
         if(!this.cycles.contains(infos.getProcessedSequence()) && !this.chains.contains(infos.getProcessedSequence())) return false;
         if(!infos.doMouvementIfRealisable()) return false;
 
         this.gainMedTotal += infos.getDeltaCout();
-        return true; // TODO : false changé en true
+        return true;
     }
 
+    /**
+     * C
+     * @param infos Opérateur d'insertion dans un cycle non valide
+     * @return état du succès d'insertion (boolean)
+     */
     public boolean doAddLast(CycleNotValide infos) {
         if(infos == null) return false;
         if(!this.cycles.contains(infos.getProcessedSequence())) return false;
         if(!infos.doMouvementIfRealisable()) return false;
 
-        //this.gainMedTotal += infos.getDeltaCout();
         return true;
     }
 
+    /**
+     * Récupération de la liste des paires faisant partie d'aucune solution
+     * @return liste de paires (LinkedList<Pair>)
+     */
     public LinkedList<Pair> restOfPairs() {
         LinkedList<Pair> pairsNotAssigned = new LinkedList<Pair>(this.getInstance().getPairs().values());
         for(Sequence seq : this.getCycles()) {
@@ -449,6 +517,10 @@ public class Solution {
         return pairsNotAssigned;
     }
 
+    /**
+     * Récupération de la liste des altruists faisant partie d'aucune solution
+     * @return liste d'altruists (LinkedList<Altruist>)
+     */
     public LinkedList<Altruist> restOfAltruists() {
         LinkedList<Altruist> altruitsNotAssigned = new LinkedList<Altruist>(this.getInstance().getAltruists().values());
         for(Sequence seq : this.getChains()) {

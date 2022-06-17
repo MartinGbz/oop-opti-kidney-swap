@@ -7,6 +7,7 @@ public class ValidChain {
     private int gain;
     private final LinkedList<Integer> idList;
 
+    //Construction
     public ValidChain() {
         this.gain = 0;
         this.idList = new LinkedList<>();
@@ -17,6 +18,7 @@ public class ValidChain {
         this.idList = idList;
     }
 
+    //Getters
     public int getGain() {
         return gain;
     }
@@ -32,6 +34,11 @@ public class ValidChain {
                 '}';
     }
 
+    /**
+     *
+     * @param chainToCompare
+     * @return
+     */
     public boolean canBeCombined(ValidChain chainToCompare) {
         for(int id : chainToCompare.getIdList()) {
             if(this.getIdList().contains(id)) return false;

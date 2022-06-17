@@ -16,6 +16,7 @@ public class Node {
     private int sumId;
     private LinkedList<Integer> idList = new LinkedList<>();
 
+    //Constructor
     public Node(Base data) {
         this.data = data;
         this.idList.add(data.getId());
@@ -23,9 +24,9 @@ public class Node {
     }
 
     /**
-     * TODO
-     * @param child
-     * @param tailleMax
+     * Ajoute un nouveau noeud à l'arbre
+     * @param child noeud à ajouter
+     * @param tailleMax profondeur de l'arbre
      */
     public void addChild(Node child, int tailleMax) {
         Base baseParent = this.data;
@@ -48,6 +49,7 @@ public class Node {
         this.children.add(child);
     }
 
+    //Getter
     public List<Node> getChildren() {
         return children;
     }
@@ -141,6 +143,9 @@ public class Node {
         System.out.println("*** temps total pour l'abre: " + (lEndTime - lStartTime) / 1000000 + " (altruiste: " + racine.data.getId() + ") ***");
     }
 
+    /**
+     * classe interne
+     */
     private static class BestComboValidChain {
         LinkedList<ValidChain> list;
         int gainTot;

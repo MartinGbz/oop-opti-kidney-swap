@@ -8,11 +8,12 @@ public class Transplantation {
     private final int medicalGain;
     private final Pair patient;
 
+    //Constructor
     public Transplantation(int medicalGain, Pair patient) {
         this.medicalGain = medicalGain;
         this.patient = patient;
     }
-
+    //Getter
     public int getMedicalGain() {
         return medicalGain;
     }
