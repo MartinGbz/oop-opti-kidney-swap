@@ -12,6 +12,7 @@ public class InsertionPair extends Operator {
     private int position;
     private Pair pairToAdd;
 
+    //Constructor
     public InsertionPair() {
         super();
     }
@@ -29,14 +30,18 @@ public class InsertionPair extends Operator {
         this.deltaCoutOperation = this.evalDeltaCout();
     }
 
+    //Getters
     public int getPosition() {
         return position;
     }
-
     public Pair getPairToAdd() {
         return pairToAdd;
     }
 
+    /**
+     *  Calcul du delta cout du cycle/chaine après insertion
+     *  @return delta cout du cycle invalide
+     */
     @Override
     protected int evalDeltaCout() {
         if(processedSequence != null)
@@ -44,6 +49,10 @@ public class InsertionPair extends Operator {
         return 0;
     }
 
+    /**
+     * Opération d'insertion dans un cycle/chaine
+     * @return état du succès de l'insertion (boolean)
+     */
     @Override
     protected boolean doMouvement() {
         return this.processedSequence.doInsertion(this);

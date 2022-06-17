@@ -313,7 +313,7 @@ public class Node {
 
         if(altruistsValid.size() != 0) {
             // ceci est a adapter ! et modifier pour avoir des résultats concluants
-            long tpsByTree = 7000 / altruistsValid.size();
+            long tpsByTree = 40000 / altruistsValid.size();
 
             for(Altruist a : altruistsValid) {
                 Node n1 = new Node(a);
