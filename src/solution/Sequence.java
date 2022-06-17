@@ -165,8 +165,9 @@ public abstract class Sequence {
 
         if(!bPrec.isCompatible(pairToAdd) || !pairToAdd.isCompatible(pCurrent)) return Integer.MAX_VALUE;
 
-        if(this.sequence.size() != 1)
+        if(this.sequence.size() != 1) {
             deltaCout -= bPrec.getGainVers(pCurrent);
+        }
 
         deltaCout += pairToAdd.getGainVers(pCurrent);
         deltaCout += bPrec.getGainVers(pairToAdd);
@@ -229,11 +230,6 @@ public abstract class Sequence {
         return insMeilleur;
     }
 
-    /**
-     *
-     * @param pairToInsert
-     * @return
-     */
     public CycleNotValide getMeilleurCycleNotValide(Pair pairToInsert) {
         return new CycleNotValide(this, pairToInsert);
     }
@@ -246,18 +242,9 @@ public abstract class Sequence {
     public boolean doInsertion(InsertionPair infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
-
         Pair pair = infos.getPairToAdd();
-
         this.gainMedSequence += infos.getDeltaCout();
         this.sequence.add(infos.getPosition(), pair);
-/*
-        if(!this.check()) {
-            System.out.println("Erreur : doInsertion");
-            System.out.println(infos);
-            System.exit(-1); //termine le programme en cas d'erreur
-        }
-        */
         return true;
     }
 
@@ -269,9 +256,7 @@ public abstract class Sequence {
     public boolean doInsertionEnd(CycleNotValide infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
-
         Pair pair = infos.getPairToAdd();
-
         this.gainMedSequence += infos.getDeltaCout();
         this.sequence.addLast(pair);
         return true;
@@ -285,21 +270,9 @@ public abstract class Sequence {
     public boolean doReplacement(ReplacementPair infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
-
         Pair pair = infos.getPairToReplace();
-
         this.gainMedSequence += infos.getDeltaCout();
-        //this.sequence.remove(infos.getPosition());
-        //this.sequence.add(infos.getPosition(), pair);
         this.sequence.set(infos.getPosition(), pair);
-
-/*
-        if(!this.check()) {
-            System.out.println("Erreur : doInsertion");
-            System.out.println(infos);
-            System.exit(-1); //termine le programme en cas d'erreur
-        }
-        */
         return true;
     }
 

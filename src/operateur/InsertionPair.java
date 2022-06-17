@@ -12,7 +12,6 @@ public class InsertionPair extends Operator {
     private int position;
     private Pair pairToAdd;
 
-    //Constructor
     public InsertionPair() {
         super();
     }
@@ -30,7 +29,6 @@ public class InsertionPair extends Operator {
         this.deltaCoutOperation = this.evalDeltaCout();
     }
 
-    //Getters
     public int getPosition() {
         return position;
     }

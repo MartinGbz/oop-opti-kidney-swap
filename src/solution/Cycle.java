@@ -47,26 +47,12 @@ public class Cycle extends Sequence {
         return true;
     }
 
-    /*public boolean addPairToInvalideCycle(Pair pairToAdd) {
-        if(pairToAdd == null) return false;
-        if(!pairToAdd.asCompatibility()) return false;
-        int delta;
-        if(!this.sequence.isEmpty()) {
-            Pair pLast = (Pair) this.sequence.getLast();
-            if(!pLast.isCompatible(pairToAdd)) return false;
-            delta = pLast.getGainVers(pairToAdd);
-            this.gainMedSequence += delta;
-        }
-        this.sequence.addLast(pairToAdd);
-        return true;
-    }*/
-
     /**
-     *
-     * @param maxSizeCycle
-     * @return (boolean)
+     * Extraction de cycles valide à partir des cycles non valides générés
+     * Par cycle non valide : cherche le meilleur cycle à récupérer
+     * @param maxSizeCycle taille maximale des cycles de la solution en cours
+     * @return (boolean) true si solution valide, false sinon
      */
-    //TODO javadoc
     public boolean standardisation(int maxSizeCycle) {
         int posBegin, posEnd = maxSizeCycle-1;
         int sizeCycle = this.sequence.size(), sizeValideCycle=maxSizeCycle;

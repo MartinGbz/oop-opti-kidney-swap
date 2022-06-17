@@ -67,14 +67,8 @@ public class ReplaceTransplantation implements Solveur {
 
     public static void main(String[] args) {
         try {
-            //InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
-            //InstanceReader reader = new InstanceReader("instances/KEP_p9_n0_k3_l0.txt"); // mettre le nom du fichier
-            //InstanceReader reader = new InstanceReader("instances/KEP_p9_n1_k3_l3.txt"); // mettre le nom du fichier
-            InstanceReader reader = new InstanceReader("instances/KEP_p100_n5_k3_l7.txt"); // mettre le nom du fichier
+            InstanceReader reader = new InstanceReader("instances/KEP_p100_n5_k3_l7.txt");
             Instance instance = reader.readInstance();
-
-            //MeilleureTransplantation mt = new MeilleureTransplantation(true, true);
-            //Solution s = mt.solve(instance);
 
             ReplaceTransplantation rt = new ReplaceTransplantation();
             Solution s = rt.solve(instance);

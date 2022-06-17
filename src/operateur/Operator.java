@@ -10,7 +10,6 @@ public abstract class Operator {
     protected Sequence processedSequence;
     protected int deltaCoutOperation;
 
-    //Constructor
     public Operator() {
         this.deltaCoutOperation = Integer.MAX_VALUE;
     }
@@ -20,7 +19,6 @@ public abstract class Operator {
         this.processedSequence = sequence;
     }
 
-    //Getters
     public int getDeltaCout() {
         return this.deltaCoutOperation;
     }

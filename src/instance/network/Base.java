@@ -10,11 +10,13 @@ public abstract class Base {
     protected int id;
     private final Map<Pair, Transplantation> transplantations;
 
+    //Constructor
     public Base(int id) {
         this.id = id;
         this.transplantations = new HashMap<>();
     }
 
+    //Getters
     public int getId() {
         return id;
     }
@@ -48,7 +50,6 @@ public abstract class Base {
 
     /**
      * Recherche si donneur peut donner à quelqu'un
-     * A tester
      * @return false (no compatibility) true (min one compatibility)
      */
     public boolean asCompatibility() {
@@ -62,8 +63,6 @@ public abstract class Base {
 
     /**
      * Cherche la meilleure compatibilité avec le donneur
-     * a tester
-     * @param donneur
      * @return Integer.MAX_VALUE OU idBestCompatibility
      */
     public int bestCompatibility(Base donneur) {

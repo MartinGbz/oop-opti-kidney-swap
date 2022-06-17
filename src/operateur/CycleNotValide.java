@@ -9,21 +9,15 @@ import instance.network.Pair;
 public class CycleNotValide extends Operator {
 
     private Pair pairToAdd;
-
     //Constructor
     public CycleNotValide() {
         super();
-    }
-    public CycleNotValide(Pair pairToAdd) {
-        this();
-        this.pairToAdd = pairToAdd;
     }
     public CycleNotValide(Sequence sequence, Pair pairToAdd) {
         super(sequence);
         this.pairToAdd = pairToAdd;
         this.deltaCoutOperation = this.evalDeltaCout();
     }
-
     //Getter
     public Pair getPairToAdd() {
         return pairToAdd;

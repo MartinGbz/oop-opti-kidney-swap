@@ -12,7 +12,6 @@ public class ReplacementPair extends Operator {
     private int position;
     private Pair pairToReplace;
 
-    //Constructor
     public ReplacementPair() {
         super();
     }
@@ -24,7 +23,6 @@ public class ReplacementPair extends Operator {
         this.deltaCoutOperation = this.evalDeltaCout();
     }
 
-    //Getters
     public Pair getPairToReplace() {
         return pairToReplace;
     }
