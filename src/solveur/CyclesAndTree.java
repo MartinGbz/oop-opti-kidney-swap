@@ -129,6 +129,7 @@ public class CyclesAndTree implements Solveur {
         pairsAvailables = new LinkedList<>(s.restOfPairs());
         ReplaceTransplantationAdaptable rta = new ReplaceTransplantationAdaptable();
         rta.localReplacement(pairsAvailables, s);
+        s.deleteSequenceNotUsed();
     }
 
     public void chainGeneration(Solution s) {
@@ -139,29 +140,18 @@ public class CyclesAndTree implements Solveur {
 
         //ceci est a adapter ! et modifier pour avoir des résultats concluants
         if(altruistsAvailables.size() > 82) {
-            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 4;
-            else maxSizeChain = s.getInstance().getMaxSizeChain();
-        } else if(altruistsAvailables.size() > 27) {
             if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 5;
             else maxSizeChain = s.getInstance().getMaxSizeChain();
-        } else if(altruistsAvailables.size() > 12) {
+        } else if(altruistsAvailables.size() > 27) {
             if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 6;
+            else maxSizeChain = s.getInstance().getMaxSizeChain();
+        } else if(altruistsAvailables.size() > 12) {
+            if(s.getInstance().getMaxSizeChain() > 9) maxSizeChain = 7;
             else maxSizeChain = s.getInstance().getMaxSizeChain();
         } else {
             maxSizeChain = s.getInstance().getMaxSizeChain();
         }
         System.out.println("Taille max de la chaine <" + maxSizeChain + ">");
-
-        /*
-        if(maxSizeChain>8 && pairsAvailables.size()>75 && altruistsAvailables.size()>15) maxSizeChain = 3;
-        if(maxSizeChain>8 && pairsAvailables.size()>75 && altruistsAvailables.size()>10) maxSizeChain = 4;
-        if(maxSizeChain>8 && pairsAvailables.size()>75 && altruistsAvailables.size()>5) maxSizeChain = 5;
-
-        if(altruistsAvailables.size()>27) maxSizeChain = 4;
-        if(altruistsAvailables.size() == 13 && s.getInstance().getMaxSizeChain() > 4) maxSizeChain = 4;
-        if(altruistsAvailables.size() == 5 && s.getInstance().getMaxSizeChain() == 13) maxSizeChain = 4;
-*/
-        //System.out.println("nb altruistes <" + new ArrayList<>(altruistsAvailables).size() + ">");
 
         listValidChainsByAltruit = Node.getAllValidChainsFromTrees(s.getInstance(), new ArrayList<>(altruistsAvailables),
                 new ArrayList<>(pairsAvailables), maxSizeChain);
