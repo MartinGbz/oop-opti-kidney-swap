@@ -1,6 +1,5 @@
 package operateur;
 
-import operateur.Operator;
 import solution.Sequence;
 import instance.network.Pair;
 

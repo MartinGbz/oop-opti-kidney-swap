@@ -1,6 +1,9 @@
 package instance.network;
 
-public class Pair extends Base{
+/**
+ * Classe définissant les paires, héritage de la classe mère Base
+ */
+public class Pair extends Base {
 
     public Pair(int id) {
         super(id);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Instance {
+
     private final String name;
     private final int nbPairs;
     private final int nbAltruists;
@@ -60,7 +61,7 @@ public class Instance {
     }
 
     /**
-     * Ajout d'un altruiste dans le tableau correspondant (pairs)
+     * Ajout d'un altruiste dans le HashMap des pairs
      * @param pair
      * @return True/False
      */

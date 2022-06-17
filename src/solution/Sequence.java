@@ -13,16 +13,17 @@ public abstract class Sequence {
     protected int gainMedSequence;
     protected LinkedList<Base> sequence;
 
+    //Constructor
     public Sequence() {
         this.gainMedSequence = 0;
         this.sequence = new LinkedList<>();
     }
-
     public Sequence(LinkedList<Base> seq, int gainMed) {
         this.gainMedSequence = gainMed;
         this.sequence = new LinkedList<>(seq);
     }
 
+    //Getters
     public int getGainMedSequence() {
         return gainMedSequence;
     }
@@ -41,6 +42,11 @@ public abstract class Sequence {
                 '}';
     }
 
+    /**
+     * Vérification si la position est valide pour une insertion
+     * @param position d'insertion dans le cycle/chain (Integer)
+     * @return validité de la position (boolean)
+     */
     private boolean isPositionValideInsertion(int position) {
         int isAltruist = 0;
         if(this.sequence.getFirst() instanceof Altruist)
@@ -50,6 +56,11 @@ public abstract class Sequence {
         return true;
     }
 
+    /**
+     * Vérification si la position est valide pour le remplacement
+     * @param position d'insertion dans le cycle/chain (Integer)
+     * @return validité de la position (boolean)
+     */
     private boolean isPositionValideReplacement(int position) {
         int isAltruist = 0;
         if(this.sequence.getFirst() instanceof Altruist)
@@ -59,8 +70,14 @@ public abstract class Sequence {
         return true;
     }
 
+    /**
+     * Obtention du delta cout pour le remplacement d'une paire à une position de la liste
+     * @param position position de la liste pour effectuer le remplacement
+     * @param pairToReplace paire de remplacement
+     * @return delta cout obtenu : > 0 mouvement améliorant (Int)
+     */
     public int deltaCoutReplacement(int position, Pair pairToReplace) {
-        //System.out.println("I am HERE");
+
         if(!isPositionValideReplacement(position) || pairToReplace == null)
             return Integer.MAX_VALUE;
 
@@ -109,6 +126,12 @@ public abstract class Sequence {
         return deltaCout; // si deltaCout > 0 => AMELIORANT
     }
 
+    /**
+     * Obtention du delta cout pour l'ajout d'une paire à une position de la liste
+     * @param position position de la liste pour effectuer l'insertion
+     * @param pairToAdd paire à ajouter
+     * @return delta cout obtenu : > 0 mouvement améliorant (Int)
+     */
     public int deltaCoutInsertion(int position, Pair pairToAdd) {
         if(!isPositionValideInsertion(position) || pairToAdd == null)
             return Integer.MAX_VALUE;
@@ -151,6 +174,11 @@ public abstract class Sequence {
         return deltaCout;
     }
 
+    /**
+     * Obtention du delta cout pour une insertion dans un cycle sans vérification du retour au premier élément du cycle
+     * @param pairToInsert paire à ajouter
+     * @return delta cout obtenu : > 0 mouvement améliorant (Int)
+     */
     public int deltaCoutInsertionInvalideCycle(Pair pairToInsert) {
         if(this.sequence.isEmpty()) return Integer.MAX_VALUE;
 
@@ -163,6 +191,11 @@ public abstract class Sequence {
         return deltaCout;
     }
 
+    /**
+     * Obtenir la meilleure insertion
+     * @param pairToInsert paire à insérer
+     * @return la meilleur opération d'insertion
+     */
     public InsertionPair getMeilleureInsertion(Pair pairToInsert) {
         InsertionPair insMeilleur = new InsertionPair();
 
@@ -177,6 +210,11 @@ public abstract class Sequence {
         return insMeilleur;
     }
 
+    /**
+     * Obtenir le meilleur remplacement
+     * @param pairToReplace paire de remplacement
+     * @return la meilleur opération de remplacement
+     */
     public ReplacementPair getMeilleureReplacement(Pair pairToReplace) {
         ReplacementPair insMeilleur = new ReplacementPair();
 
@@ -191,10 +229,20 @@ public abstract class Sequence {
         return insMeilleur;
     }
 
+    /**
+     *
+     * @param pairToInsert
+     * @return
+     */
     public CycleNotValide getMeilleurCycleNotValide(Pair pairToInsert) {
         return new CycleNotValide(this, pairToInsert);
     }
 
+    /**
+     * Operation d'insertion de la paire dans la séquence
+     * @param infos Operateur d'insertion (InsertionPair)
+     * @return succès d'insertion de la paire dans la séquence
+     */
     public boolean doInsertion(InsertionPair infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
@@ -213,6 +261,11 @@ public abstract class Sequence {
         return true;
     }
 
+    /**
+     * Opération d'insertion d'une paire à la fin d'un cycle non valide (chaine sans altruiste)
+     * @param infos Operateur de (CycleNotValide)
+     * @return succès d'insertion de la paire dans la séquence
+     */
     public boolean doInsertionEnd(CycleNotValide infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;
@@ -224,6 +277,11 @@ public abstract class Sequence {
         return true;
     }
 
+    /**
+     * Operation de remplacement d'une paire dans la séquence
+     * @param infos Operateur de remplacement (RemplacementPair)
+     * @return succès de remplacement de la paire dans la séquence
+     */
     public boolean doReplacement(ReplacementPair infos) {
         if(infos == null) return false;
         if(!infos.isMouvementRealisable()) return false;

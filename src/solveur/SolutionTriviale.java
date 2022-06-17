@@ -28,9 +28,9 @@ public class SolutionTriviale implements Solveur {
     @Override
     public Solution solve(Instance i) {
         Solution s = new Solution(i);
-        s.createChainsWithAltruists(i);
-        s.addPairsIntoChains(i);
-        s.addPairsIntoCycles(i);
+        s.createChainsWithAltruists();
+        s.addPairsIntoChains();
+        s.addPairsIntoCycles();
         s.deleteSequenceNotUsed();
         s.calculGainSolution();
         return s;

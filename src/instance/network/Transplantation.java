@@ -1,14 +1,15 @@
 package instance.network;
 
+/**
+ * Classe représentant la transplantation entre un donneur et un patient
+ */
 public class Transplantation {
 
     private final int medicalGain;
-    private final Base donneur;
     private final Pair patient;
 
-    public Transplantation(int medicalGain, Base donneur, Pair patient) {
+    public Transplantation(int medicalGain, Pair patient) {
         this.medicalGain = medicalGain;
-        this.donneur = donneur;
         this.patient = patient;
     }
 

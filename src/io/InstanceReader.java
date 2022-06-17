@@ -15,6 +15,7 @@ public class InstanceReader {
 
     private File instanceFile;
 
+    //Constructor
     public InstanceReader(String inputPath) throws ReaderException {
         if (inputPath == null) {
             throw new OpenFileException();
@@ -76,9 +77,9 @@ public class InstanceReader {
 
     /**
      * Retourne la ligne située en dessous de celle contenant la valeur "toFind"
-     * @param br
-     * @param toFind
-     * @return
+     * @param br buffer de lecture du fichier d'instance
+     * @param toFind chaine à rechercher
+     * @return la ligne suivant la chaine à rechercher (String)
      * @throws IOException
      */
     private String readData(BufferedReader br, String toFind) throws IOException {
@@ -92,11 +93,10 @@ public class InstanceReader {
 
     /**
      * Lecture de la matrice (tableaux de transplantations)
-     * @param br
-     * @param nbPair
-     * @param nbAltruist
+     * @param br buffer de lecture du fichier d'instance
+     * @param nbPair Integer : nombre de paires dans l'instance
+     * @param nbAltruist Integer : nombre d'altruistes dans l'instance
      * @return un tableau deux dimensions contenant les valeurs de transplantations pour chaque altruiste et chaque paire
-     * @throws IOException
      */
     private ArrayList<ArrayList<Integer>> readMatrice(BufferedReader br, Integer nbPair, Integer nbAltruist) throws IOException {
         String ligne = br.readLine();
@@ -115,10 +115,9 @@ public class InstanceReader {
 
     /**
      * Place nbCol valeurs de la chaine (séparées par des tabulations) dans un tableau
-     * @param ligne
-     * @param nbCol
-     * @return
-     * @throws NumberFormatException
+     * @param ligne ligne de fichier texte à lire
+     * @param nbCol nombre de valeurs à stocker dans le tableau
+     * @return le tableau créé
      */
     private ArrayList<Integer> getLine(String ligne, Integer nbCol) throws NumberFormatException {
         String[] values = ligne.split(" |\t");

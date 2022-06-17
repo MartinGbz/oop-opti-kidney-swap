@@ -3,6 +3,10 @@ package operateur;
 import solution.Sequence;
 import instance.network.Pair;
 
+/**
+ * Objet regroupant les données et méthodes nécessaires pour insérer une paire
+ * à une position données dans une séquence
+ */
 public class InsertionPair extends Operator {
 
     private int position;

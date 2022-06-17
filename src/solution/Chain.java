@@ -4,6 +4,9 @@ import instance.network.Altruist;
 import instance.network.Base;
 import instance.network.Pair;
 
+/**
+ * Classe représentant la chaine constitué d'1 altruist et de n paires
+ */
 public class Chain extends Sequence {
 
     public Chain() {
@@ -15,6 +18,11 @@ public class Chain extends Sequence {
         this.sequence.addFirst(altruist);
     }
 
+    /**
+     * Ajoute une paire dans une chaine
+     * @param pairToAdd paire à ajouter à la chaine
+     * @return Etat du succès de l'ajout d'une paire à la chaine (boolean)
+     */
     public boolean addPairToChain(Pair pairToAdd) {
         if(pairToAdd == null) return false;
         Base b = this.sequence.getLast();
@@ -29,11 +37,20 @@ public class Chain extends Sequence {
         return true;
     }
 
+    /**
+     * Obtention du gain médical du cycle
+     * @return gain médical du cycle (Int)
+     */
     @Override
     public int calculGainMed() {
         return 0;
     }
 
+    /**
+     * Check de la compatibilité entre les elements de la chaine et du non dépassement de la taille maximale
+     * @param maxSize la profondeur maximale de la chaine
+     * @return True/False
+     */
     public boolean check(int maxSize) {
         if(this.sequence.isEmpty()) return false;
         if(!(this.sequence.getFirst() instanceof Altruist)) return false;
