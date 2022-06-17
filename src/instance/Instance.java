@@ -7,6 +7,9 @@ import instance.network.Pair;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe représentant une instance lue depuis le fichier txt
+ */
 public class Instance {
 
     private final String name;
@@ -18,6 +21,7 @@ public class Instance {
     private final HashMap<Integer, Altruist> altruists;
     private final HashMap<Integer, Pair> pairs;
 
+    //Constructor
     public Instance(String name, int nbPairs, int nbAltruists, int maxSizeCycle, int maxSizeChain) {
         this.name = name;
         this.nbPairs = nbPairs;
@@ -28,6 +32,7 @@ public class Instance {
         this.pairs = new HashMap<>();
     }
 
+    //Getters
     public HashMap<Integer, Altruist> getAltruists() {
         return altruists;
     }

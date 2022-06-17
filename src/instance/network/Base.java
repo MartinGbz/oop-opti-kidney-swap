@@ -10,11 +10,13 @@ public abstract class Base {
     protected int id;
     private final Map<Pair, Transplantation> transplantations;
 
+    //Constructor
     public Base(int id) {
         this.id = id;
         this.transplantations = new HashMap<>();
     }
 
+    //Getters
     public int getId() {
         return id;
     }
