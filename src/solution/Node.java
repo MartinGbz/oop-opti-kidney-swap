@@ -279,7 +279,6 @@ public class Node {
      */
     public static void addValidChainsIntoSolution(Solution solution, LinkedList<ValidChain> validChainsToAdd) {
         for(ValidChain validChain : validChainsToAdd) {
-            System.out.println(validChain);
             Altruist a = solution.getInstance().getAltruists().get(validChain.getIdList().getFirst());
             Chain c = new Chain(a);
             boolean add = false;
@@ -413,8 +412,6 @@ public class Node {
                 else if (instance.getAltruists().values().size()>27) maxSizeChain = 5;
                 else if (instance.getAltruists().values().size()>12) maxSizeChain = 6;
             }
-
-            System.out.println("Taille max de la chaine <" + maxSizeChain + ">");
 
             testGetAllValidChainWithTree(instance, maxSizeChain, 1000);
             // testGetAllValidChainWithTree(instance,6);

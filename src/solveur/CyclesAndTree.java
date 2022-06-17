@@ -2,11 +2,13 @@ package solveur;
 
 import instance.Instance;
 import instance.network.Altruist;
+import instance.network.Base;
 import instance.network.Pair;
 import io.InstanceReader;
 import io.SolutionWriter;
 import io.exception.ReaderException;
 import solution.*;
+import solveur.meilleureTransplantation.MeilleureTransplantation;
 import solveur.meilleureTransplantation.MeilleureTransplantationAdaptable;
 
 import java.util.ArrayList;
@@ -58,9 +60,9 @@ public class CyclesAndTree implements Solveur {
         LinkedList<LinkedList<ValidChain>> listValidChainsByAltruit;
 
         if(maxSizeChain > 9) {
-            if (altruistsAvailables.size()>82) maxSizeChain = 4;
-            else if (altruistsAvailables.size()>27) maxSizeChain = 5;
-            else if (altruistsAvailables.size()>12) maxSizeChain = 6;
+            if (altruistsAvailables.size()>82) maxSizeChain = 5;
+            else if (altruistsAvailables.size()>27) maxSizeChain = 6;
+            else if (altruistsAvailables.size()>12) maxSizeChain = 7;
         }
 
         listValidChainsByAltruit = Node.getAllValidChainsFromTrees(new ArrayList<>(altruistsAvailables),
@@ -70,7 +72,10 @@ public class CyclesAndTree implements Solveur {
 
     public static void main(String[] args) {
         try {
+            //InstanceReader reader = new InstanceReader("instances/testInstance.txt"); // mettre le nom du fichier
+            //InstanceReader reader = new InstanceReader("instances/KEP_p9_n0_k3_l0.txt"); // mettre le nom du fichier
             InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k5_l17.txt"); // mettre le nom du fichier
+            //InstanceReader reader = new InstanceReader("instances/KEP_p100_n11_k3_l13.txt"); // mettre le nom du fichier
             Instance instance = reader.readInstance();
 
             CyclesAndTree ct = new CyclesAndTree();
@@ -81,6 +86,7 @@ public class CyclesAndTree implements Solveur {
             System.out.println("Etat du check : " + s.check());
 
             SolutionWriter sw = new SolutionWriter(s, "testSolution/");
+
         }
         catch (ReaderException ex) {
             System.out.println(ex.getMessage());

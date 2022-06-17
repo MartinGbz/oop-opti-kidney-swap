@@ -68,15 +68,10 @@ public class MeilleureTransplantation implements Solveur {
         for(Pair p : copyPair) {
             ratio.add(p.ratioGain());
         }
-        System.out.println("le tableau des ratio <" + ratio + ">");
         if(this.sortOrder)
             Collections.sort(ratio);
         else
             Collections.sort(ratio, Collections.reverseOrder());
-
-        System.out.println("le tableau des ratio trié <" + ratio + ">");
-
-        System.out.println("la liste des pairs avant < " + copyPair + " >");
 
         for(Integer r : ratio) {
             for(Pair p : copyPair) {

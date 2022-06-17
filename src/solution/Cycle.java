@@ -40,7 +40,6 @@ public class Cycle extends Sequence {
                 pLastToPFirst = pLast.getTransplantations().get(pFirst).getMedicalGain();
             }
             delta = (pLastToPairToAdd + pairToAddToPFirst) - pLastToPFirst;
-            System.out.println("gain ajouté cycle <" + delta + ">");
             this.gainMedSequence += delta;
         }
         this.sequence.addLast(pairToAdd);

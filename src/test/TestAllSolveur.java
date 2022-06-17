@@ -2,6 +2,8 @@ package test;
 
 import solution.Solution;
 import solveur.CyclesAndTree;
+import solveur.ReplaceTransplantation;
+import solveur.SolutionTriviale;
 import solveur.Solveur;
 import com.google.gson.*;
 import instance.Instance;
@@ -16,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import solveur.meilleureTransplantation.MTwithReverseOrder;
+import solveur.meilleureTransplantation.MTwithSortOrder;
+import solveur.meilleureTransplantation.MTwithoutSort;
 import ui.JsonGenerator;
 
 public class TestAllSolveur{
@@ -66,11 +71,11 @@ public class TestAllSolveur{
      * Ajout de tous les solveurs que l'on souhaite comparer
      */
     private void addSolveurs() {
-//        solveurs.add(new SolutionTriviale());
-//        solveurs.add(new MTwithSortOrder()); //trié croissant
-//        solveurs.add(new MTwithReverseOrder()); //trié decroissant
-//        solveurs.add(new MTwithoutSort()); //pas trié
-//        solveurs.add(new ReplaceTransplantation()); //utilise true,true
+        solveurs.add(new SolutionTriviale());
+        solveurs.add(new MTwithSortOrder()); //trié croissant
+        solveurs.add(new MTwithReverseOrder()); //trié decroissant
+        solveurs.add(new MTwithoutSort()); //pas trié
+        solveurs.add(new ReplaceTransplantation()); //utilise true,true
         solveurs.add(new CyclesAndTree());
     }
 
@@ -184,7 +189,6 @@ public class TestAllSolveur{
             }
 
             // la solution est valide
-            System.out.println("Cout total de la solution "+ sol.getGainMedTotal());
             Resultat result = new Resultat(sol.getGainMedTotal(), time, sol.check());
             resultats.put(new InstanceSolveur(inst, solveur), result);
             ecriture.print(";"+result.formatCsv());
